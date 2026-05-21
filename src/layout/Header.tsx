@@ -1,40 +1,52 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Bell, LayoutDashboard  } from 'lucide-react'
+import { Bell, LayoutDashboard, Search } from 'lucide-react'
 
 const Header = () => {
   return (
-    <header className = "bg-[#1e1e1e] shadow-lg border-b border-[#1f1f1f] mx-4 sm:mx-6 lg:mx-8 mt-4 mb-2 rounded-lg p-4">
-      <div className = "max-w-7xl mx-auto py-2 px-4 sm:px-6 flex items-center justify-between">
+    <header className="bg-[#1e1e1e] shadow-lg border-b border-[#2f2f2f] mx-3 sm:mx-5 lg:mx-7 mt-4 mb-4 rounded-lg p-3 sm:p-4">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+        
+        {/* Left - Logo and Title */}
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="p-2 bg-[#0066cc] rounded-lg hover:bg-[#0052a3] transition-colors cursor-pointer flex-shrink-0">
+            <LayoutDashboard className="w-5 h-5 text-white" />
+          </div>
+          <h1 className="text-base sm:text-lg lg:text-xl font-bold text-white truncate">Dashboard</h1>
+        </div>
 
-            {/* <Image
-              src="/favicon.ico"
-              alt="Admin"
-              width={37}
-              height={37}
-              className = "rounded-full "
-            /> */}
-            <LayoutDashboard  className = "w-5 sm:w-6 h-5 sm:h-6 text-gray-300 cursor-pointer hover:text-white" />
-            <h1 className = "text-xl font-bold text-white ml-3">Dashboard</h1>
+        {/* Center - Search (hidden on mobile) */}
+        <div className="hidden lg:flex items-center bg-[#2f2f2f] rounded-lg px-3 py-2 flex-1 max-w-xs">
+          <Search className="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="bg-transparent text-white placeholder-gray-400 outline-none w-full text-sm truncate"
+          />
+        </div>
 
-        <div className = "flex items-center space-x-3 sm:space-x-6">
-
-          <div className = "relative">
-            <Bell className = "w-5 sm:w-6 h-5 sm:h-6 text-gray-300 cursor-pointer hover:text-white" />
+        {/* Right - Icons and Profile */}
+        <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+          {/* Notifications */}
+          <div className="relative group">
+            <button className="p-2 hover:bg-[#2f2f2f] rounded-lg transition-colors relative">
+              <Bell className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
           </div>
 
-          <div className = "flex items-center space-x-2 sm:space-x-3">
+          {/* Profile */}
+          <div className="flex items-center gap-2 sm:gap-3 cursor-pointer group flex-shrink-0">
             <Image
               src="/admin.jpg"
               alt="Admin"
-              width={32}
-              height={32}
-              className = "rounded-full border border-gray-300"
+              width={36}
+              height={36}
+              className="rounded-full border-2 border-gray-400 group-hover:border-[#0066cc] transition-colors"
             />
-            <span className = "hidden sm:block text-gray-100 font-medium">John Doe</span>
+            <span className="hidden sm:block text-sm text-gray-100 font-medium group-hover:text-white transition-colors whitespace-nowrap">John Doe</span>
           </div>
-
         </div>
 
       </div>
