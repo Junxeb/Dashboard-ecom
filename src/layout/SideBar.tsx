@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Coins, House, Info, Menu, Settings, ShoppingBag, ShoppingCart, Users } from "lucide-react";
+import { Bell, Coins, House, Info, LayoutDashboardIcon, Menu, Settings, ShoppingBag, ShoppingCart, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -12,18 +12,31 @@ type NavItems = {
 }
 
 const navItems: NavItems[] = [
-    { icon: <House />, name: "Dashboard", path: "/" },
+    { icon: <House />, name: "Home", path: "/" },
     { icon: <ShoppingBag />, name: "Products", path: "/products" },
-    { icon: <Users />, name: "Clients", path: "/clients" },
-    { icon: <Coins />, name: "Sales", path: "/sales" },
-    { icon: <ShoppingCart />, name: "Orders", path: "/orders" },
-    { icon: <Settings />, name: "Settings", path: "/settings" },
+    { icon: <Users />, name: "Profile", path: "/profile" },
+    { icon: <ShoppingCart />, name: "My Carts", path: "/orders" },
     { icon: <Bell />, name: "Notifications", path: "/notifications" },
+    { icon: <Settings />, name: "Settings", path: "/settings" },
     { icon: <Info />, name: "Help", path: "/help" },
 ]
+
+const adminItems: NavItems[] = [
+    { icon: <LayoutDashboardIcon />, name: "Dashboard", path: "/admin"},
+    { icon: <ShoppingBag />, name: "Products", path: "/admin/products" },
+    { icon: <Users />, name: "Customer", path: "/admin/customer" },
+    { icon: <Coins />, name: "Sales", path: "/admin/sales" },
+    { icon: <ShoppingCart />, name: "Manage Orders", path: "/admin/orders" },
+    { icon: <Settings />, name: "Settings", path: "/admin/settings" },
+]
+
 const SideBar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const pathname =  usePathname();
+
+    const isAdminRoute = usePathname().startsWith('/admin')
+
+    const currentNavItems = isAdminRoute ? adminItems : navItems;
 
     return (
         <div className={`relative z-10  transition-all duration-300 ease-in-out flex-shrink-0  ${isSidebarOpen ? "w-64" : "w-16"}`}>
@@ -34,8 +47,11 @@ const SideBar = () => {
                     <Menu size={20}/>
                 </button>
 
+                <hr className="border-[#2f2f2f] border-1 mt-4 mb-2" />
+
+                {/* ส่วนของ Navbar user */}
                 <nav className="mt-8 flex-grow ">
-                    {navItems.map((item) => {
+                    {currentNavItems.map((item) => {
                         const isActive = pathname === item.path;
 
                         return (
