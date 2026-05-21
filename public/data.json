@@ -1,0 +1,36 @@
+{
+    "salesData": [
+        { "type": "month", "name": "Jan", "sales": 4000, "profit": 2400, "cost": 1600 },
+        { "type": "month", "name": "Feb", "sales": 3000, "profit": 2000, "cost": 1000 },
+        { "type": "month", "name": "Mar", "sales": 2000, "profit": 1200, "cost": 800 },
+        { "type": "month", "name": "Apr", "sales": 2780, "profit": 1500, "cost": 1280 },
+        { "type": "month", "name": "May", "sales": 1890, "profit": 1000, "cost": 890 },
+        { "type": "month", "name": "Jun", "sales": 5000, "profit": 3200, "cost": 1800 },
+        { "type": "month", "name": "Jul", "sales": 4200, "profit": 2800, "cost": 1400 },
+        { "type": "month", "name": "Aug", "sales": 1500, "profit": 700, "cost": 800 },
+        { "type": "month", "name": "Sep", "sales": 3200, "profit": 2100, "cost": 1100 },
+        { "type": "month", "name": "Oct", "sales": 4100, "profit": 2600, "cost": 1500 },
+        { "type": "month", "name": "Nov", "sales": 7000, "profit": 4500, "cost": 2500 },
+        { "type": "month", "name": "Dec", "sales": 6500, "profit": 4000, "cost": 2500 },
+
+        { "type": "product", "name": "Smartphone", "id": "P001", "category": "Electronics", "price": 699.99, "stock": 50, "sales": 120, "actions": "View" },
+        { "type": "product", "name": "Laptop", "id": "P002", "category": "Electronics", "price": 1299.99, "stock": 30, "sales": 80, "actions": "View" },
+        { "type": "product", "name": "Headphones", "id": "P003", "category": "Electronics", "price": 199.99, "stock": 100, "sales": 200, "actions": "View" },
+        { "type": "product", "name": "T-Shirt", "id": "P004", "category": "Clothing", "price": 29.99, "stock": 200, "sales": 300, "actions": "View" },
+        { "type": "product", "name": "Jeans", "id": "P005", "category": "Clothing", "price": 59.99, "stock": 150, "sales": 250, "actions": "View" },
+        { "type": "product", "name": "Sneakers", "id":"P006", "category": "Clothing", "price": 89.99, "stock": 120, "sales": 180, "actions": "View" },
+        { "type": "product", "name": "Basketball", "id": "P008", "category": "Sports", "price": 29.99, "stock": 70, "sales": 130, "actions": "View" },
+        { "type": "product", "name": "Novel Book", "id": "P009", "category": "Books", "price": 15.99, "stock": 300, "sales": 400, "actions": "View" },
+        { "type": "product", "name": "Cookbook", "id": "P010", "category": "Books", "price": 22.99, "stock": 150, "sales": 220, "actions": "View" },
+        { "type": "product", "name": "Dining Table", "id": "P011", "category": "Furniture", "price": 499.99, "stock": 20, "sales": 40, "actions": "View" },
+        { "type": "product", "name": "Office Chair", "id": "P012", "category": "Furniture", "price": 149.99, "stock": 60, "sales": 90, "actions": "View" },
+        { "type": "product", "name": "Toy Car", "id": "P013", "category": "Toys", "price": 19.99, "stock": 200, "sales": 350, "actions": "View" },
+        { "type": "product", "name": "Doll", "id": "P014", "category": "Toys", "price": 24.99, "stock": 180, "sales": 300, "actions": "View" },
+        { "type": "product", "name": "Garden Shovel", "id": "P015", "category": "Garden", "price": 12.99, "stock": 100, "sales": 160, "actions": "View" },
+        { "type": "product", "name": "Watering Can", "id": "P016", "category": "Garden", "price": 18.99, "stock": 90, "sales": 140, "actions": "View" },
+        { "type": "product", "name": "Shampoo", "id": "P017", "category": "Health & Beauty", "price": 9.99, "stock": 250, "sales": 500, "actions": "View" },
+        { "type": "product", "name": "Perfume", "id": "P018", "category": "Health & Beauty", "price": 59.99, "stock": 80, "sales": 120, "actions": "View" },
+        { "type": "product", "name": "Car Tire", "id": "P019", "category": "Automotive", "price": 120.00, "stock": 40, "sales": 70, "actions": "View" },
+        { "type": "product", "name": "Motor Oil", "id": "P020", "category": "Automotive", "price": 35.00, "stock": 100, "sales": 150, "actions": "View" }
+    ]
+}

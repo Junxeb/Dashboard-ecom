@@ -6,7 +6,7 @@ import { Bell, LayoutDashboard  } from 'lucide-react'
 const Header = () => {
   return (
     <header className = "bg-[#1e1e1e] shadow-lg border-b border-[#1f1f1f] mx-4 sm:mx-6 lg:mx-8 mt-4 mb-2 rounded-lg p-4">
-      <div className = "max-w-7xl mx-auto py-4 px-4 sm:px-6 flex items-center justify-between">
+      <div className = "max-w-7xl mx-auto py-2 px-4 sm:px-6 flex items-center justify-between">
 
             {/* <Image
               src="/favicon.ico"
