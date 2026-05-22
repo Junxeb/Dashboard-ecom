@@ -14,7 +14,6 @@ type NavItems = {
 const navItems: NavItems[] = [
     { icon: <House />, name: "Home", path: "/" },
     { icon: <ShoppingBag />, name: "Products", path: "/products" },
-    { icon: <Users />, name: "Profile", path: "/profile" },
     { icon: <ShoppingCart />, name: "My Carts", path: "/orders" },
     { icon: <Bell />, name: "Notifications", path: "/notifications" },
     { icon: <Settings />, name: "Settings", path: "/settings" },
