@@ -42,7 +42,7 @@ const SideBar = () => {
         <div className={`relative z-10  transition-all duration-300 ease-in-out flex-shrink-0  ${isSidebarOpen ? "w-64" : "w-16"}`}>
             <div className = "h-full bg-[#1e1e1e] backdrop-blur-md p-4 text-white flex flex-col border-r border-[#2f2f2f] ">
                 {/* ส่วนของ burger icon */}
-                <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className = {`p-2 rounded-full hover:bg-[#00a1e4] transition-colors max-w-fit cursor-pointer 
+                <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className = {`p-2 rounded-full hover:bg-[#2f2f2f] transition-colors max-w-fit cursor-pointer 
                     ${isSidebarOpen ? "justify-start px-4" : "justify-center px-1"}`}>
                     <Menu size={20}/>
                 </button>
