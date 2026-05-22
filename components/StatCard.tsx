@@ -21,14 +21,14 @@ import { motion } from 'framer-motion';
             <div className="px-4 py-5 sm:p-6">
 
                 <span className="flex items-center text-sm font-medium"
-                style={{ backgroundColor: color_text}}
+                style={{ color: color_text}}
                 >
                     <Icon size={20} className="mr-2" />
                     {name}
                 </span>
 
                 <p className="mt-1 text-3xl font-semibold"
-                style={{ backgroundColor: color_value}}
+                style={{ color: color_value}}
                 >
                     {value}
                 </p>
@@ -57,6 +57,6 @@ export default StatCard;
 //
 //
 // Card แต่ละใบจะมีสีพื้นหลัง (color_bg) ตามที่กำหนด
-// ชื่อ + icon จะมีสีพื้นหลัง (color_text) ตามที่กำหนด
-// ค่าตัวเลขจะมีสีพื้นหลัง (color_value) ตามที่กำหนด
+// ชื่อ + icon จะมีสี (color_text) ตามที่กำหนด
+// ค่าตัวเลขจะมีสี (color_value) ตามที่กำหนด
 //

@@ -22,7 +22,7 @@ const Header = () => {
           <div className="p-2 bg-[#0066cc] rounded-lg hover:bg-[#0052a3] transition-colors cursor-pointer flex-shrink-0">
             <LayoutDashboard className="w-5 h-5 text-white" />
           </div>
-          <h1 className="text-base sm:text-lg lg:text-xl font-bold text-white truncate">Dashboard</h1>
+          <h1 className="text-base sm:text-lg lg:text-xl font-bold text-white truncate">CARTLY</h1>
         </div>
         
 
