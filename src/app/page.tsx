@@ -1,12 +1,13 @@
 "use client"
 
 import react from "react";
-import { HomeUserCard } from "../../components/HomeUserCard";
 import { Bell, CoinsIcon, HandHeart, Package, ShoppingCart, User, Wallet } from "lucide-react";
 import StatCard from "../../components/StatCard";
-import ResponsiveImage from "../../components/ResponsiveImage";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+
+  const router = useRouter()
   return (
     <div className='flex-1 overflow-auto relative z-10'>
       <main className='max-w-7xl mx-auto py-4 px-4 lg:px-8'>
@@ -20,7 +21,7 @@ export default function Home() {
 
           <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8'>
             <StatCard name='Total price orders' icon={CoinsIcon} value="5,879" color_bg="#E57373" color_text="#2f2f2f" color_value="#2f2f2f"/>
-            <StatCard name='My Cards' icon={ShoppingCart} value="24" color_bg="#4DB6AC" color_text="#2f2f2f" color_value="#2f2f2f"/>
+            <StatCard name='My Carts' icon={ShoppingCart} value="24" color_bg="#4DB6AC" color_text="#2f2f2f" color_value="#2f2f2f" onClick={() => router.push('/orders')}/>
             <StatCard name='Total Orders' icon={Package} value="69" color_bg="#7986CB" color_text="#2f2f2f" color_value="#2f2f2f"/>
             <StatCard name='Account Status' icon={User} value="Gold" color_bg="#EAB300" color_text="#2f2f2f" color_value="#2f2f2f"/>
           </div>

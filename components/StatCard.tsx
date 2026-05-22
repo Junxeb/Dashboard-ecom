@@ -8,11 +8,13 @@ import { motion } from 'framer-motion';
         color_bg?: string;
         color_text?: string;
         color_value?: string;
+        onClick?: () => void;
     };
 
-    function StatCard({ name, icon: Icon, value, color_bg = "#1e1e1e", color_text = "#e0e0e0", color_value = "#ffffff" }: StatCardProps) {
+    function StatCard({ name, icon: Icon, value, color_bg = "#1e1e1e", color_text = "#e0e0e0", color_value = "#ffffff", onClick }: StatCardProps) {
     return (
         <motion.div 
+        onClick={onClick}
         whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',borderColor: '#3b3b3b' }}
         className="backdrop-blur-md overflow-hidden shadow-lg rounded-xl border border-[#1f1f1f]"
         style={{ backgroundColor: color_bg }}
