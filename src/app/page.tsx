@@ -5,7 +5,7 @@ import { CoinsIcon, HandHeart, Package, ShoppingCart, User } from "lucide-react"
 import StatCard from "../../components/StatCard";
 import { useRouter } from "next/navigation";
 import { motion } from 'framer-motion';
-import { data } from "framer-motion/client";
+
 
 export default function Home() {
 
@@ -42,8 +42,10 @@ export default function Home() {
     accountTier ="Gold";
   } else if (totalSpent >= 500) {
     accountTier ="Silver"
-  } else {
+  } else if (totalSpent >= 1){
     accountTier = "Standard"
+  } else {
+    accountTier = ""
   }
 
   const getStatusColor = (status: string) => {

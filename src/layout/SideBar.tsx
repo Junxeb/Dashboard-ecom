@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Coins, House, Info, LayoutDashboardIcon, Menu, Package, Settings, ShoppingBag, ShoppingCart, Users } from "lucide-react";
+import { Bell, Coins, House, LayoutDashboardIcon, Menu, Package, Settings, ShoppingBag, ShoppingCart, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
