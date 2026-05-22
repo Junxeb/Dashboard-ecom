@@ -18,7 +18,6 @@ const navItems: NavItems[] = [
     { icon: <ShoppingCart />, name: "My Carts", path: "/orders" },
     { icon: <Bell />, name: "Notifications", path: "/notifications" },
     { icon: <Settings />, name: "Settings", path: "/settings" },
-    { icon: <Info />, name: "Help", path: "/help" },
 ]
 
 const adminItems: NavItems[] = [
