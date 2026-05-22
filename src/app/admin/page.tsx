@@ -14,7 +14,7 @@ export default function Home() {
           <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8'>
             <StatCard name='Total Sales' icon={Wallet} value="5,879" color_bg="#E57373" color_text="#2f2f2f" color_value="#2f2f2f"/>
             <StatCard name='Total Customer' icon={Users} value="24" color_bg="#4DB6AC" color_text="#2f2f2f" color_value="#2f2f2f"/>
-            <StatCard name='Total Product' icon={ShoppingBag} value="69" color_bg="#7986CB" color_text="#2f2f2f" color_value="#2f2f2f"/>
+            <StatCard name='Total Product' icon={ShoppingBag} value="28" color_bg="#7986CB" color_text="#2f2f2f" color_value="#2f2f2f"/>
             <StatCard name='Stock' icon={SquareActivity} value="Gold" color_bg="#EAB300" color_text="#2f2f2f" color_value="#2f2f2f"/>
           </div>
 

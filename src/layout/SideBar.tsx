@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Coins, House, Info, LayoutDashboardIcon, Menu, Settings, ShoppingBag, ShoppingCart, Users } from "lucide-react";
+import { Bell, Coins, House, Info, LayoutDashboardIcon, Menu, Package, Settings, ShoppingBag, ShoppingCart, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -14,7 +14,8 @@ type NavItems = {
 const navItems: NavItems[] = [
     { icon: <House />, name: "Home", path: "/" },
     { icon: <ShoppingBag />, name: "Products", path: "/products" },
-    { icon: <ShoppingCart />, name: "My Carts", path: "/orders" },
+    { icon: <ShoppingCart />, name: "My Carts", path: "/carts" },
+    { icon: <Package />, name: "My Orders", path: "/orders"},
     { icon: <Bell />, name: "Notifications", path: "/notifications" },
     { icon: <Settings />, name: "Settings", path: "/settings" },
 ]
