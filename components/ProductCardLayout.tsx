@@ -31,10 +31,11 @@ function ProductCardLayout({ src, alt, name, detail, price }: ProductCardLayoutP
                 </p>
 
                 {/* price and add to cart */}
-                <div className='flex items-center justify-between '>
-                    <p>{price?.toFixed(2)}</p>
-                    <button className='ring-1 ring-gray-200 shadow-lg rounded-md px-2 py-1 text-sm cursor-pointer text-black bg-white hover:text-white hover:bg-black transition-all duration-300 flex items-center gap-2'>
-                        <ShoppingCart /> Add to Cart
+                <div className='flex items-center justify-between gap-3'>
+                    <p className='mr-2'>{price?.toFixed(2)}</p>
+                    <button className='ring-1 ring-gray-200 shadow rounded-md px-2 py-2 text-sm cursor-pointer text-black bg-white hover:text-white hover:bg-black transition-all duration-300 inline-flex items-center gap-2 whitespace-nowrap flex-shrink-0 min-w-[44px] sm:min-w-[88px]'>
+                        <ShoppingCart />
+                        <span className="hidden sm:inline">Add to Cart</span>
                     </button>
                 </div>
             </div>
