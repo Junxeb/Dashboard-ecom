@@ -71,21 +71,23 @@ export default function Products() {
                         <h1 className="pt-1.5 text-white text-xl font-semibold mb-4">Products</h1>
                         
                         {/* search btn */}
-                        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto flex-1 sm:justify-end ">
+                        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto flex-1 sm:justify-end ">
                             <div className="relative w-full md:w-64 ">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#3f3f3f] w-5 h-5 " />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#4f4f4f] w-5 h-5 " />
                                 <input 
                                     type="text"
                                     placeholder="Search product..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-9 pr-4 py-2 bg-[#2f2f2f] border border-[#3f3f3f] text-[#3f3f3f] text-sm rounded-lg  flex items-center justify-between focus:outline-none focus:border-[#121212] focus:ring-1 focus:ring-[#01579b] focus:text-white transition-all"
+                                    className="w-full pl-9 pr-4 py-2 bg-[#2f2f2f] border border-[#3f3f3f] text-[#4f4f4f] text-sm rounded-lg  flex items-center justify-between focus:outline-none focus:border-[#121212] focus:ring-1 focus:ring-[#01579b] focus:text-white transition-all"
                                 />
                             </div>
                         </div>
+                        
+                        <div className="mt-2"></div>
 
                         {/* categories btn */}
-                        <div className="relative ">
+                        <div className="relative">
                             <button className="dropdown-toggle px-4 py-2 bg-[#01579b] text-white rounded-lg flex items-center hover:bg-[#3f3f3f] transition"
                                 onClick={() => setIsOpen(!isOpen)}>
                                 <span className="font-semibold pr-2">{selectedCategory}</span>
