@@ -11,7 +11,7 @@ type Product = {
     price: number;
     stock: number;
     sales: number;
-    image: string;
+    src: string;
     type: "product";
     [key: string]: string | number;
 };
@@ -100,10 +100,15 @@ const ProductsTable = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
         >
+
+                            {/* Products List */}
+
             <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 md:gap-0">
                 <h2 className="text-lg md:text-xl font-semibold text-gray-100 text-center md:text-left">
                 Products List
                 </h2>
+
+                        {/* Search products... */}
 
                 <div className="relative w-full md:w-auto">
                     <input
@@ -116,6 +121,8 @@ const ProductsTable = () => {
                     <Search className="absolute left-3 top-2.5 text-gray-500" size={20}/>
                 </div>
             </div>
+
+                        {/* Show per page */}
 
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
                 <div className="flex items-center gap-2 text-sm text-gray-300">
@@ -133,9 +140,17 @@ const ProductsTable = () => {
                     <span>per page</span>
                 </div>
 
+                                {/* Previous & Next and  Page  of */}
+
                 <div className="flex items-center gap-2 text-sm text-gray-300">
-                    <span>Page {effectiveCurrentPage} of {totalPages}</span>
-                    <button
+
+                                    {/* Page  of */}
+
+                    {/* <span>Page {effectiveCurrentPage} of {totalPages}</span> */}
+
+                                {/* Previous & Next */}
+
+                    {/* <button
                         type="button"
                         disabled={effectiveCurrentPage === 1}
                         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -150,7 +165,7 @@ const ProductsTable = () => {
                         className="rounded-lg border border-[#3a3a3a] bg-[#2d2d2d] px-3 py-2 text-gray-100 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[#3a3a3a]"
                     >
                         Next
-                    </button>
+                    </button> */}
                 </div>
             </div>
 
@@ -185,7 +200,7 @@ const ProductsTable = () => {
                                     <div className = "flex items-center justify-between">
                                         <div className = "flex items-center">
                                             <Image 
-                                            src={product.image ?? null} 
+                                            src={product.src} 
                                             alt={product.name} 
                                             width={36} 
                                             height={36}
@@ -249,7 +264,7 @@ const ProductsTable = () => {
                                 <td className = "hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100"> 
                                     <div className = "flex items-center">
                                         <Image 
-                                        src={product.image ?? null} 
+                                        src={product.src} 
                                         alt={product.name}
                                         width={40}
                                         height={40}
@@ -309,6 +324,31 @@ const ProductsTable = () => {
                         )}
                     </tbody>
                 </table>
+
+                <div className="mt-5 flex justify-between">
+                    <span>Page {effectiveCurrentPage} of {totalPages}</span>
+
+                    <div className="flex items-center gap-2 text-sm text-gray-300">
+                        <button
+                        type="button"
+                        disabled={effectiveCurrentPage === 1}
+                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                        className="rounded-lg border border-[#3a3a3a] bg-[#2d2d2d] px-3 py-2 text-gray-100 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[#3a3a3a]"
+                    >
+                        Previous
+                    </button>
+                    <button
+                        type="button"
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                        className="rounded-lg border border-[#3a3a3a] bg-[#2d2d2d] px-3 py-2 text-gray-100 disabled:cursor-not-allowed disabled:opacity-50 hover:bg-[#3a3a3a]"
+                    >
+                        Next
+                    </button>
+                    </div>
+                </div>
+
+                
             </div>
 
     </motion.div>

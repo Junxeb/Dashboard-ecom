@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
         color_text?: string;
         color_value?: string;
         onClick?: () => void;
+        
     };
 
     function StatCard({ name, icon: Icon, value, color_bg = "#1e1e1e", color_text = "#e0e0e0", color_value = "#ffffff", onClick }: StatCardProps) {

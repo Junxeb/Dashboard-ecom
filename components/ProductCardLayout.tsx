@@ -14,26 +14,26 @@ type ProductCardLayoutProps = {
 
 function ProductCardLayout({ src, alt, name, detail, price }: ProductCardLayoutProps) {
     return (
-        <div className = 'shadow-lg rounded-lg overflow-hidden'>
+        <div className='shadow-lg rounded-lg overflow-hidden'>
 
-                            {/* image */}
-            <div className = 'relative aspec-[2/3]'>
-                <Image src = {src} alt = {alt ?? ""} fill className = "objict-cover hover:scale-105 transition-all duration-300" />
+            {/* image */}
+            <div className='relative aspect-[2/3] w-full overflow-hidden'>
+                <Image src={src} alt={alt ?? ""} fill className="object-cover hover:scale-105 transition-all duration-300" />
             </div>
 
-                            {/* detail */}
-            <div className = 'flex flex-col gap-4 p-4'>
-                <h1 className = "font-mediun">
+            {/* detail */}
+            <div className='flex flex-col gap-4 p-4'>
+                <h1 className="font-medium">
                     {name}
                 </h1>
-                <p className = "text-sm text-gray-500">
+                <p className="text-sm text-gray-500">
                     {detail}
-                </p>  
+                </p>
 
-                            {/* price and add to cart */}
-                <div className = 'flex item-center justify-between'>
+                {/* price and add to cart */}
+                <div className='flex items-center justify-between '>
                     <p>{price?.toFixed(2)}</p>
-                    <button className='ring-1 ring-gray-200 shadow-lg rounded-md px-2 py-1 text-sm cursor-pointer hover:text-white hover:bg-black transition-all duration-300 flex item-center gap-2'>
+                    <button className='ring-1 ring-gray-200 shadow-lg rounded-md px-2 py-1 text-sm cursor-pointer text-black bg-white hover:text-white hover:bg-black transition-all duration-300 flex items-center gap-2'>
                         <ShoppingCart /> Add to Cart
                     </button>
                 </div>
