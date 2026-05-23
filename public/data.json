@@ -17,7 +17,7 @@
         { "type": "product", "name": "Laptop", "id": "P002", "category": "Electronics", "price": 1299.99, "stock": 30, "sales": 80, "actions": "View", "src": "https://i5.walmartimages.com/seo/HP-Stream-14-Laptop-Intel-Celeron-N4000-4GB-SDRAM-32GB-eMMC-Office-365-1-yr-Brilliant-Black_d579aa66-7e24-4eb2-9686-521be769a755_2.09283250bd5d2a12834c2d4aaca652dd.jpeg" },
         { "type": "product", "name": "Headphones", "id": "P003", "category": "Electronics", "price": 199.99, "stock": 100, "sales": 200, "actions": "View", "src": "https://www.jbhifi.co.nz/cdn/shop/files/411409-Product-0-I-638917017048342429.jpg?v=1756111324" },
         { "type": "product", "name": "T-Shirt", "id": "P004", "category": "Clothing", "price": 29.99, "stock": 200, "sales": 300, "actions": "View", "src": "https://i2.cloudfable.net/styles/735x735/8.51/Black/ed-tuxedo-bow-tie-suit-father-shirt-20221011202515-ezbmu23z.jpg" },
-        { "type": "product", "name": "Jeans", "id": "P005", "category": "Clothing", "price": 59.99, "stock": 150, "sales": 250, "actions": "View", "src": "https://assets.myntassets.com/assets/images/2026/JANUARY/16/yw8NhJDh_661bc99ca80a43cdaf6baf5ec71da3f7.jpg" },
+        { "type": "product", "name": "Jeans", "id": "P005", "category": "Clothing", "price": 59.99, "stock": 150, "sales": 250, "actions": "View", "src": "https://t4.ftcdn.net/jpg/05/14/13/71/360_F_514137149_wdlkcJrxL1WZm67d0GOHydW31Zt0DHbD.jpg" },
         { "type": "product", "name": "Sneakers", "id":"P006", "category": "Clothing", "price": 89.99, "stock": 120, "sales": 180, "actions": "View", "src": "https://cdn.media.amplience.net/i/frasersdev/27648001_o_a4?v=20251013133847?fmt=auto&upscale=true&w=992&h=992&sm=scaleFit&$h-ttl$" },
         { "type": "product", "name": "Basketball", "id": "P008", "category": "Sports", "price": 29.99, "stock": 70, "sales": 130, "actions": "View", "src": "https://www.mcsport.ie/cdn/shop/files/Wilson-Evolution-Basketball.jpg?v=1684494081" },
         { "type": "product", "name": "Novel Book", "id": "P009", "category": "Books", "price": 15.99, "stock": 300, "sales": 400, "actions": "View", "src": "https://down-th.img.susercontent.com/file/sg-11134201-23030-j1sbfxnzozov23" },
@@ -67,36 +67,7 @@
         { "orderId": "ORD003", "cartId": "CRT003", "date": "2026-05-19", "items": [{ "productId": "P004", "name": "T-Shirt", "quantity": 3, "price": 29.99 }, { "productId": "P005", "name": "Jeans", "quantity": 1, "price": 59.99 }], "totalPrice": 149.96, "status": "Completed", "paymentMethod": "TrueMoney Wallet" },
         { "orderId": "ORD004", "cartId": "CRT004", "date": "2026-05-19", "items": [{ "productId": "P002", "name": "Laptop", "quantity": 1, "price": 1299.99 }], "totalPrice": 1299.99, "status": "Processing", "paymentMethod": "Cash on Delivery" },
         { "orderId": "ORD005", "cartId": "CRT005", "date": "2026-05-18", "items": [{ "productId": "P006", "name": "Sneakers", "quantity": 1, "price": 89.99 }], "totalPrice": 89.99, "status": "Cancelled", "paymentMethod": "Credit Card" }
-    ],
-
-    "customer": [
-    {
-        "name": "Somchai Prasert",
-        "address": "123/45 Phahonyothin Road, Chatuchak, Bangkok 10900, Thailand",
-        "email": "somchai@example.com"
-    },
-    {
-        "name": "Suda Wongchai",
-        "address": "56/78 Sukjai Village, Bangkhen Subdistrict, Nonthaburi 11000, Thailand",
-        "email": "suda@example.com"
-
-    },
-    {
-        "name": "Anan Kittipong",
-        "address": "99/12 Moo 3, Bang Phli Yai Subdistrict, Samut Prakan 10540, Thailand",
-        "email": "anan@example.com"
-    },
-    {
-        "name": "Nattaporn Chaiyasit",
-        "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
-        "email": "nattaporn@example.com"
-    },
-    {
-        "name": "Nattaporn Chaiyasit",
-        "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
-        "email": "nattaporn@example.com"
-    }
-]
+    ]
 
 
 }
