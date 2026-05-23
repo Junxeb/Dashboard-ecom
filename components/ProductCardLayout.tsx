@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { ShoppingCart  } from 'lucide-react'
+import { motion } from 'framer-motion';
 
 
 type ProductCardLayoutProps = {
@@ -14,11 +15,15 @@ type ProductCardLayoutProps = {
 
 function ProductCardLayout({ src, alt, name, detail, price }: ProductCardLayoutProps) {
     return (
-        <div className='shadow-lg rounded-lg overflow-hidden'>
+        <motion.div className=' shadow-lg rounded-lg overflow-hidden bg-[#121212]'
+                    whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',borderColor: '#01579b' }}
+        >
 
             {/* image */}
-            <div className='relative aspect-[2/3] w-full overflow-hidden'>
-                <Image src={src} alt={alt ?? ""} fill className="object-cover hover:scale-105 transition-all duration-300" />
+            <div className='p-3'>
+                <div className='p-5 relative aspect-square w-full  bg-white overflow-hidden rounded-xl '>
+                    <Image src={src} alt={alt ?? ""} fill className="object-contain hover:scale-105 transition-all duration-300 rounded-xl" />
+                </div>
             </div>
 
             {/* detail */}
@@ -33,13 +38,13 @@ function ProductCardLayout({ src, alt, name, detail, price }: ProductCardLayoutP
                 {/* price and add to cart */}
                 <div className='flex items-center justify-between gap-3'>
                     <p className='mr-2'>{price?.toFixed(2)}</p>
-                    <button className='ring-1 ring-gray-200 shadow rounded-md px-2 py-2 text-sm cursor-pointer text-black bg-white hover:text-white hover:bg-black transition-all duration-300 inline-flex items-center gap-2 whitespace-nowrap flex-shrink-0 min-w-[44px] sm:min-w-[88px]'>
+                    <button className='ring-1 ring-gray-200 shadow rounded-md px-2 py-2 text-sm cursor-pointer text-white bg-[#01579b] hover:text-white hover:bg-[#3f3f3f] transition-all duration-300 inline-flex items-center gap-2 whitespace-nowrap flex-shrink-0 min-w-[44px] sm:min-w-[88px]'>
                         <ShoppingCart />
                         <span className="hidden sm:inline">Add to Cart</span>
                     </button>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 
