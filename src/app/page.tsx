@@ -5,12 +5,13 @@ import { CoinsIcon, HandHeart, Package, ShoppingCart, User } from "lucide-react"
 import StatCard from "../../components/StatCard";
 import { useRouter } from "next/navigation";
 import { motion } from 'framer-motion';
+import ProductCard from "../../components/ProductCard";
 
 
 export default function Home() {
 
-  const [userCartData, setUserCartData] = useState();
-  const [userOrderData, setUserOrderData] = useState();
+  const [userCartData, setUserCartData] = useState([]);
+  const [userOrderData, setUserOrderData] = useState([]);
 
   const router = useRouter()
 
