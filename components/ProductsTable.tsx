@@ -325,7 +325,7 @@ const ProductsTable = () => {
                     </tbody>
                 </table>
 
-                <div className="mt-5 mb-3 flex justify-between">
+                <div className="mt-5 mb-5 flex justify-between">
                     <span>Page {effectiveCurrentPage} of {totalPages}</span>
 
                     <div className="flex items-center gap-2 text-sm text-gray-300">

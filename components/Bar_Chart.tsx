@@ -41,8 +41,8 @@ const Bar_Chart: React.FC<BarChartProps> = ({ metrics }) => {
     // กำหนดสีสำหรับแต่ละ metric
     const colors: Record<string, string> = {
         sales: "#a855f7",
-        profit: "#3b82f6",
-        cost: "#f97316",
+        profit: "#22c55e",
+        cost: "#ef4444",
     };
 
     return (

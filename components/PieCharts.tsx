@@ -60,7 +60,7 @@ const PieCharts = () => {
 
     return (
         <div className="w-full h-[400px] bg-[#1e1e1e] rounded-xl p-6">
-        <h2 className="text-lg text-gray-100 mb-4">Product Sales by Category</h2>
+        <h2 className="text-xl text-gray-100 mb-4">Product Sales by Category</h2>
         <ResponsiveContainer width="100%" height="100%">
             <PieChart margin={{ top: 20, right: 20, bottom: 40, left: 20 }}>
                 <Pie
