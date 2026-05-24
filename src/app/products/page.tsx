@@ -29,19 +29,6 @@ export default function Products() {
         .then((data) => setSalesData(data.salesData))
     }, []);
 
-    // const productData = salesData.filter((item) => {
-    //     const isProduct = item.type === "product";
-
-    //     const matchCategory = selectedCategory === "All" || item.category === selectedCategory;
-        
-    //     const matchSearch = item.name ? item.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) : true;
-        
-    //     if (selectedCategory === "All") {
-    //         return isProduct;
-    //     }
-    //     return isProduct && item.category === selectedCategory;
-    // });
-
     const productData = salesData.filter((item) => {
         const isProduct = item.type === "product";
         if (selectedCategory === "All") {
