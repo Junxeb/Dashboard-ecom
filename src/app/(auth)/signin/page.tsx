@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,9 +17,20 @@ export default function SignInPage() {
     setIsLoading(true);
 
     try {
-      // Add your sign in logic here
-      console.log('Sign in with:', { email, password });
-      // TODO: Implement actual authentication
+      // ตรวจสอบรหัสผ่านก่อน
+      if (password !== '1234') {
+        setError('รหัสผ่านไม่ถูกต้อง');
+        return;
+      }
+
+      // ตรวจสอบ email
+      if (email === 'somchai@example.com') {
+        router.push('/'); // ไปหน้าแรก
+      } else if (email === 'admin@example.com') {
+        router.push('/admin'); // ไปหน้า admin
+      } else {
+        setError('Email ไม่ถูกต้อง');
+      }
     } catch (err) {
       setError('Failed to sign in. Please try again.');
     } finally {
@@ -28,7 +41,7 @@ export default function SignInPage() {
   return (
     <div className="w-full">
       <div className="mb-6 text-center">
-        <h1 className="text-3xl font-bold mb-2">Welcome</h1>
+        <h1 className="text-3xl font-bold mb-2 text-white">Welcome</h1>
         <p className="text-gray-400">Sign in to your account</p>
       </div>
 
@@ -40,7 +53,7 @@ export default function SignInPage() {
         )}
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
+          <label htmlFor="email" className="block text-sm font-medium mb-2 text-white">
             Email Address
           </label>
           <input
@@ -55,7 +68,7 @@ export default function SignInPage() {
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-2">
+          <label htmlFor="password" className="block text-sm font-medium mb-2 text-white">
             Password
           </label>
           <input
