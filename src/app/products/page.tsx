@@ -1,9 +1,8 @@
 "use client"
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, Search, ShoppingBag } from "lucide-react";
 import { Dropdown } from "../../../components/Dropdown";
 import { useEffect, useState } from "react";
 import ProductCardLayout from "../../../components/ProductCardLayout";
-import ProductCard from "../../../components/ProductCard";
 
 type ProductItem = {
     type: "product" | "month";
@@ -29,25 +28,21 @@ export default function Products() {
         .then((data) => setSalesData(data.salesData))
     }, []);
 
-    // const productData = salesData.filter((item) => {
-    //     const isProduct = item.type === "product";
-
-    //     const matchCategory = selectedCategory === "All" || item.category === selectedCategory;
-        
-    //     const matchSearch = item.name ? item.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()) : true;
-        
-    //     if (selectedCategory === "All") {
-    //         return isProduct;
-    //     }
-    //     return isProduct && item.category === selectedCategory;
-    // });
-
+    // ลอจิกเดิมกรองแค่ category คลุมด้วย filter ใหม่ที่ดักคำค้นหาจากชื่อสินค้า
     const productData = salesData.filter((item) => {
         const isProduct = item.type === "product";
-        if (selectedCategory === "All") {
-            return isProduct;
-        }
-        return isProduct && item.category === selectedCategory;
+    
+        // 1. ตรวจสอบเงื่อนไขหมวดหมู่ (Category Filter)
+        const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
+    
+        // 2. ตรวจสอบเงื่อนไขคำค้นหาจากชื่อสินค้า (Search Query Filter)
+        // ใช้ item.name? เพื่อความปลอดภัยเผื่อบางออบเจกต์ไม่มีชื่อป้องกันแอปพัง (Optional Chaining)
+        const matchesSearch = (item.name || "")
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase().trim());
+
+        // สินค้าชิ้นนั้นต้องผ่านทั้งการกรองประเภท, หมวดหมู่ และคำค้นหา
+        return isProduct && matchesCategory && matchesSearch;
     });
 
     const categories = [
@@ -68,7 +63,10 @@ export default function Products() {
             <div className='max-w-7xl mx-auto py-4 px-4 lg:px-8 mb-5 space-y-6'>
                 <div className='bg-[#1e1e1e] p-6 rounded-xl items-center header-section'>
                     <div className="flex flex-col  sm:flex-row sm:justify-between sm:items-center  space-x-2">
-                        <h1 className="pt-1.5 text-white text-xl font-semibold mb-4">Products</h1>
+                        <h1 className="text-white text-xl font-semibold flex items-center">
+                            <ShoppingBag className="inline mr-3 text-[#38BDF8]" size={26} />
+                            Products
+                        </h1>
                         
                         {/* search btn */}
                         <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto flex-1 sm:justify-end ">
@@ -116,17 +114,34 @@ export default function Products() {
                     <hr className="border-[#656565] border-1 mt-2 mb-4" />
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8 mt-4">
-                        {productData.map((product) => (
-                            <ProductCardLayout
-                                key={product.id}
-                                id={product.id}
-                                src={product.src}
-                                name={product.name}
-                                detail={`หมวดหมู่: ${product.category}`}
-                                price={product.price}
-                                show={1}
-                            />
-                        ))}
+                        {productData.length > 0 ? (
+                        // 🟢 กรณีที่มีสินค้าตรงกับเงื่อนไข ให้ map การ์ดออกมาแสดงปกติ
+                            productData.map((product) => (
+                                <ProductCardLayout
+                                    key={product.id}
+                                    id={product.id}
+                                    src={product.src}
+                                    name={product.name}
+                                    detail={`หมวดหมู่: ${product.category}`}
+                                    price={product.price}
+                                    show={1}
+                                />
+                            ))
+                        ) : (
+                            // 🔴 กรณีที่ไม่พบสินค้าที่ตรงกับประเภทหรือชื่อที่หาเลย ให้แสดงกล่องข้อความนี้
+                                <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex flex-col items-center justify-center py-16 px-4 bg-[#121212]/50 border border-[#2f2f2f] rounded-xl text-center">
+                                    <svg 
+                                        className="w-12 h-12 text-[#4f4f4f] mb-3" 
+                                        fill="none" 
+                                        viewBox="0 0 24 24" 
+                                        stroke="currentColor"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p className="text-white text-base font-medium">ไม่พบสินค้าที่คุณค้นหา</p>
+                                    <p className="text-[#656565] text-xs mt-1">ลองเปลี่ยนคำค้นหาหรือเลือกหมวดหมู่ใหม่อีกครั้ง</p>
+                                </div>
+                                )}
                     </div>
 
                 </div>

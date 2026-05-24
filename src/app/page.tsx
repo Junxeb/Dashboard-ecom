@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { motion } from 'framer-motion';
 import ProductCardLayout from "../../components/ProductCardLayout";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { span } from "framer-motion/m";
 
 type MothlySales = {
   type: "month",
@@ -37,6 +36,8 @@ export default function Home() {
   const [userOrderData, setUserOrderData] = useState([]);
   const [ salesData, setSalesData ] = useState<SaleData[]>([]);
 
+  const currentUserId = "U789";
+
   const router = useRouter()
 
   useEffect (() => {
@@ -55,10 +56,10 @@ export default function Home() {
     .then((data) => setUserOrderData(data.userOrders))
   }, []);
 
-
+  const myCartData = userCartData ? userCartData.filter((cart: any) => cart.userId === currentUserId) : [];
 
   // ใช้คำนวณจำนวนตะกร้า ของที่สั่ง เงินที่จ่ายทั้งหมด
-  const totalCarts = userCartData ? userCartData.length : 0;
+  const totalCarts = myCartData.length;
   const totalOrders = userOrderData ? userOrderData.filter(cart => ["Processing", "Shipped", "Completed"].includes(cart.status)).length : 0;
   const totalSpent = userOrderData ? userOrderData.filter(cart => ["Processing", "Completed", "Shipped"].includes(cart.status)).reduce((sum,cart) => sum + cart.totalPrice, 0) : 0;
 
@@ -89,9 +90,6 @@ export default function Home() {
   }
 
   const chartData = salesData?.filter(item => item.type === "month");
-
-  
-
 
   return (
     <div className='flex-1 overflow-auto relative z-10'>
