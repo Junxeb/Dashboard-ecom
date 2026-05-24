@@ -28,12 +28,21 @@ export default function Products() {
         .then((data) => setSalesData(data.salesData))
     }, []);
 
+    // ลอจิกเดิมกรองแค่ category คลุมด้วย filter ใหม่ที่ดักคำค้นหาจากชื่อสินค้า
     const productData = salesData.filter((item) => {
         const isProduct = item.type === "product";
-        if (selectedCategory === "All") {
-            return isProduct;
-        }
-        return isProduct && item.category === selectedCategory;
+    
+        // 1. ตรวจสอบเงื่อนไขหมวดหมู่ (Category Filter)
+        const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
+    
+        // 2. ตรวจสอบเงื่อนไขคำค้นหาจากชื่อสินค้า (Search Query Filter)
+        // ใช้ item.name? เพื่อความปลอดภัยเผื่อบางออบเจกต์ไม่มีชื่อป้องกันแอปพัง (Optional Chaining)
+        const matchesSearch = (item.name || "")
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase().trim());
+
+        // สินค้าชิ้นนั้นต้องผ่านทั้งการกรองประเภท, หมวดหมู่ และคำค้นหา
+        return isProduct && matchesCategory && matchesSearch;
     });
 
     const categories = [
@@ -105,17 +114,34 @@ export default function Products() {
                     <hr className="border-[#656565] border-1 mt-2 mb-4" />
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8 mt-4">
-                        {productData.map((product) => (
-                            <ProductCardLayout
-                                key={product.id}
-                                id={product.id}
-                                src={product.src}
-                                name={product.name}
-                                detail={`หมวดหมู่: ${product.category}`}
-                                price={product.price}
-                                show={1}
-                            />
-                        ))}
+                        {productData.length > 0 ? (
+                        // 🟢 กรณีที่มีสินค้าตรงกับเงื่อนไข ให้ map การ์ดออกมาแสดงปกติ
+                            productData.map((product) => (
+                                <ProductCardLayout
+                                    key={product.id}
+                                    id={product.id}
+                                    src={product.src}
+                                    name={product.name}
+                                    detail={`หมวดหมู่: ${product.category}`}
+                                    price={product.price}
+                                    show={1}
+                                />
+                            ))
+                        ) : (
+                            // 🔴 กรณีที่ไม่พบสินค้าที่ตรงกับประเภทหรือชื่อที่หาเลย ให้แสดงกล่องข้อความนี้
+                                <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex flex-col items-center justify-center py-16 px-4 bg-[#121212]/50 border border-[#2f2f2f] rounded-xl text-center">
+                                    <svg 
+                                        className="w-12 h-12 text-[#4f4f4f] mb-3" 
+                                        fill="none" 
+                                        viewBox="0 0 24 24" 
+                                        stroke="currentColor"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <p className="text-white text-base font-medium">ไม่พบสินค้าที่คุณค้นหา</p>
+                                    <p className="text-[#656565] text-xs mt-1">ลองเปลี่ยนคำค้นหาหรือเลือกหมวดหมู่ใหม่อีกครั้ง</p>
+                                </div>
+                                )}
                     </div>
 
                 </div>
