@@ -3,7 +3,6 @@ import { ChevronDown, Search } from "lucide-react";
 import { Dropdown } from "../../../components/Dropdown";
 import { useEffect, useState } from "react";
 import ProductCardLayout from "../../../components/ProductCardLayout";
-import ProductCard from "../../../components/ProductCard";
 
 type ProductItem = {
     type: "product" | "month";
