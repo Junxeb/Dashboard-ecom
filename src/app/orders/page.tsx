@@ -1,18 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { 
-    Package, 
-    CheckCircle, 
-    Truck, 
-    Clock, 
-    XCircle, 
-    Calendar, 
-    CreditCard, 
-    Wallet, 
-    ArrowRight,
-    User
-} from "lucide-react";
+import { Package, CheckCircle, Truck, Clock, XCircle, Calendar, CreditCard, Wallet, ArrowRight, User } from "lucide-react";
 
 // --- Types ---
 type OrderItem = {
@@ -96,7 +85,7 @@ export default function MyOrders() {
                             <span>History for: <strong className="text-white">{currentUserId}</strong></span>
                         </div>
                     </div>
-                <hr className="border-[#333333] mt-4 mb-2" />
+                <hr className="border-[#333333] mt-4 mb-5" />
 
                 {/* Orders List */}
                 <div className="space-y-4">
@@ -106,11 +95,11 @@ export default function MyOrders() {
                             return (
                                 <div 
                                     key={order.orderId} 
-                                    className="bg-[#1e1e1e] rounded-xl border border-[#2d2d2d] overflow-hidden hover:border-[#3d3d3d] transition-all"
+                                    className="bg-[#121212] rounded-xl border border-[#2d2d2d] overflow-hidden hover:border-[#3d3d3d] transition-all"
                                 >
 
                                 {/* Top Bar: Order Info & Status */}
-                                <div className="bg-[#252525]/50 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-[#2d2d2d]">
+                                <div className="bg-[#181818]/50 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-[#2d2d2d]">
                                     <div className="flex items-center gap-4">
                                         <div>
                                             <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Order ID</p>

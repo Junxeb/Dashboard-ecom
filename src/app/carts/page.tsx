@@ -135,22 +135,22 @@ export default function Carts() {
                 <div className='bg-[#1e1e1e] p-6 rounded-xl border border-[#2d2d2d] shadow-xl'>
                     
                     <div className="flex justify-between items-center mb-4">
-                        <h4 className="pt-1.5 text-white text-xl font-semibold flex items-center" >
-                            <ShoppingCart className="inline mr-2 text-blue-500" size={24} />
+                        <h1 className="pt-1.5 text-white text-xl font-semibold flex items-center" >
+                            <ShoppingCart className="inline mr-2 text-[#38BDF8]" size={24} />
                             My Carts
-                        </h4>
+                        </h1>
                         <div className="flex items-center gap-1.5 text-xs text-gray-400 bg-[#262626] px-3 py-1.5 rounded-lg border border-[#333333]">
                             <User size={14} className="text-blue-400" />
                             <span>User: <strong className="text-white">{currentUserId}</strong></span>
                         </div>
                     </div>
                     
-                    <hr className="border-[#656565] border-1 mt-2 mb-4" />
+                    <hr className="border-[#333333] mt-4 mb-5" />
 
                     <div className="overflow-x-auto mb-6">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="text-gray-400 text-sm border-b border-[#333333]">
+                                <tr className="text-gray-400 text-sm bg-[#121212] border-b border-[#333333]">
                                     <th className="py-3 px-4 w-12 text-center">
                                         {/* Checkbox เลือกทั้งหมด */}
                                         <input 

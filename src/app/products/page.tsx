@@ -1,5 +1,5 @@
 "use client"
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, Search, ShoppingBag } from "lucide-react";
 import { Dropdown } from "../../../components/Dropdown";
 import { useEffect, useState } from "react";
 import ProductCardLayout from "../../../components/ProductCardLayout";
@@ -54,7 +54,10 @@ export default function Products() {
             <div className='max-w-7xl mx-auto py-4 px-4 lg:px-8 mb-5 space-y-6'>
                 <div className='bg-[#1e1e1e] p-6 rounded-xl items-center header-section'>
                     <div className="flex flex-col  sm:flex-row sm:justify-between sm:items-center  space-x-2">
-                        <h1 className="pt-1.5 text-white text-xl font-semibold mb-4">Products</h1>
+                        <h1 className="text-white text-xl font-semibold flex items-center">
+                            <ShoppingBag className="inline mr-3 text-[#38BDF8]" size={26} />
+                            Products
+                        </h1>
                         
                         {/* search btn */}
                         <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto flex-1 sm:justify-end ">
