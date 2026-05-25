@@ -10,7 +10,7 @@ const Header = () => {
   
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
-  const userName = isAdminRoute ? "Admin" : "User";
+  const userName = isAdminRoute ? "Admin" : "Somchai P";
   const userAvatar = isAdminRoute ? "/admin.jpg" : "/user-avatar.png";
 
   return (
