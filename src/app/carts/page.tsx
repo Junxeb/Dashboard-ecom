@@ -131,7 +131,7 @@ export default function Carts() {
                             My Carts
                         </h1>
                         <div className="flex items-center gap-1.5 text-xs text-gray-400 bg-[#262626] px-3 py-1.5 rounded-lg border border-[#333333]">
-                            <User size={14} className="text-blue-400" />
+                            <User size={14} className="text-[#38BDF8]" />
                             <span>User: <strong className="text-white">{currentUserId}</strong></span>
                         </div>
                     </div>
@@ -147,7 +147,7 @@ export default function Carts() {
                                             type="checkbox" 
                                             checked={flattenedItems.length > 0 && selectedItems.length === flattenedItems.length}
                                             onChange={handleSelectAll}
-                                            className="rounded bg-[#2a2a2a] border-[#444444] text-emerald-500 focus:ring-0 cursor-pointer" 
+                                            className="rounded bg-[#2a2a2a] border-[#444444] text-[#34D399] focus:ring-0 cursor-pointer" 
                                         />
                                     </th>
                                     <th className="py-3 px-4 font-normal min-w-[220px]">สินค้า</th>
@@ -170,7 +170,7 @@ export default function Carts() {
                                                     type="checkbox" 
                                                     checked={isSelected}
                                                     onChange={() => handleSelectItem(itemKey)}
-                                                    className="rounded bg-[#2a2a2a] border-[#444444] text-emerald-500 focus:ring-0 cursor-pointer" 
+                                                    className="rounded bg-[#2a2a2a] border-[#444444] text-[#34D399] focus:ring-0 cursor-pointer" 
                                                 />
                                             </td>
                                             
@@ -217,14 +217,14 @@ export default function Carts() {
                                                 {item.quantity}
                                             </td>
                                             
-                                            <td className="py-4 px-4 text-right font-mono text-sm text-emerald-400 font-semibold">
+                                            <td className="py-4 px-4 text-right font-mono text-sm text-[#34D399] font-semibold">
                                                 ${item.totalItemPrice.toFixed(2)}
                                             </td>
                                             
                                             <td className="py-4 px-4 text-center">
                                                 <button 
                                                     onClick={() => handleDelete(item.cartId, item.productId, item.name)}
-                                                    className="text-gray-500 hover:text-red-400 transition-colors p-1 rounded"
+                                                    className="text-gray-500 hover:text-[#E57373] transition-colors p-1 rounded"
                                                 >
                                                     <Trash2 size={16} />
                                                 </button>
@@ -248,15 +248,15 @@ export default function Carts() {
                         <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto justify-end">
                             <div className="text-center sm:text-right flex sm:block items-center gap-3">
                                 <span className="text-xs text-gray-400 uppercase tracking-wider block">TOTAL SPENT:</span>
-                                <span className="text-2xl font-bold text-emerald-400 font-mono">${grandTotal.toFixed(2)}</span>
+                                <span className="text-2xl font-bold text-[#34D399] font-mono">${grandTotal.toFixed(2)}</span>
                             </div>
                             
                             <button 
                                 onClick={handleCheckout}
                                 className={`w-full sm:w-auto flex items-center justify-center gap-2 font-semibold py-3 px-6 rounded-lg transition-all duration-150 shadow-md 
                                     ${selectedItems.length === 0 
-                                        ? "bg-emerald-800/40 text-gray-400 cursor-not-allowed opacity-60" 
-                                        : "bg-emerald-600 hover:bg-emerald-500 text-white hover:shadow-emerald-900/20 active:scale-95"
+                                        ? "bg-[#059669]/40 text-gray-400 cursor-not-allowed opacity-60" 
+                                        : "bg-[#34D399] hover:bg-[#78d8b5] text-white hover:shadow-emerald-900/20 active:scale-95"
                                     }`}
                             >
                                 <CreditCard size={18} />
