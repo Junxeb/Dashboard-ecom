@@ -78,7 +78,7 @@ export default function Settings() {
                 
                 {/* 📦 การ์ดเมนูตั้งค่าหลัก */}
                 <div className="bg-[#1e1e1e] rounded-2xl border border-[#2d2d2d] shadow-2xl overflow-hidden">
-                    <div className="h-32 bg-gradient-to-r from-[#01579b] to-[#012d50] relative" />
+                    <div className="h-32 bg-linear-to-r from-[#01579b] to-[#012d50] relative" />
 
                     <div className="p-6 md:p-8 pt-0">
                         <form onSubmit={handleSave} className="space-y-8">
@@ -166,7 +166,7 @@ export default function Settings() {
 
                             {/* โซนสรุปท้ายฟอร์มและปุ่มกดเซฟ */}
                             <div className="flex items-center justify-between border-t border-[#2d2d2d] pt-6">
-                                <div className="min-h-[20px]">
+                                <div className="min-h-2">
                                     {savedSuccess && (
                                         <div className="flex items-center gap-2 text-emerald-400 text-xs"><CheckCircle size={14} /><span>All details have been updated.</span></div>
                                     )}
@@ -199,7 +199,7 @@ export default function Settings() {
                     >
                         Delete Account
                     </button>
-                </div>
+                </div> 
 
             </main>
 
