@@ -149,10 +149,10 @@ export default function Carts() {
                     <hr className="border-[#333333] mt-4 mb-5" />
 
                     <div className="overflow-x-auto mb-6">
-                        <table className="w-full text-left border-collapse">
+                        <table className="w-full text-left border-collapse table-fixed">
                             <thead>
                                 <tr className="text-gray-400 text-sm bg-[#121212] border-b border-[#333333]">
-                                    <th className="py-3 px-4 w-12 text-center">
+                                    <th className="py-3 px-4 w-[60px] text-center">
                                         {/* Checkbox เลือกทั้งหมด */}
                                         <input 
                                             type="checkbox" 
@@ -188,7 +188,7 @@ export default function Carts() {
                                             
                                             <td className="py-4 px-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-12 h-12 w-[48px] h-[48px] flex-shrink-0 rounded-lg border border-[#3a3a3a] bg-[#121212] overflow-hidden">
+                                                    <div className="w-[48px] h-[48px] min-w-[48px] min-h-[48px] flex-shrink-0 rounded-lg border border-[#3a3a3a] bg-[#121212] overflow-hidden flex items-center justify-center">
                                                         {item.imgSrc ? (
                                                             /* 🔒 2. ตัวภาพใน: ให้ขยายเต็มกรอบ 100% ของกล่องนอก และใช้ object-cover ตัดสัดส่วนภาพ */
                                                             <img 
