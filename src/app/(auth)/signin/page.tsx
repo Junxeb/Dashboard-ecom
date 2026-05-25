@@ -17,19 +17,26 @@ export default function SignInPage() {
     setIsLoading(true);
 
     try {
-      // ตรวจสอบรหัสผ่านก่อน
-      if (password !== '1234') {
-        setError('รหัสผ่านไม่ถูกต้อง');
+      // โหลดข้อมูลจาก public/data.json
+      const res = await fetch('/data.json');
+      const data = await res.json();
+      const customers = data.customer;
+
+      // ตรวจสอบ email + password
+      const user = customers.find(
+        (u: any) => u.email === email && u.password === password
+      );
+
+      if (!user) {
+        setError('Email หรือ Password ไม่ถูกต้อง');
         return;
       }
 
-      // ตรวจสอบ email
-      if (email === 'somchai@example.com') {
-        router.push('/'); // ไปหน้าแรก
-      } else if (email === 'admin@example.com') {
-        router.push('/admin'); // ไปหน้า admin
+      // ตรวจสอบ role หรือ email
+      if (user.email === 'admin@example.com') {
+        router.push('/admin');
       } else {
-        setError('Email ไม่ถูกต้อง');
+        router.push('/');
       }
     } catch (err) {
       setError('Failed to sign in. Please try again.');
