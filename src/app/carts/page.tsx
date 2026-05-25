@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { ShoppingCart, Trash2, User, CreditCard } from "lucide-react";
+import { ShoppingCart, Trash2, User, CreditCard, Plus, Minus } from "lucide-react";
 
 type ProductItem = {
     id: string;
@@ -75,6 +75,40 @@ export default function Carts() {
             })
             .catch((err) => console.error("Error fetching data:", err));
     }, [currentUserId]);
+
+    // 🛠️ ฟังก์ชันเพิ่มจำนวนสินค้าในตะกร้า
+    const handleIncrementQty = (cartId: string, productId: string) => {
+        setFlattenedItems(prevItems =>
+            prevItems.map(item => {
+                if (item.cartId === cartId && item.productId === productId) {
+                    const newQty = item.quantity + 1;
+                    return {
+                        ...item,
+                        quantity: newQty,
+                        totalItemPrice: item.price * newQty // คำนวณราคารวมของชิ้นนี้ใหม่
+                    };
+                }
+                return item;
+            })
+        );
+    };
+
+    // 🛠️ ฟังก์ชันลดจำนวนสินค้าในตะกร้า (ล็อกขั้นต่ำไว้ที่ 1 ชิ้น)
+    const handleDecrementQty = (cartId: string, productId: string) => {
+        setFlattenedItems(prevItems =>
+            prevItems.map(item => {
+                if (item.cartId === cartId && item.productId === productId && item.quantity > 1) {
+                    const newQty = item.quantity - 1;
+                    return {
+                        ...item,
+                        quantity: newQty,
+                        totalItemPrice: item.price * newQty // คำนวณราคารวมของชิ้นนี้ใหม่
+                    };
+                }
+                return item;
+            })
+        );
+    };
 
     const handleSelectItem = (itemKey: string) => {
         setSelectedItems(prev => 
@@ -152,7 +186,8 @@ export default function Carts() {
                                     </th>
                                     <th className="py-3 px-4 font-normal min-w-[220px]">สินค้า</th>
                                     <th className="py-3 px-4 font-normal text-right w-[120px]">ราคา</th>
-                                    <th className="py-3 px-4 font-normal text-center w-[100px]">จำนวน</th>
+                                    {/* ปรับความกว้างคอลัมน์จำนวนให้รองรับปุ่ม */}
+                                    <th className="py-3 px-4 font-normal text-center w-[140px]">จำนวน</th>
                                     <th className="py-3 px-4 font-normal text-right w-[140px]">ราคารวม</th>
                                     <th className="py-3 px-4 w-16 text-center"></th>
                                 </tr>
@@ -176,7 +211,6 @@ export default function Carts() {
                                             
                                             <td className="py-4 px-4">
                                                 <div className="flex items-center gap-3">
-                                                    {/* 🔒 ใช้ Inline Style บังคับขนาดกล่องนอกแบบเด็ดขาด (Brute Force) */}
                                                     <div style={{
                                                         width: '48px', height: '48px',
                                                         minWidth: '48px', minHeight: '48px',
@@ -187,7 +221,6 @@ export default function Carts() {
                                                         flexShrink: 0
                                                     }}>
                                                         {item.imgSrc ? (
-                                                            /* 🔒 ใช้ Inline Style บังคับขนาดรูปภาพด้านในให้เต็มกล่องพอดี */
                                                             <img 
                                                                 src={item.imgSrc} 
                                                                 alt={item.name} 
@@ -213,8 +246,31 @@ export default function Carts() {
                                                 ${item.price.toFixed(2)}
                                             </td>
                                             
-                                            <td className="py-4 px-4 text-center font-mono text-sm text-gray-400">
-                                                {item.quantity}
+                                            {/* 🛠️ ช่องตารางจำนวนสินค้าที่มีปุ่ม เพิ่ม-ลด */}
+                                            <td className="py-4 px-4">
+                                                <div className="flex items-center justify-center bg-[#121212] rounded-md border border-[#333333] p-0.5 max-w-[100px] mx-auto">
+                                                    {/* ปุ่มลดจำนวน */}
+                                                    <button
+                                                        onClick={() => handleDecrementQty(item.cartId, item.productId)}
+                                                        disabled={item.quantity <= 1}
+                                                        className="p-1 text-gray-400 hover:text-white hover:bg-[#262626] rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                                                    >
+                                                        <Minus size={12} />
+                                                    </button>
+
+                                                    {/* ตัวเลขแสดงจำนวนปัจจุบัน */}
+                                                    <span className="w-8 text-center text-sm font-semibold font-mono text-white select-none">
+                                                        {item.quantity}
+                                                    </span>
+
+                                                    {/* ปุ่มเพิ่มจำนวน */}
+                                                    <button
+                                                        onClick={() => handleIncrementQty(item.cartId, item.productId)}
+                                                        className="p-1 text-gray-400 hover:text-white hover:bg-[#262626] rounded transition-colors cursor-pointer"
+                                                    >
+                                                        <Plus size={12} />
+                                                    </button>
+                                                </div>
                                             </td>
                                             
                                             <td className="py-4 px-4 text-right font-mono text-sm text-[#34D399] font-semibold">
