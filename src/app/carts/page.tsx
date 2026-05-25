@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { ShoppingCart, Trash2, User, CreditCard } from "lucide-react";
-import { div } from "framer-motion/m";
 
 type ProductItem = {
     id: string;
@@ -44,10 +43,7 @@ type FlatCartItem = {
 
 export default function Carts() {
     const [flattenedItems, setFlattenedItems] = useState<FlatCartItem[]>([]);
-    
-    // 🔑 1. State สำหรับเก็บ Key ของสินค้าชิ้นที่ผู้ใช้ติ๊กเลือก (รูปแบบ: cartId-productId)
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
-    
     const currentUserId = "U789"; 
 
     useEffect(() => {
@@ -80,22 +76,18 @@ export default function Carts() {
             .catch((err) => console.error("Error fetching data:", err));
     }, [currentUserId]);
 
-    // 🛠️ 2. ฟังก์ชันจัดการเมื่อติ๊ก / เอาติ๊กออก รายบุคคล
     const handleSelectItem = (itemKey: string) => {
         setSelectedItems(prev => 
-            prev.includes(itemKey) 
-                ? prev.filter(key => key !== itemKey) // ถ้ามีอยู่แล้วให้เอาออก
-                : [...prev, itemKey]                 // ถ้ายังไม่มีให้เพิ่มเข้าไป
+            prev.includes(itemKey) ? prev.filter(key => key !== itemKey) : [...prev, itemKey]
         );
     };
 
-    // 🛠️ 3. ฟังก์ชันสำหรับปุ่มเลือกทั้งหมด (Select All) ตรงหัวตาราง
     const handleSelectAll = () => {
         if (selectedItems.length === flattenedItems.length) {
-            setSelectedItems([]); // ติ๊กออกทั้งหมด
+            setSelectedItems([]);
         } else {
             const allKeys = flattenedItems.map(item => `${item.cartId}-${item.productId}`);
-            setSelectedItems(allKeys); // ติ๊กเลือกทั้งหมด
+            setSelectedItems(allKeys);
         }
     };
 
@@ -106,13 +98,11 @@ export default function Carts() {
             setFlattenedItems(prevItems => 
                 prevItems.filter(item => !(item.cartId === cartId && item.productId === productId))
             );
-            // ลบออกจากสถานะที่เลือกด้วย ถ้าสินค้าชิ้นนั้นโดนลบ
             setSelectedItems(prev => prev.filter(key => key !== itemKey));
             alert("ลบสินค้าเรียบร้อยแล้ว");
         }
     };
 
-    // 💰 4. คำนวณเงินรวมเฉพาะชิ้นที่ "โดนติ๊กเลือก" เท่านั้น!
     const grandTotal = flattenedItems.reduce((sum, item) => {
         const itemKey = `${item.cartId}-${item.productId}`;
         if (selectedItems.includes(itemKey)) {
@@ -149,11 +139,10 @@ export default function Carts() {
                     <hr className="border-[#333333] mt-4 mb-5" />
 
                     <div className="overflow-x-auto mb-6">
-                        <table className="w-full text-left border-collapse table-fixed">
+                        <table className="w-full text-left border-collapse table-auto">
                             <thead>
                                 <tr className="text-gray-400 text-sm bg-[#121212] border-b border-[#333333]">
                                     <th className="py-3 px-4 w-[60px] text-center">
-                                        {/* Checkbox เลือกทั้งหมด */}
                                         <input 
                                             type="checkbox" 
                                             checked={flattenedItems.length > 0 && selectedItems.length === flattenedItems.length}
@@ -161,10 +150,10 @@ export default function Carts() {
                                             className="rounded bg-[#2a2a2a] border-[#444444] text-emerald-500 focus:ring-0 cursor-pointer" 
                                         />
                                     </th>
-                                    <th className="py-3 px-4 font-normal">สินค้า</th>
-                                    <th className="py-3 px-4 font-normal text-right">ราคา</th>
-                                    <th className="py-3 px-4 font-normal text-center">จำนวน</th>
-                                    <th className="py-3 px-4 font-normal text-right">ราคารวม</th>
+                                    <th className="py-3 px-4 font-normal min-w-[220px]">สินค้า</th>
+                                    <th className="py-3 px-4 font-normal text-right w-[120px]">ราคา</th>
+                                    <th className="py-3 px-4 font-normal text-center w-[100px]">จำนวน</th>
+                                    <th className="py-3 px-4 font-normal text-right w-[140px]">ราคารวม</th>
                                     <th className="py-3 px-4 w-16 text-center"></th>
                                 </tr>
                             </thead>
@@ -177,7 +166,6 @@ export default function Carts() {
                                     return (
                                         <tr key={`${itemKey}-${index}`} className="hover:bg-[#1a1a1a] transition-colors text-gray-200">
                                             <td className="py-4 px-4 text-center">
-                                                {/* Checkbox รายชิ้นที่ผูกสถานะและฟังก์ชันคลิก */}
                                                 <input 
                                                     type="checkbox" 
                                                     checked={isSelected}
@@ -188,25 +176,34 @@ export default function Carts() {
                                             
                                             <td className="py-4 px-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-[48px] h-[48px] min-w-[48px] min-h-[48px] flex-shrink-0 rounded-lg border border-[#3a3a3a] bg-[#121212] overflow-hidden flex items-center justify-center">
+                                                    {/* 🔒 ใช้ Inline Style บังคับขนาดกล่องนอกแบบเด็ดขาด (Brute Force) */}
+                                                    <div style={{
+                                                        width: '48px', height: '48px',
+                                                        minWidth: '48px', minHeight: '48px',
+                                                        maxWidth: '48px', maxHeight: '48px',
+                                                        overflow: 'hidden', borderRadius: '8px',
+                                                        border: '1px solid #3a3a3a', backgroundColor: '#121212',
+                                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                        flexShrink: 0
+                                                    }}>
                                                         {item.imgSrc ? (
-                                                            /* 🔒 2. ตัวภาพใน: ให้ขยายเต็มกรอบ 100% ของกล่องนอก และใช้ object-cover ตัดสัดส่วนภาพ */
+                                                            /* 🔒 ใช้ Inline Style บังคับขนาดรูปภาพด้านในให้เต็มกล่องพอดี */
                                                             <img 
                                                                 src={item.imgSrc} 
                                                                 alt={item.name} 
-                                                                className="w-full h-full object-cover" 
-                                                                width={48}
-                                                                height={48}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    height: '100%',
+                                                                    objectFit: 'cover'
+                                                                }}
                                                             />
                                                         ) : (
-                                                                <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-500">
-                                                                    No img
-                                                                </div>
-                                                            )}
+                                                            <div className="text-[10px] text-gray-500">No img</div>
+                                                        )}
                                                     </div>
                                                     
-                                                    <div>
-                                                        <p className="font-medium text-sm text-gray-200">{item.name}</p>
+                                                    <div className="overflow-hidden">
+                                                        <p className="font-medium text-sm text-gray-200 truncate">{item.name}</p>
                                                         <p className="text-[11px] text-gray-500 font-mono mt-0.5">{item.cartId} • {item.date}</p>
                                                     </div>
                                                 </div>
@@ -243,7 +240,6 @@ export default function Carts() {
                         )}
                     </div>
 
-                    {/* แถบสรุปยอดเงินและปุ่มกดจ่ายเงิน */}
                     <div className="border-t border-[#333333] pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                         <div className="text-sm text-gray-400 font-mono">
                             Selected: {selectedItems.length} / {flattenedItems.length} items
@@ -252,13 +248,11 @@ export default function Carts() {
                         <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto justify-end">
                             <div className="text-center sm:text-right flex sm:block items-center gap-3">
                                 <span className="text-xs text-gray-400 uppercase tracking-wider block">TOTAL SPENT:</span>
-                                {/* แสดงยอดตามจริง ถ้าไม่มีการติ๊กเลย จะขึ้นเป็น $0.00 */}
                                 <span className="text-2xl font-bold text-emerald-400 font-mono">${grandTotal.toFixed(2)}</span>
                             </div>
                             
                             <button 
                                 onClick={handleCheckout}
-                                // ถ้ายังไม่ติ๊กเลือกสินค้า ปุ่มจะจางลงเล็กน้อย (opacity-50) เพื่อบอกว่ายังกดไม่ได้
                                 className={`w-full sm:w-auto flex items-center justify-center gap-2 font-semibold py-3 px-6 rounded-lg transition-all duration-150 shadow-md 
                                     ${selectedItems.length === 0 
                                         ? "bg-emerald-800/40 text-gray-400 cursor-not-allowed opacity-60" 
