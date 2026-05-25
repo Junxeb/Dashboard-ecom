@@ -17,26 +17,24 @@ export default function SignInPage() {
     setIsLoading(true);
 
     try {
-      // โหลดข้อมูลจาก public/data.json
-      const res = await fetch('/data.json');
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'signin', email, password }),
+      });
+
       const data = await res.json();
-      const customers = data.customer;
+      if (res.ok) {
+        // ✅ เก็บชื่อ user ลง localStorage
+        localStorage.setItem('userName', data.user.name);
 
-      // ตรวจสอบ email + password
-      const user = customers.find(
-        (u: any) => u.email === email && u.password === password
-      );
-
-      if (!user) {
-        setError('Email หรือ Password ไม่ถูกต้อง');
-        return;
-      }
-
-      // ตรวจสอบ role หรือ email
-      if (user.email === 'admin@example.com') {
-        router.push('/admin');
+        if (data.user.email === 'admin@example.com') {
+          router.push('/admin');
+        } else {
+          router.push('/');
+        }
       } else {
-        router.push('/');
+        setError(data.error || 'Email หรือ Password ไม่ถูกต้อง');
       }
     } catch (err) {
       setError('Failed to sign in. Please try again.');

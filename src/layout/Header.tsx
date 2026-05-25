@@ -3,14 +3,23 @@
 import Image from 'next/image'
 import { Bell, LayoutDashboard, Search } from 'lucide-react'
 import { usePathname } from "next/navigation";
-
-
+import { useEffect, useState } from "react";
 
 const Header = () => {
-  
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
-  const userName = isAdminRoute ? "Admin" : "Somchai P";
+
+  const [userName, setUserName] = useState<string>("Guest");
+
+  useEffect(() => {
+    // ใช้ queueMicrotask หรือ setTimeout เพื่อเลี่ยงการ setState ทันที
+    const storedName = localStorage.getItem("userName");
+    if (storedName) {
+      // ทำให้ React รู้ว่าเป็น async update
+      setTimeout(() => setUserName(storedName), 0);
+    }
+  }, []);
+
   const userAvatar = isAdminRoute ? "/admin.jpg" : "/user-avatar.png";
 
   return (
@@ -25,7 +34,6 @@ const Header = () => {
           <h1 className="text-base sm:text-lg lg:text-xl font-bold text-white truncate">CARTLY</h1>
         </div>
         
-
         {/* Right - Search + Profile */}
         <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
 
@@ -55,7 +63,7 @@ const Header = () => {
               className="rounded-full border-2 border-gray-400 group-hover:border-[#0066cc] transition-colors"
             />
             <span className="hidden sm:block text-sm text-gray-100 font-medium group-hover:text-white transition-colors whitespace-nowrap">
-              <>{userName}</>
+              {userName}
             </span>
           </div>
 

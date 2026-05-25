@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,7 +29,7 @@ export default function SignUp() {
     setError('');
     setIsLoading(true);
 
-    // Validate passwords match
+    // ตรวจสอบ password ตรงกัน
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       setIsLoading(false);
@@ -35,14 +37,25 @@ export default function SignUp() {
     }
 
     try {
-      // Add your sign up logic here
-      console.log('Sign up with:', {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'signup',
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
       });
-      // TODO: Implement actual registration
-      setSuccess(true);
+
+      const data = await res.json();
+      if (res.ok) {
+        setSuccess(true);
+        // สมัครเสร็จ → redirect ไปหน้า SignIn
+        setTimeout(() => router.push('/signin'), 1500);
+      } else {
+        setError(data.error || 'Failed to create account');
+      }
     } catch (err) {
       setError('Failed to create account. Please try again.');
     } finally {
