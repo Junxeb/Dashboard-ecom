@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { Package, CheckCircle, Truck, Clock, XCircle, Calendar, CreditCard, Wallet, ArrowRight, User } from "lucide-react";
+import { Package, CheckCircle, Truck, Clock, XCircle, Wallet, User, RotateCcw, ThumbsUp, MapPin, Ban } from "lucide-react";
 
 // --- Types ---
 type OrderItem = {
@@ -47,6 +47,17 @@ export default function MyOrders() {
         .catch((err) => console.error("Error loading orders:", err));
     }, []);
 
+    // 🛠️ ฟังก์ชันม็อกอัปสำหรับเปลี่ยนสถานะเป็น Cancelled ทันทีบน UI
+    const handleCancelOrder = (orderId: string) => {
+        if (confirm(`คุณต้องการยกเลิกคำสั่งซื้อ #${orderId} ใช่หรือไม่?`)) {
+            setOrders(prevOrders => 
+                prevOrders.map(order => 
+                    order.orderId === orderId ? { ...order, status: "Cancelled" } : order
+                )
+            );
+        }
+    };
+
     // ฟังก์ชันดึงรูปภาพสินค้า
     const getImg = (pid: string) => {
         const found = products.find(p => p.id === pid);
@@ -85,91 +96,138 @@ export default function MyOrders() {
                             <span>History for: <strong className="text-white">{currentUserId}</strong></span>
                         </div>
                     </div>
-                <hr className="border-[#333333] mt-4 mb-5" />
+                    <hr className="border-[#333333] mt-4 mb-5" />
 
-                {/* Orders List */}
-                <div className="space-y-4">
-                    {orders.length > 0 ? (
-                        orders.map((order) => {
-                            const statusUI = getStatusDisplay(order.status);
-                            return (
-                                <div 
-                                    key={order.orderId} 
-                                    className="bg-[#121212] rounded-xl border border-[#2d2d2d] overflow-hidden hover:border-[#3d3d3d] transition-all"
-                                >
+                    {/* Orders List */}
+                    <div className="space-y-4">
+                        {orders.length > 0 ? (
+                            orders.map((order) => {
+                                const statusUI = getStatusDisplay(order.status);
+                                return (
+                                    <div 
+                                        key={order.orderId} 
+                                        className="bg-[#121212] rounded-xl border border-[#2d2d2d] overflow-hidden hover:border-[#3d3d3d] transition-all"
+                                    >
 
-                                {/* Top Bar: Order Info & Status */}
-                                <div className="bg-[#181818]/50 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-[#2d2d2d]">
-                                    <div className="flex items-center gap-4">
-                                        <div>
-                                            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Order ID</p>
-                                            <p className="text-sm font-mono text-blue-400 font-semibold">{order.orderId}</p>
-                                        </div>
-
-                                    <div className="h-8 w-[1px] bg-[#333]"></div>
-                                        <div>
-                                            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Date</p>
-                                            <p className="text-sm text-gray-300">{order.date}</p>
-                                        </div>
-                                    </div>
-                    
-                                    <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium ${statusUI.color}`}>
-                                        {statusUI.icon}
-                                        {order.status}
-                                    </div>
-                                </div>
-
-                                {/* Content: Items in Order */}
-                                <div className="p-6">
-                                    <div className="divide-y divide-[#2d2d2d]">
-                                        {order.items.map((item, idx) => (
-                                            <div key={idx} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between">
-                                                <div className="flex items-center gap-4">
-                                                    <img 
-                                                        src={getImg(item.productId)} 
-                                                        alt={item.name} 
-                                                        className="w-16 h-16 object-cover rounded-lg border border-[#333] bg-[#1a1a1a]"
-                                                    />
-
-                                                    <div>
-                                                        <h5 className="text-sm font-medium text-gray-100">{item.name}</h5>
-                                                        <p className="text-xs text-gray-500 mt-1">
-                                                            Qty: <span className="text-gray-300">{item.quantity}</span> × ${item.price.toFixed(2)}
-                                                        </p>
-                                                    </div>
+                                        {/* Top Bar: Order Info & Status */}
+                                        <div className="bg-[#181818]/50 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-[#2d2d2d]">
+                                            <div className="flex items-center gap-4">
+                                                <div>
+                                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Order ID</p>
+                                                    <p className="text-sm font-mono text-blue-400 font-semibold">{order.orderId}</p>
                                                 </div>
 
-                                                <div className="text-sm font-mono text-gray-300">
-                                                    ${(item.quantity * item.price).toFixed(2)}
+                                                <div className="h-8 w-[1px] bg-[#333]"></div>
+                                                <div>
+                                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Date</p>
+                                                    <p className="text-sm text-gray-300">{order.date}</p>
                                                 </div>
                                             </div>
-                                        ))}
-                                </div>
-                            </div>
+                                
+                                            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium ${statusUI.color}`}>
+                                                {statusUI.icon}
+                                                {order.status}
+                                            </div>
+                                        </div>
 
-                            {/* Bottom Bar: Payment & Total */}
-                            <div className="px-6 py-4 bg-[#252525]/30 border-t border-[#2d2d2d] flex flex-col sm:flex-row justify-between items-center gap-4">
-                                <div className="flex items-center gap-2 text-xs text-gray-400">
-                                    <Wallet size={14} className="text-gray-500" />
-                                    Paid via: <span className="text-gray-200">{order.paymentMethod}</span>
-                                </div>
+                                        {/* Content: Items in Order */}
+                                        <div className="p-6">
+                                            <div className="divide-y divide-[#2d2d2d]">
+                                                {order.items.map((item, idx) => (
+                                                    <div key={idx} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between">
+                                                        <div className="flex items-center gap-4">
+                                                            <img 
+                                                                src={getImg(item.productId)} 
+                                                                alt={item.name} 
+                                                                className="w-16 h-16 object-cover rounded-lg border border-[#333] bg-[#1a1a1a]"
+                                                            />
 
-                                <div className="flex items-center gap-4">
-                                    <span className="text-xs text-gray-500 uppercase font-bold tracking-tighter">Total Amount</span>
-                                    <span className="text-xl font-bold text-emerald-400 font-mono">
-                                        ${order.totalPrice.toFixed(2)}
-                                    </span>
-                                </div>
+                                                            <div>
+                                                                <h5 className="text-sm font-medium text-gray-100">{item.name}</h5>
+                                                                <p className="text-xs text-gray-500 mt-1">
+                                                                    Qty: <span className="text-gray-300">{item.quantity}</span> × ${item.price.toFixed(2)}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="text-sm font-mono text-gray-300">
+                                                            ${(item.quantity * item.price).toFixed(2)}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Bottom Bar: Payment, Total & Actions */}
+                                        <div className="px-6 py-4 bg-[#252525]/30 border-t border-[#2d2d2d] flex flex-col md:flex-row justify-between items-center gap-4">
+                                            <div className="flex flex-wrap items-center gap-6 w-full md:w-auto justify-between md:justify-start">
+                                                <div className="flex items-center gap-2 text-xs text-gray-400">
+                                                    <Wallet size={14} className="text-gray-500" />
+                                                    Paid via: <span className="text-gray-200">{order.paymentMethod}</span>
+                                                </div>
+
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-xs text-gray-500 uppercase font-bold tracking-tighter">Total Amount</span>
+                                                    <span className="text-xl font-bold text-emerald-400 font-mono">
+                                                        ${order.totalPrice.toFixed(2)}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {/* 🛠️ ส่วนปุ่มควบคุมตามเงื่อนไขสถานะ (Action Buttons) */}
+                                            <div className="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
+                                                {order.status === "Completed" && (
+                                                    <>
+                                                        <button 
+                                                            onClick={() => alert(`แจ้งคืนสินค้าสำหรับออเดอร์ #${order.orderId} แล้ว`)}
+                                                            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg text-gray-400 hover:text-white bg-[#1e1e1e] border border-[#333333] hover:border-gray-500 transition-colors cursor-pointer"
+                                                        >
+                                                            <RotateCcw size={14} />
+                                                            คืนเงิน/คืนสินค้า
+                                                        </button>
+                                                        <button 
+                                                            onClick={() => alert(`ขอบคุณที่ยืนยันการรับสินค้า #${order.orderId}`)}
+                                                            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg text-white bg-[#4DB6AC] hover:bg-[#3ca298] transition-colors cursor-pointer"
+                                                        >
+                                                            <ThumbsUp size={14} />
+                                                            ได้รับสินค้าแล้ว
+                                                        </button>
+                                                    </>
+                                                )}
+
+                                                {order.status === "Shipped" && (
+                                                    <button 
+                                                        onClick={() => alert(`กำลังเปิดระบบติดตามพัสดุสำหรับออเดอร์ #${order.orderId}`)}
+                                                        className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg text-white bg-[#38BDF8] hover:bg-[#0284c7] transition-colors cursor-pointer"
+                                                    >
+                                                        <MapPin size={14} />
+                                                        ติดตามคำสั่งซื้อ
+                                                    </button>
+                                                )}
+
+                                                {order.status === "Processing" && (
+                                                    <button 
+                                                        onClick={() => handleCancelOrder(order.orderId)}
+                                                        className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg text-white bg-[#EF4444] hover:bg-[#dc2626] transition-colors cursor-pointer"
+                                                    >
+                                                        <Ban size={14} />
+                                                        ยกเลิกคำสั่งซื้อ
+                                                    </button>
+                                                )}
+
+                                                {/* สถานะ Cancelled จะไม่มีการแสดงผลปุ่มใดๆ ตามเงื่อนไข */}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <div className="bg-[#1e1e1e] p-20 rounded-xl border border-[#2d2d2d] flex flex-col items-center justify-center text-gray-500">
+                                <Package size={48} className="mb-4 opacity-20" />
+                                <p>No orders found for this user.</p>
                             </div>
-                        </div>
-                    );
-                })
-                ) : (
-                        <div className="bg-[#1e1e1e] p-20 rounded-xl border border-[#2d2d2d] flex flex-col items-center justify-center text-gray-500">
-                            <Package size={48} className="mb-4 opacity-20" />
-                            <p>No orders found for this user.</p>
-                        </div>
-                    )}
+                        )}
                     </div>
                 </div>
             </main>
