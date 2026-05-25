@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ShoppingCart, Trash2, User, CreditCard } from "lucide-react";
+import { div } from "framer-motion/m";
 
 type ProductItem = {
     id: string;
@@ -187,18 +188,19 @@ export default function Carts() {
                                             
                                             <td className="py-4 px-4">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-12 h-12 flex-shrink-0 rounded-lg border border-[#3a3a3a] bg-[#121212] overflow-hidden flex items-center justify-center">
+                                                    <div className="w-12 h-12 w-[48px] h-[48px] flex-shrink-0 rounded-lg border border-[#3a3a3a] bg-[#121212] overflow-hidden">
                                                         {item.imgSrc ? (
-                                                        <img 
-                                                            src={item.imgSrc} 
-                                                            alt={item.name} 
-                                                            className="w-12 h-12 object-cover rounded border border-[#3a3a3a] bg-[#121212]" 
-                                                        />
-                                                    ) : (
-                                                        <div className="w-12 h-12 rounded border border-[#3a3a3a] bg-[#2a2a2a] flex items-center justify-center text-xs text-gray-500">
-                                                            No img
-                                                        </div>
-                                                    )}
+                                                            /* 🔒 2. ตัวภาพใน: ให้ขยายเต็มกรอบ 100% ของกล่องนอก และใช้ object-cover ตัดสัดส่วนภาพ */
+                                                            <img 
+                                                                src={item.imgSrc} 
+                                                                alt={item.name} 
+                                                                className="w-full h-full object-cover" 
+                                                            />
+                                                        ) : (
+                                                                <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-500">
+                                                                    No img
+                                                                </div>
+                                                            )}
                                                     </div>
                                                     
                                                     <div>
