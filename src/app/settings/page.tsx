@@ -107,15 +107,15 @@ export default function Settings() {
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-medium text-gray-400 flex items-center gap-2"><Users size={14} /> Gender</label>
-                                        <select value={profile?.gender} onChange={(e) => setProfile({...profile!, gender: e.target.value})} className="w-full px-4 py-2 bg-[#121212] border border-[#2d2d2d] text-white text-sm rounded-lg focus:border-[#01579b] outline-none transition-all cursor-pointer">
+                                        <select value={profile?.gender} onChange={(e) => setProfile({...profile!, gender: e.target.value})} className="w-full px-4 py-2 bg-[#121212] border  border-[#2d2d2d] text-white text-sm rounded-lg focus:border-[#01579b] outline-none transition-all cursor-pointer">
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other / Not Specified</option>
                                         </select>
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-xs font-medium text-gray-400 flex items-center gap-2"><Calendar size={14} /> Birthday</label>
-                                        <input type="date" value={profile?.birthday} onChange={(e) => setProfile({...profile!, birthday: e.target.value})} className="w-full px-4 py-2 bg-[#121212] border border-[#2d2d2d] text-white text-sm rounded-lg focus:border-[#01579b] outline-none transition-all" />
+                                        <label className="text-xs font-medium text-gray-400 flex items-center gap-2"><Calendar size={14}  /> Birthday</label>
+                                        <input type="date" value={profile?.birthday} onChange={(e) => setProfile({...profile!, birthday: e.target.value})} className="w-full px-4 py-2 bg-[#121212] border border-[#2d2d2d] text-white text-sm rounded-lg focus:border-[#01579b] outline-none transition-all [color-scheme:light] [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-medium text-gray-400 flex items-center gap-2"><Shield size={14} /> Role Status</label>
