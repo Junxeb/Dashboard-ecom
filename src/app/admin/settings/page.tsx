@@ -1,4 +1,4 @@
-"use client"
+ "use client"
 
 import React, { useState } from "react"
 
@@ -7,6 +7,8 @@ export default function Settings() {
     const [email, setEmail] = useState("demo@apexdashboard.com")
     const [phone, setPhone] = useState("")
     const [timezone, setTimezone] = useState("UTC")
+    const [address, setAddress] = useState("")
+
     const [bio, setBio] = useState(
         "Building admin dashboards with React, Tailwind and simple components."
     )
@@ -77,13 +79,17 @@ export default function Settings() {
                                         <input id="phone" title="Phone" placeholder="(555) 123-4567" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-[#141414] border border-[#3a3a3a] rounded-md px-3 py-2 text-sm text-gray-100" />
                                     </div>
                                     <div>
-                                        <label htmlFor="timezone" className="text-sm text-gray-300 block mb-1">Timezone</label>
-                                        <select id="timezone" title="Timezone" value={timezone} onChange={(e) => setTimezone(e.target.value)} className="w-full bg-[#141414] border border-[#3a3a3a] rounded-md px-3 py-2 text-sm text-gray-100">
-                                            <option>UTC</option>
-                                            <option>Asia/Bangkok</option>
-                                            <option>America/New_York</option>
-                                        </select>
+                                        <label htmlFor="address" className="text-sm text-gray-300 block mb-1">Address</label>
+                                        <input
+                                            id="address"
+                                            title="Address"
+                                            placeholder="123 Main St, City"
+                                            value={address}
+                                            onChange={(e) => setAddress(e.target.value)}
+                                            className="w-full bg-[#141414] border border-[#3a3a3a] rounded-md px-3 py-2 text-sm text-gray-100"
+                                        />
                                     </div>
+
                                 </div>
 
                                 <div className="mt-4">
