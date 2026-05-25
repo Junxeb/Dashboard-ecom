@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Bell, CheckCircle, ShoppingBag, Package, Loader2, XCircle } from "lucide-react";
+import { Bell, CheckCircle, ShoppingBag, Package, Loader2, XCircle, LogIn } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation"; // 🚪 นำเข้า useRouter สำหรับปุ่มล็อกอิน
 
 type OrderItem = {
     productId: string;
@@ -12,6 +13,7 @@ type OrderItem = {
 };
 
 type OrderData = {
+    userId: string;
     orderId: string;
     date: string;
     status: string;
@@ -23,31 +25,90 @@ type OrderData = {
 export default function Notifications() {
     const [userOrderData, setUserOrderData] = useState<OrderData[]>([]);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
-    // ดึงข้อมูลออเดอร์จาก data.json เหมือนหน้าแรก
+    // 🔐 ตัวแปรเช็คสถานะล็อกอิน (ถ้ายังไม่ได้ล็อกอินให้เซ็ตเป็น null หรือ "")
+    const currentUserId = "U789"; 
+
+    // ดึงข้อมูลออเดอร์จาก data.json และกรองตาม userId ที่ล็อกอินอยู่
     useEffect(() => {
+        // 🚪 ถ้าไม่ได้ล็อกอิน ไม่ต้องดึงข้อมูลคำสั่งซื้อ
+        if (!currentUserId) {
+            setUserOrderData([]); // ล้างข้อมูลเก่าออกเมื่อไม่ได้ล็อกอิน
+            setLoading(false);
+            return;
+        }
+
+        setLoading(true); // ตั้งค่าโหลดเริ่มต้นใหม่ทุกครั้งที่ userId เปลี่ยนแปลง
+
         fetch("/data.json")
         .then((res) => res.json())
         .then((data) => {
-            setUserOrderData(data.userOrders || []);
+            // 🔍 กรองข้อมูล: เลือกเฉพาะก้อนออเดอร์ที่มี order.userId ตรงกับ currentUserId ปัจจุบัน
+            const allOrders: OrderData[] = data.userOrders || [];
+            const filteredOrders = allOrders.filter(
+                (order) => order.userId === currentUserId
+            );
+
+            // นำข้อมูลที่กรองเสร็จแล้วไปจัดเก็บลงใน State เพื่อนำไป Render
+            setUserOrderData(filteredOrders);
             setLoading(false);
         })
         .catch((err) => {
             console.error("Error fetching data:", err);
             setLoading(false);
         });
-    }, []);
+    }, [currentUserId]); // 🔄 ทำงานใหม่ทันทีเมื่อ currentUserId มีการเปลี่ยนแปลงค่า
 
     // ฟังก์ชันดึงสีตามสถานะออเดอร์ (ล้อตามฟังก์ชันหน้าหลัก)
     const getStatusColor = (status: string) => {
         switch (status) {
-            case "Completed": return "bg-[#4DB6AC]";
-            case "Shipped": return "bg-[#38BDF8]";
-            case "Processing": return "bg-[#EAB300]";
+                        case "Completed": return "bg-[#4DB6AC]";
+                        case "Shipped": return "bg-[#38BDF8]";
+                        case "Processing": return "bg-[#EAB300]";
             default: return "bg-[#E57373]";
         }
     };
 
+    if (!currentUserId) {
+        return (
+            <div className="flex-1 overflow-auto relative z-10 bg-[#121212] min-h-screen text-white">
+                <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+                
+                    {/* แผ่น Card หลักที่มีสัดส่วนเท่ากับหน้าอื่นๆ */}
+                    <div className="bg-[#1e1e1e] p-6 rounded-xl border border-[#2d2d2d] shadow-xl">
+                    
+                        {/* ส่วนหัวข้อเมนูหลัก */}
+                        <div>
+                            <h4 className="text-white text-xl font-semibold flex items-center">
+                                <Bell className="inline mr-3 text-[#38BDF8]" size={26} />
+                                My Notifications
+                            </h4>
+                            <p className="text-sm text-[#686868] mt-1">
+                                โปรดเข้าสู่ระบบเพื่อตรวจสอบการแจ้งเตือนของคุณ
+                            </p>
+                        </div>
+
+                        <hr className="border-[#333333] mt-4 mb-6" />
+
+                        {/* 📦 กล่องพื้นที่ตรงกลาง (Empty State พื้นหลังโปร่งใสตามรูปตัวอย่าง) */}
+                        <div className="flex flex-col items-center justify-center py-20 border border-[#2a2a2a]/40 rounded-xl bg-[#161616]/30 space-y-4">
+                        
+                            {/* ไอคอนกระดิ่งจางๆ สไตล์มินิมอล */}
+                            <Bell className="w-16 h-16 text-gray-600 opacity-30 animate-pulse" />
+                        
+                            {/* ข้อความแจ้งเตือน */}
+                            <div className="text-center space-y-1">
+                                <p className="text-base font-medium text-gray-400">No notifications found for this user.</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        );
+    }
+
+    // 📊 ส่วนแสดงผลหน้ารายการ Notification เดิมทั้งหมดสำหรับคนที่ล็อกอินแล้ว
     return (
         <div className="flex-1 overflow-auto relative z-10 bg-[#121212] min-h-screen text-white">
             <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8 space-y-6">
@@ -145,7 +206,7 @@ export default function Notifications() {
                                 <p className="text-sm">No notifications to display</p>
                             </div>
                         )}
-                    </div>
+                </div>
 
                 </div>
             </main>

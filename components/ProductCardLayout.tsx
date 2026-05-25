@@ -6,14 +6,16 @@ import { ShoppingCart, Plus, Minus } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 type ProductCardLayoutProps = {
+    id?: string;        // 🆕 เพิ่ม id ของสินค้าเข้ามาเพื่อใช้คู่กับ userId ตอนส่งข้อมูล
     src: string;       // path ของรูป
     alt?: string;      // คำอธิบายรูป
     name: string;
     detail: string;
     price?: number;      
+    currentUserId: string | null; // 🟢 เปลี่ยนมารับ currentUserId แทน boolean แล้ว
 };
 
-function ProductCardLayout({ src, alt, name, detail, price }: ProductCardLayoutProps) {
+function ProductCardLayout({ id, src, alt, name, detail, price, currentUserId }: ProductCardLayoutProps) {
     // 1. เพิ่ม state สำหรับเก็บจำนวนสินค้าที่ต้องการสั่งซื้อ (เริ่มที่ 1)
     const [quantity, setQuantity] = useState<number>(1);
 
@@ -25,6 +27,18 @@ function ProductCardLayout({ src, alt, name, detail, price }: ProductCardLayoutP
     // ฟังก์ชันลดจำนวน (ป้องกันไม่ให้ต่ำกว่า 1)
     const handleDecrement = () => {
         setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+    };
+
+    // 🛠️ 2. เช็กสิทธิ์การกดลงตะกร้าด้วย currentUserId
+    const handleAddToCart = () => {
+        // ถ้าระบบไม่มีไอดีผู้ใช้ส่งเข้ามา (เป็น null หรือไม่มีค่า) ให้ดักฟังก์ชันและเตือนทันที
+        if (!currentUserId) {
+            alert("🔒 กรุณาเข้าสู่ระบบเพื่อใช้งานตะกร้าสินค้าของคุณ");
+            return;
+        }
+
+        // 🟢 กรณีเข้าสู่ระบบแล้ว: สามารถส่งข้อมูลเซ็ตนี้ไปใช้งานต่อที่ Context หรือยิงหลังบ้านได้เลย
+        alert(`User [ID: ${currentUserId}] added ${quantity} x ${name} (Product ID: ${id ?? "N/A"}) to cart!`);
     };
 
     return (
@@ -49,7 +63,7 @@ function ProductCardLayout({ src, alt, name, detail, price }: ProductCardLayoutP
                     </p>
                 </div>
 
-                {/* 🛠️ เพิ่มแถวเลือกจำนวนสินค้า ตรงนี้ */}
+                {/* แถวเลือกจำนวนสินค้า */}
                 <div className='flex items-center justify-between border-t border-[#2d2d2d] pt-3'>
                     <span className='text-xs text-gray-400'>Quantity</span>
                     <div className='flex items-center bg-[#1e1e1e] rounded-md border border-[#333333] p-0.5'>
@@ -87,8 +101,9 @@ function ProductCardLayout({ src, alt, name, detail, price }: ProductCardLayoutP
                         </p>
                     </div>
                     
+                    {/* 🛒 3. เปลี่ยนไปเรียกฟังก์ชัน handleAddToCart เพื่อตรวจสอบสิทธิ์ currentUserId */}
                     <button 
-                        onClick={() => alert(`Added ${quantity} x ${name} to cart!`)} // ค่อยไปผูกฟังก์ชันจริงทีหลังครับ
+                        onClick={handleAddToCart}
                         className='ring-1 ring-transparent shadow rounded-lg px-3 py-2 text-sm cursor-pointer text-white bg-[#01579b] hover:bg-[#0277bd] active:scale-95 transition-all duration-200 inline-flex items-center gap-2 whitespace-nowrap flex-shrink-0 font-medium'
                     >
                         <ShoppingCart size={16} />

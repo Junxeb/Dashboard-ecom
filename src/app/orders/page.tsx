@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { Package, CheckCircle, Truck, Clock, XCircle, Wallet, User, RotateCcw, ThumbsUp, MapPin, Ban } from "lucide-react";
+import { Package, CheckCircle, Truck, Clock, XCircle, Wallet, User, Ban, LogIn, CreditCard } from "lucide-react";
 
 // --- Types ---
 type OrderItem = {
@@ -18,7 +18,7 @@ type UserOrder = {
     date: string;
     items: OrderItem[];
     totalPrice: number;
-    status: "Completed" | "Shipped" | "Processing" | "Cancelled";
+    status: "Completed" | "Shipped" | "Processing" | "Cancelled" | "Paid"; 
     paymentMethod: string;
 };
 
@@ -30,24 +30,26 @@ type ProductItem = {
 export default function MyOrders() {
     const [orders, setOrders] = useState<UserOrder[]>([]);
     const [products, setProducts] = useState<ProductItem[]>([]);
-    const currentUserId = "U789";
+    
+    // 🔐 จำลองสถานะการ Log In (ลองเปลี่ยนเป็น null เพื่อทดสอบหน้า "ยังไม่ได้ล็อกอิน")
+    const currentUserId: string | null = "U789"; 
 
     useEffect(() => {
+        if (!currentUserId) return;
+
         fetch("/data.json")
         .then((res) => res.json())
         .then((data) => {
-            // กรองเฉพาะ Order ของ User U789
             const myOrders = data.userOrders.filter((o: any) => o.userId === currentUserId);
             setOrders(myOrders);
         
-            // เก็บข้อมูลสินค้าไว้ดึงรูปภาพ
             const productList = data.salesData.filter((s: any) => s.type === "product");
             setProducts(productList);
         })
         .catch((err) => console.error("Error loading orders:", err));
-    }, []);
+    }, [currentUserId]);
 
-    // 🛠️ ฟังก์ชันม็อกอัปสำหรับเปลี่ยนสถานะเป็น Cancelled ทันทีบน UI
+    // 🛠️ ฟังก์ชันยกเลิกคำสั่งซื้อ
     const handleCancelOrder = (orderId: string) => {
         if (confirm(`คุณต้องการยกเลิกคำสั่งซื้อ #${orderId} ใช่หรือไม่?`)) {
             setOrders(prevOrders => 
@@ -58,7 +60,6 @@ export default function MyOrders() {
         }
     };
 
-    // ฟังก์ชันดึงรูปภาพสินค้า
     const getImg = (pid: string) => {
         const found = products.find(p => p.id === pid);
         return found?.src || "";
@@ -67,12 +68,15 @@ export default function MyOrders() {
     // ฟังก์ชันจัดการสีและไอคอนตาม Status
     const getStatusDisplay = (status: UserOrder["status"]) => {
         switch (status) {
-            case "Completed":
-                return { color: "text-[#4DB6AC] bg-[#4DB6AC]/10 border-[#4DB6AC]/20", icon: <CheckCircle size={14} /> };
-            case "Shipped":
-                return { color: "text-[#38BDF8] bg-[#38BDF8]/10 border-[#38BDF8]/20", icon: <Truck size={14} /> };
+            // 🆕 เพิ่มการตกแต่งของสถานะ "Paid" (จ่ายเงินแล้ว) เป็นโทนสีเขียวมรกตดูสบายตา
+            case "Paid":
+                return { color: "text-[#7986CB] bg-[#7986CB]/10 border-[#7986CB]/20", icon: <CreditCard size={14} /> };
             case "Processing":
                 return { color: "text-[#FFC107] bg-[#FFC107]/10 border-[#FFC107]/20", icon: <Clock size={14} /> };
+            case "Completed":
+                return { color: "text-[#34D399] bg-[#34D399]/10 border-[#34D399]/20", icon: <CheckCircle size={14} /> };
+            case "Shipped":
+                return { color: "text-[#38BDF8] bg-[#38BDF8]/10 border-[#38BDF8]/20", icon: <Truck size={14} /> };
             case "Cancelled":
                 return { color: "text-[#EF4444] bg-[#EF4444]/10 border-[#EF4444]/20", icon: <XCircle size={14} /> };
             default:
@@ -80,6 +84,45 @@ export default function MyOrders() {
         }
     };
 
+    if (!currentUserId) {
+        return (
+            <div className="flex-1 overflow-auto relative z-10 bg-[#121212] min-h-screen text-white">
+                <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+                
+                    {/* แผ่น Card หลักที่มีสัดส่วนเท่ากับหน้าอื่นๆ */}
+                    <div className="bg-[#1e1e1e] p-6 rounded-xl border border-[#2d2d2d] shadow-xl">
+                    
+                        {/* ส่วนหัวข้อเมนูหลัก */}
+                        <div>
+                            <h4 className="text-white text-xl font-semibold flex items-center">
+                                <Package className="inline mr-3 text-[#38BDF8]" size={26} />
+                                My Orders
+                            </h4>
+                            <p className="text-sm text-[#686868] mt-1">
+                                โปรดเข้าสู่ระบบเพื่อตรวจสอบคำสั่งซื้อของคุณ
+                            </p>
+                        </div>
+
+                        <hr className="border-[#333333] mt-4 mb-6" />
+
+                        {/* 📦 กล่องพื้นที่ตรงกลาง (Empty State พื้นหลังโปร่งใสตามรูปตัวอย่าง) */}
+                        <div className="flex flex-col items-center justify-center py-20 border border-[#2a2a2a]/40 rounded-xl bg-[#161616]/30 space-y-4">
+                        
+                            {/* ไอคอนกระดิ่งจางๆ สไตล์มินิมอล */}
+                            <Package className="w-16 h-16 text-gray-600 opacity-30 animate-pulse" />
+                        
+                            {/* ข้อความแจ้งเตือน */}
+                            <div className="text-center space-y-1">
+                                <p className="text-base font-medium text-gray-400">No orders found for this user.</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        );
+    }
+
+    // 📦 2. UI หลักกรณีล็อกอินแล้ว
     return (
         <div className="flex-1 overflow-auto relative z-10 bg-[#121212] min-h-screen text-white">
             <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8 space-y-6">
@@ -126,7 +169,7 @@ export default function MyOrders() {
                                 
                                             <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium ${statusUI.color}`}>
                                                 {statusUI.icon}
-                                                {order.status}
+                                                {order.status === "Paid" ? "จ่ายเงินแล้ว" : order.status}
                                             </div>
                                         </div>
 
@@ -174,37 +217,9 @@ export default function MyOrders() {
                                                 </div>
                                             </div>
 
-                                            {/* 🛠️ ส่วนปุ่มควบคุมตามเงื่อนไขสถานะ (Action Buttons) */}
+                                            {/* 🛠️ Action Buttons: เปิดให้แสดงผลเฉพาะสถานะที่ระบุไว้ */}
                                             <div className="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
-                                                {order.status === "Completed" && (
-                                                    <>
-                                                        <button 
-                                                            onClick={() => alert(`แจ้งคืนสินค้าสำหรับออเดอร์ #${order.orderId} แล้ว`)}
-                                                            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg text-gray-400 hover:text-white bg-[#1e1e1e] border border-[#333333] hover:border-gray-500 transition-colors cursor-pointer"
-                                                        >
-                                                            <RotateCcw size={14} />
-                                                            คืนเงิน/คืนสินค้า
-                                                        </button>
-                                                        <button 
-                                                            onClick={() => alert(`ขอบคุณที่ยืนยันการรับสินค้า #${order.orderId}`)}
-                                                            className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg text-white bg-[#4DB6AC] hover:bg-[#3ca298] transition-colors cursor-pointer"
-                                                        >
-                                                            <ThumbsUp size={14} />
-                                                            ได้รับสินค้าแล้ว
-                                                        </button>
-                                                    </>
-                                                )}
-
-                                                {order.status === "Shipped" && (
-                                                    <button 
-                                                        onClick={() => alert(`กำลังเปิดระบบติดตามพัสดุสำหรับออเดอร์ #${order.orderId}`)}
-                                                        className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg text-white bg-[#38BDF8] hover:bg-[#0284c7] transition-colors cursor-pointer"
-                                                    >
-                                                        <MapPin size={14} />
-                                                        ติดตามคำสั่งซื้อ
-                                                    </button>
-                                                )}
-
+                                                {/* 1. ปุ่มสำหรับออเดอร์ที่อยู่ระหว่างรอดำเนินการ (Processing) */}
                                                 {order.status === "Processing" && (
                                                     <button 
                                                         onClick={() => handleCancelOrder(order.orderId)}
@@ -215,7 +230,16 @@ export default function MyOrders() {
                                                     </button>
                                                 )}
 
-                                                {/* สถานะ Cancelled จะไม่มีการแสดงผลปุ่มใดๆ ตามเงื่อนไข */}
+                                                {/* 2. สำหรับสถานะจ่ายเงินแล้ว (Paid) */}
+                                                {order.status === "Paid" && (
+                                                    <button 
+                                                        onClick={() => handleCancelOrder(order.orderId)}
+                                                        className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium rounded-lg text-white bg-[#EF4444] hover:bg-[#dc2626] transition-colors cursor-pointer"
+                                                    >
+                                                        <Ban size={14} />
+                                                        ยกเลิกคำสั่งซื้อ
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
 
