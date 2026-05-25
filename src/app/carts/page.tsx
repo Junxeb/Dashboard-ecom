@@ -187,7 +187,8 @@ export default function Carts() {
                                             
                                             <td className="py-4 px-4">
                                                 <div className="flex items-center gap-3">
-                                                    {item.imgSrc ? (
+                                                    <div className="w-12 h-12 flex-shrink-0 rounded-lg border border-[#3a3a3a] bg-[#121212] overflow-hidden flex items-center justify-center">
+                                                        {item.imgSrc ? (
                                                         <img 
                                                             src={item.imgSrc} 
                                                             alt={item.name} 
@@ -198,6 +199,8 @@ export default function Carts() {
                                                             No img
                                                         </div>
                                                     )}
+                                                    </div>
+                                                    
                                                     <div>
                                                         <p className="font-medium text-sm text-gray-200">{item.name}</p>
                                                         <p className="text-[11px] text-gray-500 font-mono mt-0.5">{item.cartId} • {item.date}</p>
