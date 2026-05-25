@@ -83,31 +83,43 @@
         "name": "Somchai Prasert",
         "address": "123/45 Phahonyothin Road, Chatuchak, Bangkok 10900, Thailand",
         "email": "somchai@example.com",
+        "password": "1234",
         "userId": "U789"
     },
     {
         "name": "Suda Wongchai",
         "address": "56/78 Sukjai Village, Bangkhen Subdistrict, Nonthaburi 11000, Thailand",
         "email": "suda@example.com",
+        "password": "1234",
         "userId": "U452"
     },
     {
         "name": "Anan Kittipong",
         "address": "99/12 Moo 3, Bang Phli Yai Subdistrict, Samut Prakan 10540, Thailand",
         "email": "anan@example.com",
+        "password": "1234",
         "userId": "U112"
     },
     {
         "name": "Nattaporn Chaiyasit",
         "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
         "email": "nattaporn@example.com",
+        "password": "1234",
         "userId": "U963"
     },
     {
         "name": "Nattaporn Chaiyasit",
         "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
         "email": "nattaporn@example.com",
+        "password": "1234",
         "userId": "U551"
+    },
+    {
+        "name": "Admin",
+        "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
+        "email": "admin@example.com",
+        "password": "1234",
+        "userId": "a001"
     }
 ]
 
