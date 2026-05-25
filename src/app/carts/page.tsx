@@ -195,6 +195,8 @@ export default function Carts() {
                                                                 src={item.imgSrc} 
                                                                 alt={item.name} 
                                                                 className="w-full h-full object-cover" 
+                                                                width={48}
+                                                                height={48}
                                                             />
                                                         ) : (
                                                                 <div className="w-full h-full flex items-center justify-center text-[10px] text-gray-500">
