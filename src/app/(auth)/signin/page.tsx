@@ -48,13 +48,13 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <div className="mb-6 text-center">
         <h1 className="text-3xl font-bold mb-2 text-white">Welcome</h1>
         <p className="text-gray-400">Sign in to your account</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 ">
         {error && (
           <div className="bg-red-900/20 border border-red-600 text-red-400 px-4 py-3 rounded">
             {error}
