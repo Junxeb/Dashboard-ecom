@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { signUpUser, signInUser } from "../controllers/userController";
 import fs from "fs";
 import path from "path";
 
@@ -15,25 +16,41 @@ interface DataFile {
   customer: CustomerItem[];
 }
 
-const dataFile = path.join(process.cwd(), "src/app/data.json");
+const dataFile = path.join(process.cwd(), "public", "data.json");
+
+// ฟังก์ชันอ่านไฟล์แบบปลอดภัย
+function readData(): DataFile {
+  if (!fs.existsSync(dataFile)) {
+    fs.writeFileSync(dataFile, JSON.stringify({ customer: [] }, null, 2));
+  }
+  const raw = fs.readFileSync(dataFile, "utf-8");
+  return JSON.parse(raw) as DataFile;
+}
 
 export async function POST(req: Request) {
-  const { action, email, password, userId, address, phone } = await req.json();
+  const { action, name, email, password, userId, address, phone } = await req.json();
 
-  const raw = fs.readFileSync(dataFile, "utf-8");
-  const data: DataFile = JSON.parse(raw);
-
-  if (action === "signin") {
-    const user = data.customer.find(
-      (u) => u.email === email && u.password === password
-    );
-    if (!user) {
-      return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
+  // ✅ สมัครสมาชิก
+  if (action === "signup") {
+    const result = await signUpUser(name, email, password);
+    if (result.error) {
+      return NextResponse.json({ error: result.error }, { status: 400 });
     }
-    return NextResponse.json({ user });
+    return NextResponse.json({ user: result.user });
   }
 
+  // ✅ เข้าสู่ระบบ
+  if (action === "signin") {
+    const result = await signInUser(email, password);
+    if (result.error) {
+      return NextResponse.json({ error: result.error }, { status: 401 });
+    }
+    return NextResponse.json({ message: result.message, user: result.user });
+  }
+
+  // ✅ ดึงข้อมูลผู้ใช้
   if (action === "getUser") {
+    const data = readData();
     const user = data.customer.find((u) => u.userId === userId);
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -41,7 +58,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ user });
   }
 
+  // ✅ อัปเดตโปรไฟล์
   if (action === "updateProfile") {
+    const data = readData();
     const userIndex = data.customer.findIndex((u) => u.userId === userId);
     if (userIndex === -1) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });

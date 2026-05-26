@@ -1,90 +1,73 @@
 {
-<<<<<<< HEAD
+  "customer": [
+    {
+      "userId": "a001",
+      "name": "Admin",
+      "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
+      "phone": "0865555555",
+      "email": "admin@example.com",
+      "password": "1234"
+    },
+    {
+      "userId": "U112",
+      "name": "Anan Kittipong",
+      "address": "99/12 Moo 3, Bang Phli Yai Subdistrict, Samut Prakan 10540, Thailand",
+      "phone": "0835555555",
+      "email": "anan@example.com",
+      "password": "1234"
+    },
+    {
+      "userId": "U452",
+      "name": "Suda Wongchai",
+      "address": "56/78 Sukjai Village, Bangkhen Subdistrict, Nonthaburi 11000, Thailand",
+      "phone": "0825555555",
+      "email": "suda@example.com",
+      "password": "1234"
+    },
+    {
+      "userId": "U551",
+      "name": "Jack Chaiyasit",
+      "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
+      "phone": "0855555555",
+      "email": "jack@example.com",
+      "password": "1234"
+    },
+    {
+      "userId": "U789",
+      "name": "Somchai Prasert",
+      "address": "123/45 Phahonyothin Road, Chatuchak, Bangkok 10900, Thailand",
+      "phone": "0815555555",
+      "email": "somchai@example.com",
+      "password": "1234"
+    },
+    {
+      "userId": "U963",
+      "name": "Nattaporn Chaiyasit",
+      "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
+      "phone": "0845555555",
+      "email": "nattaporn@example.com",
+      "password": "1234"
+    },
+    {
+      "userId": "U1779725539020",
+      "name": "as",
+      "email": "as@gmail.com",
+      "password": "as"
+    },
+    {
+      "name": "we",
+      "email": "we@m.com",
+      "password": "12",
+      "userId": "U1779770456815"
+    },
+    {
+      "name": "er",
+      "email": "er@d.com",
+      "password": "er",
+      "userId": "U1779770509274"
+    }
+  ],
   "salesData": [
-=======
-    "salesData": [
-        { "type": "month", "name": "Jan", "sales": 4000, "profit": 2400, "cost": 1600 },
-        { "type": "month", "name": "Feb", "sales": 3000, "profit": 2000, "cost": 1000 },
-        { "type": "month", "name": "Mar", "sales": 2000, "profit": 1200, "cost": 800 },
-        { "type": "month", "name": "Apr", "sales": 2780, "profit": 1500, "cost": 1280 },
-        { "type": "month", "name": "May", "sales": 1890, "profit": 1000, "cost": 890 },
-        { "type": "month", "name": "Jun", "sales": 5000, "profit": 3200, "cost": 1800 },
-        { "type": "month", "name": "Jul", "sales": 4200, "profit": 2800, "cost": 1400 },
-        { "type": "month", "name": "Aug", "sales": 1500, "profit": 700, "cost": 800 },
-        { "type": "month", "name": "Sep", "sales": 3200, "profit": 2100, "cost": 1100 },
-        { "type": "month", "name": "Oct", "sales": 4100, "profit": 2600, "cost": 1500 },
-        { "type": "month", "name": "Nov", "sales": 7000, "profit": 4500, "cost": 2500 },
-        { "type": "month", "name": "Dec", "sales": 6500, "profit": 4000, "cost": 2500 },
-
-        { "type": "product", "name": "Smartphone", "id": "P001", "category": "Electronics", "price": 699.99, "stock": 50, "sales": 120, "actions": "View" , "src": "https://www.istudiobyspvi.com/cdn/shop/files/iPhone_17_Pro_Max_Cosmic_Orange_PDP_Image_Position_1_Cosmic_Orange_Color__TH-TH.jpg?v=1757486275"},
-        { "type": "product", "name": "Laptop", "id": "P002", "category": "Electronics", "price": 1299.99, "stock": 30, "sales": 80, "actions": "View", "src": "https://i5.walmartimages.com/seo/HP-Stream-14-Laptop-Intel-Celeron-N4000-4GB-SDRAM-32GB-eMMC-Office-365-1-yr-Brilliant-Black_d579aa66-7e24-4eb2-9686-521be769a755_2.09283250bd5d2a12834c2d4aaca652dd.jpeg" },
-        { "type": "product", "name": "Headphones", "id": "P003", "category": "Electronics", "price": 199.99, "stock": 100, "sales": 200, "actions": "View", "src": "https://www.jbhifi.co.nz/cdn/shop/files/411409-Product-0-I-638917017048342429.jpg?v=1756111324" },
-        { "type": "product", "name": "T-Shirt", "id": "P004", "category": "Clothing", "price": 29.99, "stock": 200, "sales": 300, "actions": "View", "src": "https://i2.cloudfable.net/styles/735x735/8.51/Black/ed-tuxedo-bow-tie-suit-father-shirt-20221011202515-ezbmu23z.jpg" },
-        { "type": "product", "name": "Jeans", "id": "P005", "category": "Clothing", "price": 59.99, "stock": 150, "sales": 250, "actions": "View", "src": "https://t4.ftcdn.net/jpg/05/14/13/71/360_F_514137149_wdlkcJrxL1WZm67d0GOHydW31Zt0DHbD.jpg" },
-        { "type": "product", "name": "Sneakers", "id":"P006", "category": "Clothing", "price": 89.99, "stock": 120, "sales": 180, "actions": "View", "src": "https://cdn.media.amplience.net/i/frasersdev/27648001_o_a4?v=20251013133847?fmt=auto&upscale=true&w=992&h=992&sm=scaleFit&$h-ttl$" },
-        { "type": "product", "name": "Basketball", "id": "P008", "category": "Sports", "price": 29.99, "stock": 70, "sales": 130, "actions": "View", "src": "https://www.mcsport.ie/cdn/shop/files/Wilson-Evolution-Basketball.jpg?v=1684494081" },
-        { "type": "product", "name": "Novel Book", "id": "P009", "category": "Books", "price": 15.99, "stock": 300, "sales": 400, "actions": "View", "src": "https://down-th.img.susercontent.com/file/sg-11134201-23030-j1sbfxnzozov23" },
-        { "type": "product", "name": "Cookbook", "id": "P010", "category": "Books", "price": 22.99, "stock": 150, "sales": 220, "actions": "View", "src": "https://www.bhg.com/thmb/mJ8_RbWO_pjIZMOjUs7C5VqtrCo=/1983x0/filters:no_upscale():strip_icc()/Vintage-Red-Plaid-BHG-Cookbook1-172a15c3b79643cca80a0cb26e90c1cf.jpg" },
-        { "type": "product", "name": "Dining Table", "id": "P011", "category": "Furniture", "price": 499.99, "stock": 20, "sales": 40, "actions": "View", "src": "https://as2.ftcdn.net/jpg/04/68/19/85/1000_F_468198508_3JHHwXdxnURxjJRwdn55S6BLaj2seODn.jpg" },
-        { "type": "product", "name": "Office Chair", "id": "P012", "category": "Furniture", "price": 149.99, "stock": 60, "sales": 90, "actions": "View", "src": "https://images.squarespace-cdn.com/content/v1/5ac9627445776ec3a5f45341/1697440493640-XUOUZ4LNMO4RSGH3QYOT/Crimson.png" },
-        { "type": "product", "name": "Toy Car", "id": "P013", "category": "Toys", "price": 19.99, "stock": 200, "sales": 350, "actions": "View", "src": "https://t4.ftcdn.net/jpg/01/77/54/87/360_F_177548745_RoP77sEX2EHAnb7gjiaApzutefx39P6R.jpg" },
-        { "type": "product", "name": "Doll", "id": "P014", "category": "Toys", "price": 24.99, "stock": 180, "sales": 300, "actions": "View", "src": "https://sendatoy.com.au/cdn/shop/products/jellycat-silver-bunny_spo.jpg?v=1510590899" },
-        { "type": "product", "name": "Garden Shovel", "id": "P015", "category": "Garden", "price": 12.99, "stock": 100, "sales": 160, "actions": "View", "src": "https://media.istockphoto.com/id/666079998/photo/garden-shovel-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=66T0GS3YEi-k9CwzjiaIdEScuIqs8XCsi8ryFedls0Q=" },
-        { "type": "product", "name": "Watering Can", "id": "P016", "category": "Garden", "price": 18.99, "stock": 90, "sales": 140, "actions": "View", "src": "https://media.istockphoto.com/id/177738022/sv/foto/watering-can-from-metal.jpg?s=612x612&w=0&k=20&c=_SkYcg4APWiRFgDqFmW8-8nof9SbMjWPfSkJIfN6a9c=" },
-        { "type": "product", "name": "Shampoo", "id": "P017", "category": "Health & Beauty", "price": 9.99, "stock": 250, "sales": 500, "actions": "View", "src": "https://arkiveheadcare.com/cdn/shop/files/AllDayEverydayShampoo.jpg?v=1687812081" },
-        { "type": "product", "name": "Perfume", "id": "P018", "category": "Health & Beauty", "price": 59.99, "stock": 80, "sales": 120, "actions": "View", "src": "https://static.vecteezy.com/system/resources/previews/055/997/301/large_2x/unbranded-luxury-perfume-bottle-with-a-sleek-reflective-surface-isolated-on-white-background-with-shadow-ideal-for-high-end-fragrance-promotions-and-sophisticated-beauty-advertisements-photo.jpg" },
-        { "type": "product", "name": "Car Tire", "id": "P019", "category": "Automotive", "price": 120.00, "stock": 40, "sales": 70, "actions": "View", "src": "https://static.vecteezy.com/system/resources/previews/003/358/369/large_2x/all-terrain-tire-isolated-on-white-background-free-photo.jpg" },
-        { "type": "product", "name": "Motor Oil", "id": "P020", "category": "Automotive", "price": 35.00, "stock": 100, "sales": 150, "actions": "View", "src": "https://media.istockphoto.com/id/1046529090/photo/motor-oil-canister-on-white-isolated-background.jpg?s=612x612&w=0&k=20&c=h6IH7eEH730LsdArhGee2sFQQCierI9SMdmUdk16TPs="}
-    ],
-
-    "userCarts": [
-        { "cartId": "CRT001", "userId": "U789", "date": "2026-05-20", "items": [{ "productId": "P001", "name": "Smartphone", "quantity": 1, "price": 699.99 }], "totalPrice": 699.99 },
-        { "cartId": "CRT002", "userId": "U452", "date": "2026-05-20", "items": [{ "productId": "P003", "name": "Headphones", "quantity": 2, "price": 199.99 }], "totalPrice": 399.98},
-        { "cartId": "CRT003", "userId": "U112", "date": "2026-05-19", "items": [{ "productId": "P004", "name": "T-Shirt", "quantity": 3, "price": 29.99 }], "totalPrice": 89.79},
-        { "cartId": "CRT004", "userId": "U112", "date": "2026-05-19", "items": [{ "productId": "P005", "name": "Jeans", "quantity": 1, "price": 59.99 }], "totalPrice": 59.99},
-        { "cartId": "CRT005", "userId": "U963", "date": "2026-05-19", "items": [{ "productId": "P002", "name": "Laptop", "quantity": 1, "price": 1299.99 }], "totalPrice": 1299.99},
-        { "cartId": "CRT006", "userId": "U551", "date": "2026-05-18", "items": [{ "productId": "P006", "name": "Sneakers", "quantity": 1, "price": 89.99 }], "totalPrice": 89.99},
-        { "cartId": "CRT007", "userId": "U789", "date": "2026-05-18", "items": [{ "productId": "P009", "name": "Novel Book", "quantity": 2, "price": 15.99 }], "totalPrice": 31.98},
-        { "cartId": "CRT008", "userId": "U789", "date": "2026-05-18", "items": [{ "productId": "P010", "name": "Cookbook", "quantity": 1, "price": 22.99 }], "totalPrice": 45.98},
-        { "cartId": "CRT009", "userId": "U452", "date": "2026-05-17", "items": [{ "productId": "P012", "name": "Office Chair", "quantity": 2, "price": 149.99 }], "totalPrice": 299.98},
-        { "cartId": "CRT010", "userId": "U112", "date": "2026-05-17", "items": [{ "productId": "P017", "name": "Shampoo", "quantity": 4, "price": 9.99 }], "totalPrice": 39.96},
-        { "cartId": "CRT011", "userId": "U963", "date": "2026-05-16", "items": [{ "productId": "P018", "name": "Perfume", "quantity": 1, "price": 59.99 }], "totalPrice": 59.99},
-        { "cartId": "CRT012", "userId": "U551", "date": "2026-05-16", "items": [{ "productId": "P013", "name": "Toy Car", "quantity": 5, "price": 19.99 }], "totalPrice": 99.95},
-        { "cartId": "CRT013", "userId": "U551", "date": "2026-05-16", "items": [{ "productId": "P014", "name": "Doll", "quantity": 2, "price": 24.99 }], "totalPrice": 49.98},
-        { "cartId": "CRT014", "userId": "U789", "date": "2026-05-15", "items": [{ "productId": "P011", "name": "Dining Table", "quantity": 1, "price": 499.99 }], "totalPrice": 499.99},
-        { "cartId": "CRT015", "userId": "U452", "date": "2026-05-15", "items": [{ "productId": "P015", "name": "Garden Shovel", "quantity": 1, "price": 12.99 }], "totalPrice": 12.99},
-        { "cartId": "CRT016", "userId": "U452", "date": "2026-05-15", "items": [{ "productId": "P016", "name": "Watering Can", "quantity": 1, "price": 18.99 }], "totalPrice": 18.99},
-        { "cartId": "CRT017", "userId": "U112", "date": "2026-05-14", "items": [{ "productId": "P019", "name": "Car Tire", "quantity": 4, "price": 120.00 }], "totalPrice": 480.00},
-        { "cartId": "CRT018", "userId": "U963", "date": "2026-05-14", "items": [{ "productId": "P020", "name": "Motor Oil", "quantity": 2, "price": 35.00 }], "totalPrice": 70.00},
-        { "cartId": "CRT019", "userId": "U334", "date": "2026-05-13", "items": [{ "productId": "P008", "name": "Basketball", "quantity": 1, "price": 29.99 }], "totalPrice": 29.99},
-        { "cartId": "CRT020", "userId": "U334", "date": "2026-05-13", "items": [{ "productId": "P006", "name": "Sneakers", "quantity": 1, "price": 89.99 }], "totalPrice": 89.99},
-        { "cartId": "CRT021", "userId": "U789", "date": "2026-05-13", "items": [{ "productId": "P004", "name": "T-Shirt", "quantity": 10, "price": 29.99 }], "totalPrice": 299.90},
-        { "cartId": "CRT022", "userId": "U551", "date": "2026-05-12", "items": [{ "productId": "P001", "name": "Smartphone", "quantity": 1, "price": 699.99 }], "totalPrice": 699.99},
-        { "cartId": "CRT023", "userId": "U551", "date": "2026-05-12", "items": [{ "productId": "P003", "name": "Headphones", "quantity": 1, "price": 199.99 }], "totalPrice": 199.99},
-        { "cartId": "CRT024", "userId": "U112", "date": "2026-05-12", "items": [{ "productId": "P005", "name": "Jeans", "quantity": 2, "price": 59.99 }], "totalPrice": 119.98},
-        { "cartId": "CRT025", "userId": "U963", "date": "2026-05-11", "items": [{ "productId": "P010", "name": "Cookbook", "quantity": 3, "price": 22.99 }], "totalPrice": 68.97},
-        { "cartId": "CRT026", "userId": "U789", "date": "2026-05-11", "items": [{ "productId": "P014", "name": "Doll", "quantity": 1, "price": 24.99 }], "totalPrice": 24.99},
-        { "cartId": "CRT027", "userId": "U452", "date": "2026-05-10", "items": [{ "productId": "P017", "name": "Shampoo", "quantity": 2, "price": 9.99 }], "totalPrice": 19.98},
-        { "cartId": "CRT028", "userId": "U452", "date": "2026-05-10", "items": [{ "productId": "P018", "name": "Perfume", "quantity": 1, "price": 59.99 }], "totalPrice": 59.99},
-        { "cartId": "CRT029", "userId": "U112", "date": "2026-05-10", "items": [{ "productId": "P002", "name": "Laptop", "quantity": 1, "price": 1299.99 }], "totalPrice": 1299.99},
-        { "cartId": "CRT030", "userId": "U112", "date": "2026-05-10", "items": [{ "productId": "P012", "name": "Office Chair", "quantity": 1, "price": 149.99 }], "totalPrice": 149.99},
-        { "cartId": "CRT031", "userId": "U963", "date": "2026-05-09", "items": [{ "productId": "P016", "name": "Watering Can", "quantity": 2, "price": 18.99 }], "totalPrice": 37.98},
-        { "cartId": "CRT032", "userId": "U551", "date": "2026-05-09", "items": [{ "productId": "P019", "name": "Car Tire", "quantity": 2, "price": 120.00 }], "totalPrice": 240.00},
-        { "cartId": "CRT033", "userId": "U551", "date": "2026-05-09", "items": [{ "productId": "P020", "name": "Motor Oil", "quantity": 1, "price": 35.00 }], "totalPrice": 35.00}
-    ],
-
-    "userOrders": [
-        { "orderId": "ORD001", "cartId": "CRT101", "userId": "U789", "date": "2026-05-20", "items": [{ "productId": "P001", "name": "Smartphone", "quantity": 1, "price": 699.99 }], "totalPrice": 699.99, "status": "Completed", "paymentMethod": "Credit Card" },
-        { "orderId": "ORD002", "cartId": "CRT102", "userId": "U789", "date": "2026-05-20", "items": [{ "productId": "P003", "name": "Headphones", "quantity": 2, "price": 199.99 }], "totalPrice": 399.98, "status": "Shipped", "paymentMethod": "Mobile Banking" },
-        { "orderId": "ORD003", "cartId": "CRT003", "userId": "U789", "date": "2026-05-19", "items": [{ "productId": "P004", "name": "T-Shirt", "quantity": 3, "price": 29.99 }, { "productId": "P005", "name": "Jeans", "quantity": 1, "price": 59.99 }], "totalPrice": 149.96, "status": "Completed", "paymentMethod": "TrueMoney Wallet" },
-        { "orderId": "ORD004", "cartId": "CRT004", "userId": "U789", "date": "2026-05-19", "items": [{ "productId": "P002", "name": "Laptop", "quantity": 1, "price": 1299.99 }], "totalPrice": 1299.99, "status": "Processing", "paymentMethod": "Cash on Delivery" },
-        { "orderId": "ORD005", "cartId": "CRT005", "userId": "U789", "date": "2026-05-18", "items": [{ "productId": "P006", "name": "Sneakers", "quantity": 1, "price": 89.99 }], "totalPrice": 89.99, "status": "Cancelled", "paymentMethod": "Credit Card" },
-        { "orderId": "ORD006", "cartId": "CRT005", "userId": "U112", "date": "2026-05-18", "items": [{ "productId": "P006", "name": "Sneakers", "quantity": 1, "price": 89.99 }], "totalPrice": 89.99, "status": "Cancelled", "paymentMethod": "Credit Card" },
-        { "orderId": "ORD007", "cartId": "CRT004", "userId": "U963", "date": "2026-05-19", "items": [{ "productId": "P002", "name": "Laptop", "quantity": 1, "price": 1299.99 }], "totalPrice": 1299.99, "status": "Paid", "paymentMethod": "Cash on Delivery" }
-    ],
-
-    "customer": [
->>>>>>> ac0d86234d73ddff385128d735de53f6530b01a3
     {
       "type": "month",
       "name": "Jan",
@@ -171,8 +154,8 @@
     },
     {
       "type": "product",
-      "name": "Smartphone",
       "id": "P001",
+      "name": "Smartphone",
       "category": "Electronics",
       "price": 699.99,
       "stock": 50,
@@ -182,8 +165,8 @@
     },
     {
       "type": "product",
-      "name": "Laptop",
       "id": "P002",
+      "name": "Laptop",
       "category": "Electronics",
       "price": 1299.99,
       "stock": 30,
@@ -193,8 +176,8 @@
     },
     {
       "type": "product",
-      "name": "Headphones",
       "id": "P003",
+      "name": "Headphones",
       "category": "Electronics",
       "price": 199.99,
       "stock": 100,
@@ -204,8 +187,8 @@
     },
     {
       "type": "product",
-      "name": "T-Shirt",
       "id": "P004",
+      "name": "T-Shirt",
       "category": "Clothing",
       "price": 29.99,
       "stock": 200,
@@ -215,8 +198,8 @@
     },
     {
       "type": "product",
-      "name": "Jeans",
       "id": "P005",
+      "name": "Jeans",
       "category": "Clothing",
       "price": 59.99,
       "stock": 150,
@@ -226,8 +209,8 @@
     },
     {
       "type": "product",
-      "name": "Sneakers",
       "id": "P006",
+      "name": "Sneakers",
       "category": "Clothing",
       "price": 89.99,
       "stock": 120,
@@ -237,8 +220,8 @@
     },
     {
       "type": "product",
-      "name": "Basketball",
       "id": "P008",
+      "name": "Basketball",
       "category": "Sports",
       "price": 29.99,
       "stock": 70,
@@ -248,8 +231,8 @@
     },
     {
       "type": "product",
-      "name": "Novel Book",
       "id": "P009",
+      "name": "Novel Book",
       "category": "Books",
       "price": 15.99,
       "stock": 300,
@@ -259,8 +242,8 @@
     },
     {
       "type": "product",
-      "name": "Cookbook",
       "id": "P010",
+      "name": "Cookbook",
       "category": "Books",
       "price": 22.99,
       "stock": 150,
@@ -270,8 +253,8 @@
     },
     {
       "type": "product",
-      "name": "Dining Table",
       "id": "P011",
+      "name": "Dining Table",
       "category": "Furniture",
       "price": 499.99,
       "stock": 20,
@@ -281,8 +264,8 @@
     },
     {
       "type": "product",
-      "name": "Office Chair",
       "id": "P012",
+      "name": "Office Chair",
       "category": "Furniture",
       "price": 149.99,
       "stock": 60,
@@ -292,8 +275,8 @@
     },
     {
       "type": "product",
-      "name": "Toy Car",
       "id": "P013",
+      "name": "Toy Car",
       "category": "Toys",
       "price": 19.99,
       "stock": 200,
@@ -303,8 +286,8 @@
     },
     {
       "type": "product",
-      "name": "Doll",
       "id": "P014",
+      "name": "Doll",
       "category": "Toys",
       "price": 24.99,
       "stock": 180,
@@ -314,8 +297,8 @@
     },
     {
       "type": "product",
-      "name": "Garden Shovel",
       "id": "P015",
+      "name": "Garden Shovel",
       "category": "Garden",
       "price": 12.99,
       "stock": 100,
@@ -325,8 +308,8 @@
     },
     {
       "type": "product",
-      "name": "Watering Can",
       "id": "P016",
+      "name": "Watering Can",
       "category": "Garden",
       "price": 18.99,
       "stock": 90,
@@ -336,8 +319,8 @@
     },
     {
       "type": "product",
-      "name": "Shampoo",
       "id": "P017",
+      "name": "Shampoo",
       "category": "Health & Beauty",
       "price": 9.99,
       "stock": 250,
@@ -347,8 +330,8 @@
     },
     {
       "type": "product",
-      "name": "Perfume",
       "id": "P018",
+      "name": "Perfume",
       "category": "Health & Beauty",
       "price": 59.99,
       "stock": 80,
@@ -358,8 +341,8 @@
     },
     {
       "type": "product",
-      "name": "Car Tire",
       "id": "P019",
+      "name": "Car Tire",
       "category": "Automotive",
       "price": 120,
       "stock": 40,
@@ -369,8 +352,8 @@
     },
     {
       "type": "product",
-      "name": "Motor Oil",
       "id": "P020",
+      "name": "Motor Oil",
       "category": "Automotive",
       "price": 35,
       "stock": 100,
@@ -381,368 +364,46 @@
   ],
   "userCarts": [
     {
-      "cartId": "CRT001",
-      "userId": "U789",
-      "date": "2026-05-20",
-      "items": [
-        {
-          "productId": "P001",
-          "name": "Smartphone",
-          "quantity": 1,
-          "price": 699.99
-        }
-      ],
-      "totalPrice": 699.99
-    },
-    {
-      "cartId": "CRT002",
-      "userId": "U452",
-      "date": "2026-05-20",
-      "items": [
-        {
-          "productId": "P003",
-          "name": "Headphones",
-          "quantity": 2,
-          "price": 199.99
-        }
-      ],
-      "totalPrice": 399.98
-    },
-    {
-      "cartId": "CRT003",
-      "userId": "U112",
-      "date": "2026-05-19",
-      "items": [
-        {
-          "productId": "P004",
-          "name": "T-Shirt",
-          "quantity": 3,
-          "price": 29.99
-        }
-      ],
-      "totalPrice": 89.79
-    },
-    {
-      "cartId": "CRT004",
-      "userId": "U112",
-      "date": "2026-05-19",
-      "items": [
-        {
-          "productId": "P005",
-          "name": "Jeans",
-          "quantity": 1,
-          "price": 59.99
-        }
-      ],
-      "totalPrice": 59.99
-    },
-    {
-      "cartId": "CRT005",
+      "cartId": "CRT031",
       "userId": "U963",
-      "date": "2026-05-19",
-      "items": [
-        {
-          "productId": "P002",
-          "name": "Laptop",
-          "quantity": 1,
-          "price": 1299.99
-        }
-      ],
-      "totalPrice": 1299.99
-    },
-    {
-      "cartId": "CRT006",
-      "userId": "U551",
-      "date": "2026-05-18",
-      "items": [
-        {
-          "productId": "P006",
-          "name": "Sneakers",
-          "quantity": 1,
-          "price": 89.99
-        }
-      ],
-      "totalPrice": 89.99
-    },
-    {
-      "cartId": "CRT007",
-      "userId": "U789",
-      "date": "2026-05-18",
-      "items": [
-        {
-          "productId": "P009",
-          "name": "Novel Book",
-          "quantity": 2,
-          "price": 15.99
-        }
-      ],
-      "totalPrice": 31.98
-    },
-    {
-      "cartId": "CRT008",
-      "userId": "U789",
-      "date": "2026-05-18",
-      "items": [
-        {
-          "productId": "P010",
-          "name": "Cookbook",
-          "quantity": 1,
-          "price": 22.99
-        }
-      ],
-      "totalPrice": 45.98
-    },
-    {
-      "cartId": "CRT009",
-      "userId": "U452",
-      "date": "2026-05-17",
-      "items": [
-        {
-          "productId": "P012",
-          "name": "Office Chair",
-          "quantity": 2,
-          "price": 149.99
-        }
-      ],
-      "totalPrice": 299.98
-    },
-    {
-      "cartId": "CRT010",
-      "userId": "U112",
-      "date": "2026-05-17",
-      "items": [
-        {
-          "productId": "P017",
-          "name": "Shampoo",
-          "quantity": 4,
-          "price": 9.99
-        }
-      ],
-      "totalPrice": 39.96
-    },
-    {
-      "cartId": "CRT011",
-      "userId": "U963",
-      "date": "2026-05-16",
-      "items": [
-        {
-          "productId": "P018",
-          "name": "Perfume",
-          "quantity": 1,
-          "price": 59.99
-        }
-      ],
-      "totalPrice": 59.99
-    },
-    {
-      "cartId": "CRT012",
-      "userId": "U551",
-      "date": "2026-05-16",
-      "items": [
-        {
-          "productId": "P013",
-          "name": "Toy Car",
-          "quantity": 5,
-          "price": 19.99
-        }
-      ],
-      "totalPrice": 99.95
-    },
-    {
-      "cartId": "CRT013",
-      "userId": "U551",
-      "date": "2026-05-16",
-      "items": [
-        {
-          "productId": "P014",
-          "name": "Doll",
-          "quantity": 2,
-          "price": 24.99
-        }
-      ],
-      "totalPrice": 49.98
-    },
-    {
-      "cartId": "CRT014",
-      "userId": "U789",
-      "date": "2026-05-15",
-      "items": [
-        {
-          "productId": "P011",
-          "name": "Dining Table",
-          "quantity": 1,
-          "price": 499.99
-        }
-      ],
-      "totalPrice": 499.99
-    },
-    {
-      "cartId": "CRT015",
-      "userId": "U452",
-      "date": "2026-05-15",
-      "items": [
-        {
-          "productId": "P015",
-          "name": "Garden Shovel",
-          "quantity": 1,
-          "price": 12.99
-        }
-      ],
-      "totalPrice": 12.99
-    },
-    {
-      "cartId": "CRT016",
-      "userId": "U452",
-      "date": "2026-05-15",
+      "date": "2026-05-09",
       "items": [
         {
           "productId": "P016",
           "name": "Watering Can",
-          "quantity": 1,
+          "quantity": 2,
           "price": 18.99
         }
       ],
-      "totalPrice": 18.99
+      "totalPrice": 37.98
     },
     {
-      "cartId": "CRT017",
-      "userId": "U112",
-      "date": "2026-05-14",
+      "cartId": "CRT032",
+      "userId": "U551",
+      "date": "2026-05-09",
       "items": [
         {
           "productId": "P019",
           "name": "Car Tire",
-          "quantity": 4,
+          "quantity": 2,
           "price": 120
         }
       ],
-      "totalPrice": 480
+      "totalPrice": 240
     },
     {
-      "cartId": "CRT018",
-      "userId": "U963",
-      "date": "2026-05-14",
+      "cartId": "CRT033",
+      "userId": "U551",
+      "date": "2026-05-09",
       "items": [
         {
           "productId": "P020",
           "name": "Motor Oil",
-          "quantity": 2,
+          "quantity": 1,
           "price": 35
         }
       ],
-      "totalPrice": 70
-    },
-    {
-      "cartId": "CRT019",
-      "userId": "U334",
-      "date": "2026-05-13",
-      "items": [
-        {
-          "productId": "P008",
-          "name": "Basketball",
-          "quantity": 1,
-          "price": 29.99
-        }
-      ],
-      "totalPrice": 29.99
-    },
-    {
-      "cartId": "CRT020",
-      "userId": "U334",
-      "date": "2026-05-13",
-      "items": [
-        {
-          "productId": "P006",
-          "name": "Sneakers",
-          "quantity": 1,
-          "price": 89.99
-        }
-      ],
-      "totalPrice": 89.99
-    },
-    {
-      "cartId": "CRT021",
-      "userId": "U789",
-      "date": "2026-05-13",
-      "items": [
-        {
-          "productId": "P004",
-          "name": "T-Shirt",
-          "quantity": 10,
-          "price": 29.99
-        }
-      ],
-      "totalPrice": 299.9
-    },
-    {
-      "cartId": "CRT022",
-      "userId": "U551",
-      "date": "2026-05-12",
-      "items": [
-        {
-          "productId": "P001",
-          "name": "Smartphone",
-          "quantity": 1,
-          "price": 699.99
-        }
-      ],
-      "totalPrice": 699.99
-    },
-    {
-      "cartId": "CRT023",
-      "userId": "U551",
-      "date": "2026-05-12",
-      "items": [
-        {
-          "productId": "P003",
-          "name": "Headphones",
-          "quantity": 1,
-          "price": 199.99
-        }
-      ],
-      "totalPrice": 199.99
-    },
-    {
-      "cartId": "CRT024",
-      "userId": "U112",
-      "date": "2026-05-12",
-      "items": [
-        {
-          "productId": "P005",
-          "name": "Jeans",
-          "quantity": 2,
-          "price": 59.99
-        }
-      ],
-      "totalPrice": 119.98
-    },
-    {
-      "cartId": "CRT025",
-      "userId": "U963",
-      "date": "2026-05-11",
-      "items": [
-        {
-          "productId": "P010",
-          "name": "Cookbook",
-          "quantity": 3,
-          "price": 22.99
-        }
-      ],
-      "totalPrice": 68.97
-    },
-    {
-      "cartId": "CRT026",
-      "userId": "U789",
-      "date": "2026-05-11",
-      "items": [
-        {
-          "productId": "P014",
-          "name": "Doll",
-          "quantity": 1,
-          "price": 24.99
-        }
-      ],
-      "totalPrice": 24.99
+      "totalPrice": 35
     },
     {
       "cartId": "CRT027",
@@ -801,52 +462,343 @@
       "totalPrice": 149.99
     },
     {
-      "cartId": "CRT031",
+      "cartId": "CRT025",
       "userId": "U963",
-      "date": "2026-05-09",
+      "date": "2026-05-11",
       "items": [
         {
-          "productId": "P016",
-          "name": "Watering Can",
-          "quantity": 2,
-          "price": 18.99
+          "productId": "P010",
+          "name": "Cookbook",
+          "quantity": 3,
+          "price": 22.99
         }
       ],
-      "totalPrice": 37.98
+      "totalPrice": 68.97
     },
     {
-      "cartId": "CRT032",
+      "cartId": "CRT026",
+      "userId": "U789",
+      "date": "2026-05-11",
+      "items": [
+        {
+          "productId": "P014",
+          "name": "Doll",
+          "quantity": 1,
+          "price": 24.99
+        }
+      ],
+      "totalPrice": 24.99
+    },
+    {
+      "cartId": "CRT022",
       "userId": "U551",
-      "date": "2026-05-09",
+      "date": "2026-05-12",
+      "items": [
+        {
+          "productId": "P001",
+          "name": "Smartphone",
+          "quantity": 1,
+          "price": 699.99
+        }
+      ],
+      "totalPrice": 699.99
+    },
+    {
+      "cartId": "CRT023",
+      "userId": "U551",
+      "date": "2026-05-12",
+      "items": [
+        {
+          "productId": "P003",
+          "name": "Headphones",
+          "quantity": 1,
+          "price": 199.99
+        }
+      ],
+      "totalPrice": 199.99
+    },
+    {
+      "cartId": "CRT024",
+      "userId": "U112",
+      "date": "2026-05-12",
+      "items": [
+        {
+          "productId": "P005",
+          "name": "Jeans",
+          "quantity": 2,
+          "price": 59.99
+        }
+      ],
+      "totalPrice": 119.98
+    },
+    {
+      "cartId": "CRT019",
+      "userId": "U334",
+      "date": "2026-05-13",
+      "items": [
+        {
+          "productId": "P008",
+          "name": "Basketball",
+          "quantity": 1,
+          "price": 29.99
+        }
+      ],
+      "totalPrice": 29.99
+    },
+    {
+      "cartId": "CRT020",
+      "userId": "U334",
+      "date": "2026-05-13",
+      "items": [
+        {
+          "productId": "P006",
+          "name": "Sneakers",
+          "quantity": 1,
+          "price": 89.99
+        }
+      ],
+      "totalPrice": 89.99
+    },
+    {
+      "cartId": "CRT021",
+      "userId": "U789",
+      "date": "2026-05-13",
+      "items": [
+        {
+          "productId": "P004",
+          "name": "T-Shirt",
+          "quantity": 10,
+          "price": 29.99
+        }
+      ],
+      "totalPrice": 299.9
+    },
+    {
+      "cartId": "CRT017",
+      "userId": "U112",
+      "date": "2026-05-14",
       "items": [
         {
           "productId": "P019",
           "name": "Car Tire",
-          "quantity": 2,
+          "quantity": 4,
           "price": 120
         }
       ],
-      "totalPrice": 240
+      "totalPrice": 480
     },
     {
-      "cartId": "CRT033",
-      "userId": "U551",
-      "date": "2026-05-09",
+      "cartId": "CRT018",
+      "userId": "U963",
+      "date": "2026-05-14",
       "items": [
         {
           "productId": "P020",
           "name": "Motor Oil",
-          "quantity": 1,
+          "quantity": 2,
           "price": 35
         }
       ],
-      "totalPrice": 35
-    }
-  ],
-  "userOrders": [
+      "totalPrice": 70
+    },
     {
-      "orderId": "ORD001",
-      "cartId": "CRT101",
+      "cartId": "CRT014",
+      "userId": "U789",
+      "date": "2026-05-15",
+      "items": [
+        {
+          "productId": "P011",
+          "name": "Dining Table",
+          "quantity": 1,
+          "price": 499.99
+        }
+      ],
+      "totalPrice": 499.99
+    },
+    {
+      "cartId": "CRT015",
+      "userId": "U452",
+      "date": "2026-05-15",
+      "items": [
+        {
+          "productId": "P015",
+          "name": "Garden Shovel",
+          "quantity": 1,
+          "price": 12.99
+        }
+      ],
+      "totalPrice": 12.99
+    },
+    {
+      "cartId": "CRT016",
+      "userId": "U452",
+      "date": "2026-05-15",
+      "items": [
+        {
+          "productId": "P016",
+          "name": "Watering Can",
+          "quantity": 1,
+          "price": 18.99
+        }
+      ],
+      "totalPrice": 18.99
+    },
+    {
+      "cartId": "CRT011",
+      "userId": "U963",
+      "date": "2026-05-16",
+      "items": [
+        {
+          "productId": "P018",
+          "name": "Perfume",
+          "quantity": 1,
+          "price": 59.99
+        }
+      ],
+      "totalPrice": 59.99
+    },
+    {
+      "cartId": "CRT012",
+      "userId": "U551",
+      "date": "2026-05-16",
+      "items": [
+        {
+          "productId": "P013",
+          "name": "Toy Car",
+          "quantity": 5,
+          "price": 19.99
+        }
+      ],
+      "totalPrice": 99.95
+    },
+    {
+      "cartId": "CRT013",
+      "userId": "U551",
+      "date": "2026-05-16",
+      "items": [
+        {
+          "productId": "P014",
+          "name": "Doll",
+          "quantity": 2,
+          "price": 24.99
+        }
+      ],
+      "totalPrice": 49.98
+    },
+    {
+      "cartId": "CRT009",
+      "userId": "U452",
+      "date": "2026-05-17",
+      "items": [
+        {
+          "productId": "P012",
+          "name": "Office Chair",
+          "quantity": 2,
+          "price": 149.99
+        }
+      ],
+      "totalPrice": 299.98
+    },
+    {
+      "cartId": "CRT010",
+      "userId": "U112",
+      "date": "2026-05-17",
+      "items": [
+        {
+          "productId": "P017",
+          "name": "Shampoo",
+          "quantity": 4,
+          "price": 9.99
+        }
+      ],
+      "totalPrice": 39.96
+    },
+    {
+      "cartId": "CRT006",
+      "userId": "U551",
+      "date": "2026-05-18",
+      "items": [
+        {
+          "productId": "P006",
+          "name": "Sneakers",
+          "quantity": 1,
+          "price": 89.99
+        }
+      ],
+      "totalPrice": 89.99
+    },
+    {
+      "cartId": "CRT007",
+      "userId": "U789",
+      "date": "2026-05-18",
+      "items": [
+        {
+          "productId": "P009",
+          "name": "Novel Book",
+          "quantity": 2,
+          "price": 15.99
+        }
+      ],
+      "totalPrice": 31.98
+    },
+    {
+      "cartId": "CRT008",
+      "userId": "U789",
+      "date": "2026-05-18",
+      "items": [
+        {
+          "productId": "P010",
+          "name": "Cookbook",
+          "quantity": 1,
+          "price": 22.99
+        }
+      ],
+      "totalPrice": 45.98
+    },
+    {
+      "cartId": "CRT003",
+      "userId": "U112",
+      "date": "2026-05-19",
+      "items": [
+        {
+          "productId": "P004",
+          "name": "T-Shirt",
+          "quantity": 3,
+          "price": 29.99
+        }
+      ],
+      "totalPrice": 89.79
+    },
+    {
+      "cartId": "CRT004",
+      "userId": "U112",
+      "date": "2026-05-19",
+      "items": [
+        {
+          "productId": "P005",
+          "name": "Jeans",
+          "quantity": 1,
+          "price": 59.99
+        }
+      ],
+      "totalPrice": 59.99
+    },
+    {
+      "cartId": "CRT005",
+      "userId": "U963",
+      "date": "2026-05-19",
+      "items": [
+        {
+          "productId": "P002",
+          "name": "Laptop",
+          "quantity": 1,
+          "price": 1299.99
+        }
+      ],
+      "totalPrice": 1299.99
+    },
+    {
+      "cartId": "CRT001",
       "userId": "U789",
       "date": "2026-05-20",
       "items": [
@@ -857,14 +809,11 @@
           "price": 699.99
         }
       ],
-      "totalPrice": 699.99,
-      "status": "Completed",
-      "paymentMethod": "Credit Card"
+      "totalPrice": 699.99
     },
     {
-      "orderId": "ORD002",
-      "cartId": "CRT102",
-      "userId": "U789",
+      "cartId": "CRT002",
+      "userId": "U452",
       "date": "2026-05-20",
       "items": [
         {
@@ -874,9 +823,43 @@
           "price": 199.99
         }
       ],
-      "totalPrice": 399.98,
-      "status": "Shipped",
-      "paymentMethod": "Mobile Banking"
+      "totalPrice": 399.98
+    }
+  ],
+  "userOrders": [
+    {
+      "orderId": "ORD005",
+      "cartId": "CRT005",
+      "userId": "U789",
+      "date": "2026-05-18",
+      "items": [
+        {
+          "productId": "P006",
+          "name": "Sneakers",
+          "quantity": 1,
+          "price": 89.99
+        }
+      ],
+      "totalPrice": 89.99,
+      "status": "Cancelled",
+      "paymentMethod": "Credit Card"
+    },
+    {
+      "orderId": "ORD006",
+      "cartId": "CRT005",
+      "userId": "U112",
+      "date": "2026-05-18",
+      "items": [
+        {
+          "productId": "P006",
+          "name": "Sneakers",
+          "quantity": 1,
+          "price": 89.99
+        }
+      ],
+      "totalPrice": 89.99,
+      "status": "Cancelled",
+      "paymentMethod": "Credit Card"
     },
     {
       "orderId": "ORD003",
@@ -919,77 +902,55 @@
       "paymentMethod": "Cash on Delivery"
     },
     {
-      "orderId": "ORD005",
-      "cartId": "CRT005",
-      "userId": "U789",
-      "date": "2026-05-18",
+      "orderId": "ORD007",
+      "cartId": "CRT004",
+      "userId": "U963",
+      "date": "2026-05-19",
       "items": [
         {
-          "productId": "P006",
-          "name": "Sneakers",
+          "productId": "P002",
+          "name": "Laptop",
           "quantity": 1,
-          "price": 89.99
+          "price": 1299.99
         }
       ],
-      "totalPrice": 89.99,
-      "status": "Cancelled",
+      "totalPrice": 1299.99,
+      "status": "Paid",
+      "paymentMethod": "Cash on Delivery"
+    },
+    {
+      "orderId": "ORD001",
+      "cartId": "CRT101",
+      "userId": "U789",
+      "date": "2026-05-20",
+      "items": [
+        {
+          "productId": "P001",
+          "name": "Smartphone",
+          "quantity": 1,
+          "price": 699.99
+        }
+      ],
+      "totalPrice": 699.99,
+      "status": "Completed",
       "paymentMethod": "Credit Card"
-    }
-  ],
-  "customer": [
-    {
-      "name": "Somchai Prasert",
-      "address": "123/45 Phahonyothin Road, Chatuchak, Bangkok 10900, Thailand",
-      "phone": "0815555555",
-      "email": "somchai@example.com",
-      "password": "1234",
-      "userId": "U789"
     },
     {
-      "name": "Suda Wongchai",
-      "address": "56/78 Sukjai Village, Bangkhen Subdistrict, Nonthaburi 11000, Thailand",
-      "phone": "0825555555",
-      "email": "suda@example.com",
-      "password": "1234",
-      "userId": "U452"
-    },
-    {
-      "name": "Anan Kittipong",
-      "address": "99/12 Moo 3, Bang Phli Yai Subdistrict, Samut Prakan 10540, Thailand",
-      "phone": "0835555555",
-      "email": "anan@example.com",
-      "password": "1234",
-      "userId": "U112"
-    },
-    {
-      "name": "Nattaporn Chaiyasit",
-      "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
-      "phone": "0845555555",
-      "email": "nattaporn@example.com",
-      "password": "1234",
-      "userId": "U963"
-    },
-    {
-      "name": "Jack Chaiyasit",
-      "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
-      "phone": "0855555555",
-      "email": "jack@example.com",
-      "password": "1234",
-      "userId": "U551"
-    },
-    {
-      "name": "Admin",
-      "address": "12/34 Ram Inthra Road, Khan Na Yao District, Bangkok 10230, Thailand",
-      "phone": "0865555555",
-      "email": "admin@example.com",
-      "password": "1234",
-      "userId": "a001"
-    },
-    {
-      "name": "as",
-      "email": "as@gmail.com",
-      "password": "as",
-      "userId": "U1779725539020"
+      "orderId": "ORD002",
+      "cartId": "CRT102",
+      "userId": "U789",
+      "date": "2026-05-20",
+      "items": [
+        {
+          "productId": "P003",
+          "name": "Headphones",
+          "quantity": 2,
+          "price": 199.99
+        }
+      ],
+      "totalPrice": 399.98,
+      "status": "Shipped",
+      "paymentMethod": "Mobile Banking"
     }
   ]
 }

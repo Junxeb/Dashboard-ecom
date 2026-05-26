@@ -29,7 +29,7 @@ export default function SignUp() {
     setError('');
     setIsLoading(true);
 
-    // ตรวจสอบ password ตรงกัน
+    // ตรวจสอบ password ตรงกัน Invalid action
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       setIsLoading(false);

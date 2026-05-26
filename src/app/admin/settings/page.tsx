@@ -18,11 +18,11 @@ export default function Settings() {
         console.log({ fullName, email, phone, timezone, bio })
         alert("Saved settings (demo)")
     }
-
+// 
     const handleCancel = () => {
         // สามารถรีเซ็ตเป็นค่าเริ่มต้นหรือล้างสถานะได้
-        setFullName("Demo User")
-        setEmail("demo@apexdashboard.com")
+        setFullName("Admin")
+        setEmail("admin@example.com")
         setPhone("")
         setTimezone("UTC")
         setBio("Building admin dashboards with React, Tailwind and simple components.")

@@ -37,7 +37,7 @@ const statusBadge = (status: string) => {
 const OrderTable = () => {
   const [orders, setOrders] = useState<UserOrder[]>([])
   const [searchTerm, setSearchTerm] = useState("")
-  const [pageSize, setPageSize] = useState(5)
+  const [pageSize, setPageSize] = useState(10)
   const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
