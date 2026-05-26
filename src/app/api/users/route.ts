@@ -27,10 +27,10 @@ function readData(): DataFile {
   return JSON.parse(raw) as DataFile;
 }
 
+// ✅ ใช้ POST สำหรับ signup, signin, getUser, updateProfile (แบบ action)
 export async function POST(req: Request) {
   const { action, name, email, password, userId, address, phone } = await req.json();
 
-  // ✅ สมัครสมาชิก
   if (action === "signup") {
     const result = await signUpUser(name, email, password);
     if (result.error) {
@@ -39,7 +39,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ user: result.user });
   }
 
-  // ✅ เข้าสู่ระบบ
   if (action === "signin") {
     const result = await signInUser(email, password);
     if (result.error) {
@@ -48,7 +47,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: result.message, user: result.user });
   }
 
-  // ✅ ดึงข้อมูลผู้ใช้
   if (action === "getUser") {
     const data = readData();
     const user = data.customer.find((u) => u.userId === userId);
@@ -58,7 +56,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ user });
   }
 
-  // ✅ อัปเดตโปรไฟล์
   if (action === "updateProfile") {
     const data = readData();
     const userIndex = data.customer.findIndex((u) => u.userId === userId);
@@ -74,4 +71,26 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ error: "Invalid action" }, { status: 400 });
+}
+
+// ✅ ใช้ PATCH สำหรับแก้ไขข้อมูลผู้ใช้แบบ RESTful
+export async function PATCH(req: Request) {
+  const { userId, name, email, address, phone } = await req.json();
+
+  const data = readData();
+  const userIndex = data.customer.findIndex((u) => u.userId === userId);
+
+  if (userIndex === -1) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  // อัปเดตเฉพาะ field ที่ส่งมา
+  if (name) data.customer[userIndex].name = name;
+  if (email) data.customer[userIndex].email = email;
+  if (address) data.customer[userIndex].address = address;
+  if (phone) data.customer[userIndex].phone = phone;
+
+  fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+
+  return NextResponse.json({ success: true, user: data.customer[userIndex] });
 }

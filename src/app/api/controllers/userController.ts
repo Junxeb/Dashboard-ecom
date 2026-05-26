@@ -10,6 +10,8 @@ export interface Customer {
   email: string;
   password: string;
   userId: string;
+  address?: string;
+  phone?: string;
 }
 
 interface DataFile {

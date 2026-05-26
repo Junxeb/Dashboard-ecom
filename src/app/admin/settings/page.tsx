@@ -3,33 +3,51 @@
 import React, { useState } from "react"
 
 export default function Settings() {
-    const [fullName, setFullName] = useState("Demo User")
-    const [email, setEmail] = useState("demo@apexdashboard.com")
+    const [fullName, setFullName] = useState("Admin")
+    const [email, setEmail] = useState("admin@example.com")
     const [phone, setPhone] = useState("")
-    const [timezone, setTimezone] = useState("UTC")
     const [address, setAddress] = useState("")
 
     const [bio, setBio] = useState(
         "Building admin dashboards with React, Tailwind and simple components."
     )
 
-    const handleSave = () => {
-        // ในโปรเจคจริงจะเรียก API บันทึกข้อมูล
-        console.log({ fullName, email, phone, timezone, bio })
-        alert("Saved settings (demo)")
-    }
+    const handleUpdate = async () => {
+        const response = await fetch("/api/user", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                userId: "a001",
+                name: fullName,
+                email: email,
+                address: address,
+                phone: phone,
+                }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert("Profile updated successfully!");
+            console.log(result.user);
+        } else {
+            alert("Error: " + result.error);
+        }
+};
+
+
+
 // 
-    const handleCancel = () => {
+    const handleClear = () => {
         // สามารถรีเซ็ตเป็นค่าเริ่มต้นหรือล้างสถานะได้
-        setFullName("Admin")
+        setFullName("")
         setEmail("admin@example.com")
         setPhone("")
-        setTimezone("UTC")
-        setBio("Building admin dashboards with React, Tailwind and simple components.")
+
+        setBio("")
     }
 
     const handleExport = () => {
-        const data = { fullName, email, phone, timezone, bio }
+        const data = { fullName, email, phone,  }
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
         const url = URL.createObjectURL(blob)
         const a = document.createElement("a")
@@ -98,8 +116,8 @@ export default function Settings() {
                                 </div>
 
                                 <div className="mt-4 flex justify-end gap-3">
-                                    <button onClick={handleCancel} className="px-4 py-2 bg-transparent border border-[#3a3a3a] rounded-md text-sm">Cancel</button>
-                                    <button onClick={handleSave} className="px-4 py-2 bg-[#10b981] text-white rounded-md text-sm">Save changes</button>
+                                    <button onClick={handleClear} className="px-4 py-2 bg-transparent border border-[#3a3a3a] rounded-md text-sm">Clear</button>
+                                    <button onClick={handleUpdate} className="px-4 py-2 bg-[#10b981] text-white rounded-md text-sm">Save changes</button>
                                 </div>
                             </div>
                         </div>
