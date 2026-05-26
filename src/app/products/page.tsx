@@ -15,12 +15,17 @@ type ProductItem = {
     actions?: string;
     src?: string;
 }
+
 export default function Products() {
 
     const [ salesData, setSalesData ] = useState<ProductItem[]>([]);
     const [ isOpen, setIsOpen ] = useState(false)
     const [ selectedCategory, setSelectedCategory ] = useState("All");
     const [ searchQuery, setSearchQuery ] = useState("")
+
+    // 🔐 1. จำลองสถานะด้วย ID ของผู้ใช้งานแทนการใช้ boolean
+    // เคสล็อกอิน: ใส่รหัสสตริง เช่น "U963" | เคสไม่ได้ล็อกอิน: เปลี่ยนค่าให้เป็น null
+    const [currentUserId, setCurrentUserId] = useState<string | null>("U789"); 
 
     useEffect (() => {
         fetch("/data.json")
@@ -36,7 +41,6 @@ export default function Products() {
         const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
     
         // 2. ตรวจสอบเงื่อนไขคำค้นหาจากชื่อสินค้า (Search Query Filter)
-        // ใช้ item.name? เพื่อความปลอดภัยเผื่อบางออบเจกต์ไม่มีชื่อป้องกันแอปพัง (Optional Chaining)
         const matchesSearch = (item.name || "")
             .toLowerCase()
             .includes(searchQuery.toLowerCase().trim());
@@ -115,7 +119,6 @@ export default function Products() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8 mt-4">
                         {productData.length > 0 ? (
-                        // 🟢 กรณีที่มีสินค้าตรงกับเงื่อนไข ให้ map การ์ดออกมาแสดงปกติ
                             productData.map((product) => (
                                 <ProductCardLayout
                                     key={product.id}
@@ -125,10 +128,11 @@ export default function Products() {
                                     detail={`หมวดหมู่: ${product.category}`}
                                     price={product.price}
                                     show={1}
+                                    // 🟢 2. ส่งกระสุน currentUserId ลงไปแทนตัวแปรเก่า
+                                    currentUserId={currentUserId} 
                                 />
                             ))
                         ) : (
-                            // 🔴 กรณีที่ไม่พบสินค้าที่ตรงกับประเภทหรือชื่อที่หาเลย ให้แสดงกล่องข้อความนี้
                                 <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex flex-col items-center justify-center py-16 px-4 bg-[#121212]/50 border border-[#2f2f2f] rounded-xl text-center">
                                     <svg 
                                         className="w-12 h-12 text-[#4f4f4f] mb-3" 

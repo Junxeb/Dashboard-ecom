@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { ShoppingCart, Trash2, User, CreditCard, Plus, Minus } from "lucide-react";
+import { ShoppingCart, Trash2, User, CreditCard, Plus, Minus, LogIn } from "lucide-react";
 
 type ProductItem = {
     id: string;
@@ -44,9 +44,14 @@ type FlatCartItem = {
 export default function Carts() {
     const [flattenedItems, setFlattenedItems] = useState<FlatCartItem[]>([]);
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
-    const currentUserId = "U789"; 
+    
+    // 🔐 จำลองสถานะการ Log In (เปลี่ยนเป็น null เพื่อทดสอบหน้า "ยังไม่ได้ล็อกอิน")
+    const currentUserId: string | null = "U789"; 
 
     useEffect(() => {
+        // 🛑 ถ้าไม่มี User ID ไม่ต้องดึงข้อมูลจาก API ครับ
+        if (!currentUserId) return;
+
         fetch("/data.json")
             .then((res) => res.json())
             .then((data) => {
@@ -85,7 +90,7 @@ export default function Carts() {
                     return {
                         ...item,
                         quantity: newQty,
-                        totalItemPrice: item.price * newQty // คำนวณราคารวมของชิ้นนี้ใหม่
+                        totalItemPrice: item.price * newQty
                     };
                 }
                 return item;
@@ -93,7 +98,7 @@ export default function Carts() {
         );
     };
 
-    // 🛠️ ฟังก์ชันลดจำนวนสินค้าในตะกร้า (ล็อกขั้นต่ำไว้ที่ 1 ชิ้น)
+    // 🛠️ ฟังก์ชันลดจำนวนสินค้าในตะกร้า
     const handleDecrementQty = (cartId: string, productId: string) => {
         setFlattenedItems(prevItems =>
             prevItems.map(item => {
@@ -102,7 +107,7 @@ export default function Carts() {
                     return {
                         ...item,
                         quantity: newQty,
-                        totalItemPrice: item.price * newQty // คำนวณราคารวมของชิ้นนี้ใหม่
+                        totalItemPrice: item.price * newQty
                     };
                 }
                 return item;
@@ -153,6 +158,45 @@ export default function Carts() {
         alert(`กำลังพาท่านไปยังหน้าชำระเงิน...\nยอดเงินรวมทั้งหมดของชิ้นที่เลือก: $${grandTotal.toFixed(2)}`);
     };
 
+    if (!currentUserId) {
+        return (
+            <div className="flex-1 overflow-auto relative z-10 bg-[#121212] min-h-screen text-white">
+                <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+                
+                    {/* แผ่น Card หลักที่มีสัดส่วนเท่ากับหน้าอื่นๆ */}
+                    <div className="bg-[#1e1e1e] p-6 rounded-xl border border-[#2d2d2d] shadow-xl">
+                    
+                        {/* ส่วนหัวข้อเมนูหลัก */}
+                        <div>
+                            <h4 className="text-white text-xl font-semibold flex items-center">
+                                <ShoppingCart className="inline mr-3 text-[#38BDF8]" size={26} />
+                                My Carts
+                            </h4>
+                            <p className="text-sm text-[#686868] mt-1">
+                                โปรดเข้าสู่ระบบเพื่อตรวจสอบตะกร้าสินค้าของคุณ
+                            </p>
+                        </div>
+
+                        <hr className="border-[#333333] mt-4 mb-6" />
+
+                        {/* 📦 กล่องพื้นที่ตรงกลาง (Empty State พื้นหลังโปร่งใสตามรูปตัวอย่าง) */}
+                        <div className="flex flex-col items-center justify-center py-20 border border-[#2a2a2a]/40 rounded-xl bg-[#161616]/30 space-y-4">
+                        
+                            {/* ไอคอนกระดิ่งจางๆ สไตล์มินิมอล */}
+                            <ShoppingCart className="w-16 h-16 text-gray-600 opacity-30 animate-pulse" />
+                        
+                            {/* ข้อความแจ้งเตือน */}
+                            <div className="text-center space-y-1">
+                                <p className="text-base font-medium text-gray-400">No carts found for this user.</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        );
+    }
+
+    // 🛒 2. UI หลักกรณีล็อกอินเรียบร้อยแล้ว
     return (
         <div className='flex-1 overflow-auto relative z-10 bg-[#121212] min-h-screen text-white'>
             <div className='max-w-7xl mx-auto py-6 px-4 lg:px-8 mb-5 space-y-6'>
@@ -185,10 +229,9 @@ export default function Carts() {
                                         />
                                     </th>
                                     <th className="py-3 px-4 font-normal min-w-[220px]">สินค้า</th>
-                                    <th className="py-3 px-4 font-normal text-right w-[120px]">ราคา</th>
-                                    {/* ปรับความกว้างคอลัมน์จำนวนให้รองรับปุ่ม */}
+                                    <th className="py-3 px-4 font-normal text-center w-[120px]">ราคา</th>
                                     <th className="py-3 px-4 font-normal text-center w-[140px]">จำนวน</th>
-                                    <th className="py-3 px-4 font-normal text-right w-[140px]">ราคารวม</th>
+                                    <th className="py-3 px-4 font-normal text-center w-[140px]">ราคารวม</th>
                                     <th className="py-3 px-4 w-16 text-center"></th>
                                 </tr>
                             </thead>
@@ -242,14 +285,12 @@ export default function Carts() {
                                                 </div>
                                             </td>
                                             
-                                            <td className="py-4 px-4 text-right font-mono text-sm">
+                                            <td className="py-4 px-4 text-center font-mono text-sm">
                                                 ${item.price.toFixed(2)}
                                             </td>
                                             
-                                            {/* 🛠️ ช่องตารางจำนวนสินค้าที่มีปุ่ม เพิ่ม-ลด */}
                                             <td className="py-4 px-4">
                                                 <div className="flex items-center justify-center bg-[#121212] rounded-md border border-[#333333] p-0.5 max-w-[100px] mx-auto">
-                                                    {/* ปุ่มลดจำนวน */}
                                                     <button
                                                         onClick={() => handleDecrementQty(item.cartId, item.productId)}
                                                         disabled={item.quantity <= 1}
@@ -258,12 +299,10 @@ export default function Carts() {
                                                         <Minus size={12} />
                                                     </button>
 
-                                                    {/* ตัวเลขแสดงจำนวนปัจจุบัน */}
                                                     <span className="w-8 text-center text-sm font-semibold font-mono text-white select-none">
                                                         {item.quantity}
                                                     </span>
 
-                                                    {/* ปุ่มเพิ่มจำนวน */}
                                                     <button
                                                         onClick={() => handleIncrementQty(item.cartId, item.productId)}
                                                         className="p-1 text-gray-400 hover:text-white hover:bg-[#262626] rounded transition-colors cursor-pointer"
@@ -273,7 +312,7 @@ export default function Carts() {
                                                 </div>
                                             </td>
                                             
-                                            <td className="py-4 px-4 text-right font-mono text-sm text-[#34D399] font-semibold">
+                                            <td className="py-4 px-4 text-center font-mono text-sm text-[#34D399] font-semibold">
                                                 ${item.totalItemPrice.toFixed(2)}
                                             </td>
                                             
@@ -325,5 +364,5 @@ export default function Carts() {
 
             </div>
         </div>
-    )
+    );
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { Bell, CheckCircle, CoinsIcon, HandHeart, Package, ShoppingBag, ShoppingCart, User, Loader2, XCircle } from "lucide-react";
+import { Bell, CheckCircle, CoinsIcon, HandHeart, Package, ShoppingBag, ShoppingCart, User, Loader2, XCircle, LogIn } from "lucide-react";
 import StatCard from "../../components/StatCard";
 import { useRouter } from "next/navigation";
 import { motion } from 'framer-motion';
@@ -16,7 +16,7 @@ type MothlySales = {
   cost: number
 }
 
-type  ProductBase ={
+type ProductBase ={
   type: "product",
   id: string,
   name: string,
@@ -30,69 +30,135 @@ type  ProductBase ={
 
 type SaleData = MothlySales | ProductBase;
 
-export default function Home() {
+// 🆕 เพิ่ม Interface รองรับ Props เผื่อรับ currentUserId มาจาก Layout/Component พ่อ
+type HomeProps = {
+  currentUserId?: string | null;
+};
 
+export default function Home({ currentUserId = "U789" }: HomeProps) {
   const [userCartData, setUserCartData] = useState([]);
   const [userOrderData, setUserOrderData] = useState([]);
-  const [ salesData, setSalesData ] = useState<SaleData[]>([]);
+  const [salesData, setSalesData] = useState<SaleData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const currentUserId = "U789";
+  const router = useRouter();
 
-  const router = useRouter()
+  // 🔄 ยุบเหลือ useEffect ตัวเดียวเพื่อ Fetch ข้อมูลทั้งหมด และดักจับเมื่อ currentUserId เปลี่ยนแปลง
+  useEffect(() => {
+    if (!currentUserId) {
+      setIsLoading(false);
+      return;
+    }
 
-  useEffect (() => {
+    setIsLoading(true);
     fetch("/data.json")
-    .then((res) => res.json())
-    .then((data) => {
-      setUserCartData(data.userCarts);
-      setUserOrderData(data.userOrders);
-      setSalesData(data.salesData);
-    })
-  }, []);
+      .then((res) => res.json())
+      .then((data) => {
+        setUserCartData(data.userCarts || []);
+        setUserOrderData(data.userOrders || []);
+        setSalesData(data.salesData || []);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+        setIsLoading(false);
+      });
+  }, [currentUserId]); // 👈 เมื่อ ID เปลี่ยนจะวิ่งมา Fetch ข้อมูลใหม่ทันที
 
-  useEffect (() => {
-    fetch("/data.json")
-    .then((res) => res.json())
-    .then((data) => setUserOrderData(data.userOrders))
-  }, []);
-
+  // 🎯 1. กรองข้อมูลตะกร้าสินค้าเฉพาะของ User ปัจจุบัน
   const myCartData = userCartData ? userCartData.filter((cart: any) => cart.userId === currentUserId) : [];
-
-  // ใช้คำนวณจำนวนตะกร้า ของที่สั่ง เงินที่จ่ายทั้งหมด
   const totalCarts = myCartData.length;
-  const totalOrders = userOrderData ? userOrderData.filter(cart => ["Processing", "Shipped", "Completed"].includes(cart.status)).length : 0;
-  const totalSpent = userOrderData ? userOrderData.filter(cart => ["Processing", "Completed", "Shipped"].includes(cart.status)).reduce((sum,cart) => sum + cart.totalPrice, 0) : 0;
 
-  // ดึงเฉพาะ orderId จากทุกรายการสินค้าออกมาเป็นอาเรย์ เช่น ["CRT001", "CRT002", ...]
-  const ordersId = userOrderData ? userOrderData.map(order => order.orderId) : [];
+  // 🎯 2. กรองข้อมูล Order เฉพาะของ User ปัจจุบัน
+  const myOrderData = userOrderData ? userOrderData.filter((order: any) => order.userId === currentUserId) : [];
+  
+
+  // ==================== วางโค้ดที่แก้ไขตรงนี้ครับ ====================
+  // กำหนดกลุ่มสถานะที่นับว่าเป็นออร์เดอร์ที่ใช้งานได้จริง (เพิ่ม "Paid")
+  const validStatuses = ["Paid", "Processing", "Shipped", "Completed"];
+
+  // คำนวณจำนวนออร์เดอร์ และ ยอดรวมเงินที่จ่ายไป โดยใช้สถานะที่กำหนดไว้ด้านบน
+  const totalOrders = myOrderData.filter(order => validStatuses.includes(order.status)).length;
+  const totalSpent = myOrderData.filter(order => validStatuses.includes(order.status)).reduce((sum, order) => sum + order.totalPrice, 0);
+  // ==============================================================
+
+  // ดึงเฉพาะ orderId ของตัวเองออกมา
+  const ordersId = myOrderData.map(order => order.orderId);
 
   // คำนวณค่าระดับของบัญชีตามจำนวนเงินที่จ่ายไป
   let accountTier = "";
   if (totalSpent >= 5000) {
     accountTier = "Platinum";
   } else if (totalSpent >= 2000) {
-    accountTier ="Gold";
+    accountTier = "Gold";
   } else if (totalSpent >= 500) {
-    accountTier ="Silver"
-  } else if (totalSpent >= 1){
-    accountTier = "Standard"
+    accountTier = "Silver";
+  } else if (totalSpent >= 1) {
+    accountTier = "Standard";
   } else {
-    accountTier = ""
+    accountTier = "Guest";
   }
 
+  // ฟังก์ชันเลือกสีตามสถานะออร์เดอร์
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Completed" : return "bg-[#4DB6AC]";
       case "Shipped" : return "bg-[#38BDF8]";
       case "Processing" : return "bg-[#EAB300]";
+      case "Paid" : return "bg-[#7986CB]";
       default : return "bg-[#E57373]";
     }
   }
 
+  // ดึงข้อมูลกราฟยอดขายภาพรวม (คงเดิมไว้เนื่องจากเป็นสถิติมุมมองร้านค้า/ภาพรวม)
   const chartData = salesData?.filter(item => item.type === "month");
 
+  // 🚪 เพิ่มจุดดักกรณียังโหลดข้อมูลไม่เสร็จ เผื่อจังหวะกดสลับ ID
+  if (isLoading) {
+    return (
+      <div className="flex-1 flex items-center justify-center min-h-screen text-gray-400 font-medium bg-[#121212]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="w-8 h-8 text-[#38BDF8] animate-spin" />
+          <span>กำลังเปลี่ยนบัญชีผู้ใช้...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // 🚪 ส่วนนี้: ถ้าไม่ได้ล็อกอิน (currentUserId เป็น null หรือไม่มีค่า) จะแสดงหน้า Sign In แจ้งเตือนแทน
+  if (!currentUserId) {
+    return (
+      <div className="flex-1 relative z-10 bg-[#121212] min-h-screen">
+        <main className="max-w-7xl mx-auto py-4 px-4 lg:px-8 mb-5 space-y-6">
+          <div className="bg-[#1e1e1e] py-24 px-6 rounded-xl border border-[#2d2d2d] flex flex-col items-center justify-center text-center shadow-2xl space-y-6 header-section">
+            <div className="w-16 h-16 bg-[#38BDF8]/10 border border-[#38BDF8]/20 rounded-full flex items-center justify-center text-[#38BDF8] shrink-0">
+              <LogIn size={32} />
+            </div>
+
+            <div className="space-y-2 max-w-md">
+              <h2 className="text-2xl font-bold text-white tracking-wide">Welcome to CARTLY</h2>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                กรุณาเข้าสู่ระบบเพื่อใช้งานแดชบอร์ด ดูข้อมูลคำสั่งซื้อ ตะกร้าสินค้า และรับการแจ้งเตือนต่างๆ ของคุณ
+              </p>
+            </div>
+
+            <div className="w-full max-w-xs pt-2">
+              <button 
+                onClick={() => router.push('/signin')} 
+                className="w-full py-3 px-6 text-sm font-semibold rounded-lg text-white bg-[#38BDF8] hover:bg-[#29a3d6] transition-colors shadow-lg cursor-pointer transform active:scale-[0.98]"
+              >
+                Sign In
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // 📊 ส่วนแสดงผลแดชบอร์ดเดิมทั้งหมด (ปรับให้ใช้ข้อมูลแบบ Dynamic ของแต่ละ User แล้ว)
   return (
-    <div className='flex-1 overflow-auto relative z-10'>
+    <div className='flex-1 overflow-auto relative z-10 bg-[#121212] min-h-screen text-white'>
       <main className='max-w-7xl mx-auto py-4 px-4 lg:px-8'>
         <div className='grid gap-5 mb-8'>
           <div className="flex items-center text-sm font-medium text-[#38BDF8]">
@@ -102,11 +168,12 @@ export default function Home() {
 
           <hr className="border-[#656565] border-1 mb-4" />
 
+          {/* สถิติตัวเลขด้านบนเปลี่ยนกลุ่มตัวแปรมาอิงตาม myOrderData และ totalSpent ของ User คนนั้นๆ */}
           <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8'>
-            <StatCard name='Total spents' icon={CoinsIcon} value={totalSpent} color_bg="#E57373" color_text="#2f2f2f" color_value="#2f2f2f"/>
+            <StatCard name='Total spents' icon={CoinsIcon} value={`$${totalSpent.toLocaleString()}`} color_bg="#E57373" color_text="#2f2f2f" color_value="#2f2f2f"/>
             <StatCard name='My Carts' icon={ShoppingCart} value={totalCarts} color_bg="#4DB6AC" color_text="#2f2f2f" color_value="#2f2f2f" onClick={() => router.push('/carts')}/>
             <StatCard name='Total Orders' icon={Package} value={totalOrders} color_bg="#7986CB" color_text="#2f2f2f" color_value="#2f2f2f" onClick={() => router.push('/orders')}/>
-            <StatCard name='Account Status' icon={User} value={accountTier} color_bg="#EAB300" color_text="#2f2f2f" color_value="#2f2f2f" onClick={() => router.push('/settings')}/>
+            <StatCard name='Account Status' icon={User} value={accountTier || "Standard"} color_bg="#EAB300" color_text="#2f2f2f" color_value="#2f2f2f" onClick={() => router.push('/settings')}/>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-5">
@@ -125,7 +192,6 @@ export default function Home() {
                           <stop offset="5%" stopColor="#38BDF8" stopOpacity={0.3}/>
                           <stop offset="95%" stopColor="#38BDF8" stopOpacity={0}/>
                         </linearGradient>
-
                         <linearGradient id="colorProfit" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor="#4DB6AC" stopOpacity={0.3}/>
                           <stop offset="95%" stopColor="#4DB6AC" stopOpacity={0}/>
@@ -134,25 +200,20 @@ export default function Home() {
         
                       <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
                       <XAxis dataKey="name" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
-                      <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`}/>                 
+                      <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`}/>                
                       <Tooltip contentStyle={{ backgroundColor: '#121212', border: 'none', borderRadius: '8px', color: '#fff' }} itemStyle={{ fontSize: '12px' }} />
                       <Legend />
         
-                      {/* เส้นยอดขาย (Sales) */}
                       <Area type="monotone" dataKey="sales" stroke="#38BDF8" strokeWidth={3} fillOpacity={1} fill="url(#colorSales)" name="Total Sales" />
-        
-                      {/* เส้นกำไร (Profit) */}
                       <Area type="monotone" dataKey="profit" stroke="#4DB6AC" strokeWidth={3} fillOpacity={1} fill="url(#colorProfit)" name="Net Profit"/>
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
               </motion.div>
 
-
-              {/* แสดงสินค้าที่ทำการซื้อล่าสุด */}
+              {/* 📦 Recent Products: แสดงเฉพาะสินค้าล่าสุดที่ User คนนี้เป็นคนสั่งซื้อ */}
               <motion.div className="bg-[#1e1e1e] p-6 rounded-xl border border-transparent"
-                whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',borderColor: '#01579b' }}
-                onClick={() => router.push('/products')}
+                whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)', borderColor: '#01579b' }}
               >
                 <div className="flex">
                   <ShoppingBag className="mr-2"/>
@@ -160,9 +221,9 @@ export default function Home() {
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                  {userOrderData && userOrderData.length > 0 ? (
-                    [...userOrderData].reverse().slice(0,2).map((order) => 
-                      order.items.map((item) => {
+                  {myOrderData && myOrderData.length > 0 ? (
+                    [...myOrderData].reverse().slice(0, 2).map((order) => 
+                      order.items.map((item: any) => {
                         const product = salesData?.find(
                           (p) => p.type === "product" && p.id === item.productId
                         );
@@ -170,7 +231,7 @@ export default function Home() {
                         return (
                           <ProductCardLayout 
                             key={item.productId}
-                            src={product?.src}
+                            src={product?.src || "/api/placeholder/150/150"}
                             alt={item.name}
                             name={item.name}
                             detail={`Order on. #${order.orderId} | จำนวน: ${item.quantity} ชิ้น`}
@@ -178,18 +239,17 @@ export default function Home() {
                         );
                       })
                     )
-                  ): (
-                    <p className="text-sm text-[#2f2f2f] col-span-full py-4 text-center">Loading....</p>
+                  ) : (
+                    <p className="text-sm text-gray-500 col-span-full py-8 text-center">ไม่มีรายการสินค้าที่เพิ่งสั่งซื้อ</p>
                   )}
                 </div>
               </motion.div>
             </div>
 
-
-            {/* my orders  components*/}
+            {/* 📋 Order Status Timeline: ปรับมาใช้ myOrderData ดึงเฉพาะ 3 ออร์เดอร์ล่าสุดของตัวเอง */}
             <div className="lg:w-[30%] space-y-6">
               <motion.div className="lg:h-[50%] bg-[#1e1e1e] p-6 rounded-xl border border-transparent"
-                whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',borderColor: '#01579b' }}
+                whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)', borderColor: '#01579b' }}
                 onClick={() => router.push('/orders')}
               >
                 <div className="flex">
@@ -198,64 +258,65 @@ export default function Home() {
                 </div>
 
                 <ul className="space-y-6 relative">
-                  {/* ทำเส้น Timeline สีฟ้า */}
-                  {userOrderData && userOrderData.slice(0,3).map((order,index) => (
-                    <React.Fragment key={order.orderId}>
-                      <li className="flex gap-4 relative">
-                        <div className={`w-2 h-2 rounded-full mt-2 z-10 ${getStatusColor(order.status)}`}></div>
-                        <div>
-                          <p className="text-sm text-white">Order on. #{order.orderId}</p>
-                          <p className="text-xs text-[#686868]">{order.status} - {order.date}</p>
-                        </div>
-                      </li>
-                      {index < (userOrderData ? userOrderData.slice(0, 3).length - 1 : 0) && <hr className="border-[#656565] border-1 mb-4" />}
-                      
-                    </React.Fragment>
-                  ))}
-                  
+                  {myOrderData && myOrderData.length > 0 ? (
+                    myOrderData.slice(0, 3).map((order, index) => (
+                      <React.Fragment key={order.orderId}>
+                        <li className="flex gap-4 relative">
+                          <div className={`w-2 h-2 rounded-full mt-2 z-10 ${getStatusColor(order.status)}`}></div>
+                          <div>
+                            <p className="text-sm text-white">Order on. #{order.orderId}</p>
+                            <p className="text-xs text-[#686868]">{order.status} - {order.date}</p>
+                          </div>
+                        </li>
+                        {index < (myOrderData.slice(0, 3).length - 1) && <hr className="border-[#2d2d2d] border-1 my-2" />}
+                      </React.Fragment>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500 py-4 text-center">ไม่มีสถานะคำสั่งซื้อ</p>
+                  )}
                 </ul>
               </motion.div>
 
-
-              {/* Notifications components */}
+              {/* 🔔 Notifications Box: ดึงเฉพาะออร์เดอร์ล่าสุดของตัวเองมาทำเป็นกล่องแจ้งเตือน */}
               <motion.div className="lg:h-[46.55%] bg-[#1e1e1e] p-6 rounded-xl border border-transparent"
-                whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)',borderColor: '#01579b' }}
+                whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)', borderColor: '#01579b' }}
                 onClick={() => router.push('/notifications')}
               >
                 <div className="flex">
                   <Bell className="mr-2" />
                   <h4 className="text-white font-semibold mb-4" >Notifications</h4> 
-                  <span className="relative inline-flex h-2 w-2 ml-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E57373] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#cb5e5e]"></span>
-                  </span>
+                  {myOrderData.length > 0 && (
+                    <span className="relative inline-flex h-2 w-2 ml-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E57373] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#cb5e5e]"></span>
+                    </span>
+                  )}
                 </div>
-                <p className="text-sm text-[#686868] mb-4">You have 4 new notifications</p>
+                <p className="text-sm text-[#686868] mb-4">You have {myOrderData.slice(0, 4).length} recent updates</p>
                 
-
-                <div className="space-y-4 overflow-y-auto flex-1 max-h[380px] pr-1 scrollbar-thin ">
-                  {userOrderData && userOrderData.length > 0 ? (
-                    [...userOrderData].reverse().slice(0,4).map((order) => {
+                <div className="space-y-4 overflow-y-auto flex-1 max-h-[220px] pr-1 scrollbar-thin">
+                  {myOrderData && myOrderData.length > 0 ? (
+                    [...myOrderData].reverse().slice(0, 4).map((order) => {
                       let icon = <ShoppingBag className="w-4 h-4 text-[#38BDF8] "/>;
                       let statusText = "New order";
-                      let statusColor = "getStatusColor(cart.status)";
+                      let statusColor = "bg-[#38BDF8]/10 text-[#38BDF8]";
 
                       if(order.status === "Completed") {
-                        icon = <CheckCircle className="w-4 h-4 text-[getStatusColor(order.status)] "/>;
+                        icon = <CheckCircle className="w-4 h-4 text-[#4DB6AC] "/>;
                         statusText = "Order completed";
-                        statusColor = getStatusColor(order.status);
+                        statusColor = "bg-[#4DB6AC]/10 text-[#4DB6AC]";
                       } else if (order.status === "Processing"){
-                        icon = <Loader2 className="w-4 h-4 text-[getStatusColor(order.status)] animate-spin"/>;
-                        statusText = "Order is processing";
-                        statusColor = getStatusColor(order.status);
+                        icon = <Loader2 className="w-4 h-4 text-[#EAB300] animate-spin"/>;
+                        statusText = "Order processing";
+                        statusColor = "bg-[#EAB300]/10 text-[#EAB300]";
                       } else if (order.status === "Shipped"){
-                        icon = <Package className="w-4 h-4 text-[getStatusColor(order.status)] "/>;
+                        icon = <Package className="w-4 h-4 text-[#38BDF8] "/>;
                         statusText = "Order shipped";
-                        statusColor = getStatusColor(order.status);
+                        statusColor = "bg-[#38BDF8]/10 text-[#38BDF8]";
                       } else if (order.status === "Cancelled"){
-                        icon = <XCircle className="w-4 h-4 text-[getStatusColor(order.status)] "/>;
+                        icon = <XCircle className="w-4 h-4 text-[#E57373] "/>;
                         statusText = "Order cancelled";
-                        statusColor = getStatusColor(order.status);
+                        statusColor = "bg-[#E57373]/10 text-[#E57373]";
                       }
 
                       return (
@@ -263,21 +324,19 @@ export default function Home() {
                           key={order.orderId} 
                           className="flex gap-3 p-3 rounded-lg bg-[#121212] hover:bg-[#161616] transition-colors border border-[#2a2a2a]/30"
                         >
-                          {/* วงกลมใส่ไอคอนตามสถานะ */}
                           <div className={`w-8 h-8 rounded-full ${statusColor} flex items-center justify-center shrink-0 mt-0.5`}>
                             {icon}
                           </div>
 
-                          {/* ข้อความแจ้งเตือน */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
-                            <p className="text-xs font-semibold text-white truncate">
-                              {statusText} <span className="font-mono text-[#38BDF8]">#{order.orderId}</span>
-                            </p>
-                            <span className="text-[10px] text-gray-500 shrink-0 font-mono">
-                              {order.date}
-                            </span>
-                          </div>
+                              <p className="text-xs font-semibold text-white truncate">
+                                {statusText} <span className="font-mono text-[#38BDF8]">#{order.orderId}</span>
+                              </p>
+                              <span className="text-[10px] text-gray-500 shrink-0 font-mono">
+                                {order.date}
+                              </span>
+                            </div>
                             <p className="text-[11px] text-gray-400 mt-1 truncate">
                               Total price: ${order.totalPrice.toLocaleString()} by. {order.paymentMethod || "system"}
                             </p>
@@ -285,9 +344,9 @@ export default function Home() {
                         </div>
                       );
                     })
-                    ) : (
-                      <p className="text-sm text-[#686868]">No notifications to display</p>
-                    )}
+                  ) : (
+                    <p className="text-sm text-gray-500 text-center py-4">No notifications to display</p>
+                  )}
                 </div>
               </motion.div>
             </div>
