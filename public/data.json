@@ -65,6 +65,12 @@
       "email": "er@d.com",
       "password": "er",
       "userId": "U1779770509274"
+    },
+    {
+      "name": "june",
+      "email": "june@example.com",
+      "password": "1234",
+      "userId": "U1779771354408"
     }
   ],
   "salesData": [
