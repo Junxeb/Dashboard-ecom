@@ -30,25 +30,32 @@ type ProductBase ={
 
 type SaleData = MothlySales | ProductBase;
 
-// 🆕 เพิ่ม Interface รองรับ Props เผื่อรับ currentUserId มาจาก Layout/Component พ่อ
-type HomeProps = {
-  currentUserId?: string | null;
-};
-
-export default function Home({ currentUserId = "U789" }: HomeProps) {
+export default function Home() {
+  // 🔑 เริ่มต้นด้วยสถานะว่างเปล่า เพื่อป้องกัน Hydration Mismatch ระหว่าง Server กับ Client
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [userCartData, setUserCartData] = useState([]);
   const [userOrderData, setUserOrderData] = useState([]);
   const [salesData, setSalesData] = useState<SaleData[]>([]);
+  
+  // ⏳ ให้สถานะเริ่มเป็นจริงเสมอเพื่อรอตรวจสอบ Session บน Browser 
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
 
-  // 🔄 ยุบเหลือ useEffect ตัวเดียวเพื่อ Fetch ข้อมูลทั้งหมด และดักจับเมื่อ currentUserId เปลี่ยนแปลง
+  // 🔄 1. ตรวจสอบและอัปเดตสถานะ User จาก localStorage ทุกครั้งที่มีการโหลดหน้าจอหรือย้ายหน้ากลับมา
   useEffect(() => {
-    if (!currentUserId) {
+    const storedUserId = localStorage.getItem("userId");
+    setCurrentUserId(storedUserId);
+    
+    // หากตรวจสอบแล้วว่าไม่มีไอดีในระบบ ให้ปิดหน้าจอโหลดทันทีเพื่อแสดงหน้าปุ่ม Sign In
+    if (!storedUserId) {
       setIsLoading(false);
-      return;
     }
+  }, []);
+
+  // 🔄 2. วิ่งไปดาวน์โหลดข้อมูลจำลองเมื่อค่ายืนยันตัวตนสำเร็จ (มีค่าแน่ชัดแล้ว)
+  useEffect(() => {
+    if (!currentUserId) return;
 
     setIsLoading(true);
     fetch("/data.json")
@@ -63,26 +70,21 @@ export default function Home({ currentUserId = "U789" }: HomeProps) {
         console.error("Error fetching data:", err);
         setIsLoading(false);
       });
-  }, [currentUserId]); // 👈 เมื่อ ID เปลี่ยนจะวิ่งมา Fetch ข้อมูลใหม่ทันที
+  }, [currentUserId]); 
 
-  // 🎯 1. กรองข้อมูลตะกร้าสินค้าเฉพาะของ User ปัจจุบัน
+  // 🎯 กรองข้อมูลตะกร้าสินค้าเฉพาะของ User ปัจจุบัน
   const myCartData = userCartData ? userCartData.filter((cart: any) => cart.userId === currentUserId) : [];
   const totalCarts = myCartData.length;
 
-  // 🎯 2. กรองข้อมูล Order เฉพาะของ User ปัจจุบัน
+  // 🎯 กรองข้อมูล Order เฉพาะของ User ปัจจุบัน
   const myOrderData = userOrderData ? userOrderData.filter((order: any) => order.userId === currentUserId) : [];
   
-
-  // ==================== วางโค้ดที่แก้ไขตรงนี้ครับ ====================
-  // กำหนดกลุ่มสถานะที่นับว่าเป็นออร์เดอร์ที่ใช้งานได้จริง (เพิ่ม "Paid")
   const validStatuses = ["Paid", "Processing", "Shipped", "Completed"];
 
-  // คำนวณจำนวนออร์เดอร์ และ ยอดรวมเงินที่จ่ายไป โดยใช้สถานะที่กำหนดไว้ด้านบน
+  // คำนวณจำนวนออร์เดอร์ และ ยอดรวมเงินที่จ่ายไป
   const totalOrders = myOrderData.filter(order => validStatuses.includes(order.status)).length;
   const totalSpent = myOrderData.filter(order => validStatuses.includes(order.status)).reduce((sum, order) => sum + order.totalPrice, 0);
-  // ==============================================================
 
-  // ดึงเฉพาะ orderId ของตัวเองออกมา
   const ordersId = myOrderData.map(order => order.orderId);
 
   // คำนวณค่าระดับของบัญชีตามจำนวนเงินที่จ่ายไป
@@ -93,13 +95,10 @@ export default function Home({ currentUserId = "U789" }: HomeProps) {
     accountTier = "Gold";
   } else if (totalSpent >= 500) {
     accountTier = "Silver";
-  } else if (totalSpent >= 1) {
-    accountTier = "Standard";
   } else {
-    accountTier = "Guest";
+    accountTier = "Standard";
   }
 
-  // ฟังก์ชันเลือกสีตามสถานะออร์เดอร์
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Completed" : return "bg-[#4DB6AC]";
@@ -110,22 +109,21 @@ export default function Home({ currentUserId = "U789" }: HomeProps) {
     }
   }
 
-  // ดึงข้อมูลกราฟยอดขายภาพรวม (คงเดิมไว้เนื่องจากเป็นสถิติมุมมองร้านค้า/ภาพรวม)
   const chartData = salesData?.filter(item => item.type === "month");
 
-  // 🚪 เพิ่มจุดดักกรณียังโหลดข้อมูลไม่เสร็จ เผื่อจังหวะกดสลับ ID
+  // 🚪 หน้าจอระหว่างรอเช็คสถานะการเข้าสู่ระบบ
   if (isLoading) {
     return (
       <div className="flex-1 flex items-center justify-center min-h-screen text-gray-400 font-medium bg-[#121212]">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-8 h-8 text-[#38BDF8] animate-spin" />
-          <span>กำลังเปลี่ยนบัญชีผู้ใช้...</span>
+          <span>กำลังตรวจสอบสิทธิ์เข้าใช้งาน...</span>
         </div>
       </div>
     );
   }
 
-  // 🚪 ส่วนนี้: ถ้าไม่ได้ล็อกอิน (currentUserId เป็น null หรือไม่มีค่า) จะแสดงหน้า Sign In แจ้งเตือนแทน
+  // 🚪 กรณีผู้ใช้ยังไม่ได้ Login จะแสดงหน้าต่างแจ้งเตือนให้เข้าสู่ระบบ
   if (!currentUserId) {
     return (
       <div className="flex-1 relative z-10 bg-[#121212] min-h-screen">
@@ -156,7 +154,7 @@ export default function Home({ currentUserId = "U789" }: HomeProps) {
     );
   }
 
-  // 📊 ส่วนแสดงผลแดชบอร์ดเดิมทั้งหมด (ปรับให้ใช้ข้อมูลแบบ Dynamic ของแต่ละ User แล้ว)
+  // 📊 แสดงผลหน้า Dashboard ตามข้อมูลจริงเมื่อล็อกอินสำเร็จแล้ว
   return (
     <div className='flex-1 overflow-auto relative z-10 bg-[#121212] min-h-screen text-white'>
       <main className='max-w-7xl mx-auto py-4 px-4 lg:px-8'>
@@ -168,7 +166,6 @@ export default function Home({ currentUserId = "U789" }: HomeProps) {
 
           <hr className="border-[#656565] border-1 mb-4" />
 
-          {/* สถิติตัวเลขด้านบนเปลี่ยนกลุ่มตัวแปรมาอิงตาม myOrderData และ totalSpent ของ User คนนั้นๆ */}
           <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8'>
             <StatCard name='Total spents' icon={CoinsIcon} value={`$${totalSpent.toLocaleString()}`} color_bg="#E57373" color_text="#2f2f2f" color_value="#2f2f2f"/>
             <StatCard name='My Carts' icon={ShoppingCart} value={totalCarts} color_bg="#4DB6AC" color_text="#2f2f2f" color_value="#2f2f2f" onClick={() => router.push('/carts')}/>
@@ -211,7 +208,6 @@ export default function Home({ currentUserId = "U789" }: HomeProps) {
                 </div>
               </motion.div>
 
-              {/* 📦 Recent Products: แสดงเฉพาะสินค้าล่าสุดที่ User คนนี้เป็นคนสั่งซื้อ */}
               <motion.div className="bg-[#1e1e1e] p-6 rounded-xl border border-transparent"
                 whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)', borderColor: '#01579b' }}
               >
@@ -246,7 +242,6 @@ export default function Home({ currentUserId = "U789" }: HomeProps) {
               </motion.div>
             </div>
 
-            {/* 📋 Order Status Timeline: ปรับมาใช้ myOrderData ดึงเฉพาะ 3 ออร์เดอร์ล่าสุดของตัวเอง */}
             <div className="lg:w-[30%] space-y-6">
               <motion.div className="lg:h-[50%] bg-[#1e1e1e] p-6 rounded-xl border border-transparent"
                 whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)', borderColor: '#01579b' }}
@@ -277,7 +272,6 @@ export default function Home({ currentUserId = "U789" }: HomeProps) {
                 </ul>
               </motion.div>
 
-              {/* 🔔 Notifications Box: ดึงเฉพาะออร์เดอร์ล่าสุดของตัวเองมาทำเป็นกล่องแจ้งเตือน */}
               <motion.div className="lg:h-[46.55%] bg-[#1e1e1e] p-6 rounded-xl border border-transparent"
                 whileHover = {{ y: -5 , boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)', borderColor: '#01579b' }}
                 onClick={() => router.push('/notifications')}

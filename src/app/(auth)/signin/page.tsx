@@ -25,13 +25,17 @@ export default function SignInPage() {
 
       const data = await res.json();
       if (res.ok) {
-        // ✅ เก็บชื่อ user ลง localStorage
+        //  บันทึกค่าชื่อผู้ใช้ (เก็บไว้เหมือนเดิม)
         localStorage.setItem('userName', data.user.name);
+        
+        // 🔑 เพิ่มบรรทัดนี้: บันทึกรหัส userId ลง localStorage เพื่อให้หน้า Dashboard นำไปใช้ดึงข้อมูล
+        localStorage.setItem('userId', data.user.userId);
 
+        //  เปลี่ยนมาใช้ window.location.href เพื่อเคลียร์ State เก่าและบังคับโหลดหน้าใหม่ให้เห็นข้อมูลทันที
         if (data.user.email === 'admin@example.com') {
-          router.push('/admin');
+          window.location.href = '/admin';
         } else {
-          router.push('/');
+          window.location.href = '/';
         }
       } else {
         setError(data.error || 'Email หรือ Password ไม่ถูกต้อง');
