@@ -94,3 +94,19 @@ export async function PATCH(req: Request) {
 
   return NextResponse.json({ success: true, user: data.customer[userIndex] });
 }
+
+
+// ✅ ใช้ DELETE สำหรับลบผู้ใช้
+import { deleteUser } from "../controllers/userController";
+
+export async function DELETE(req: Request) {
+  const { userId } = await req.json();
+  const result = await deleteUser(userId);
+
+  if (result.error) {
+    return NextResponse.json({ error: result.error }, { status: 404 });
+  }
+
+  return NextResponse.json(result);
+}
+

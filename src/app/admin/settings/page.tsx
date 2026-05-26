@@ -1,53 +1,108 @@
- "use client"
+"use client"
 
 import React, { useState } from "react"
+import { useRouter } from "next/navigation" // นำเข้า router สำหรับทำ redirect
 
 export default function Settings() {
+    const router = useRouter()
+    const CURRENT_USER_ID = "a001" // ไอดีผู้ใช้สมมติ
+
+    // States สำหรับข้อมูลฟอร์ม
     const [fullName, setFullName] = useState("Admin")
     const [email, setEmail] = useState("admin@example.com")
     const [phone, setPhone] = useState("")
     const [address, setAddress] = useState("")
-
     const [bio, setBio] = useState(
         "Building admin dashboards with React, Tailwind and simple components."
     )
 
+    // States สำหรับจัดการ Error และ Success Message ตามรูปแบบใหม่ของคุณ
+    const [error, setError] = useState("")
+    const [success, setSuccess] = useState(false)
+    const [successMessage, setSuccessMessage] = useState("")
+
+    // 1. ฟังก์ชันอัปเดตข้อมูล (ปรับตามรูปแบบที่คุณต้องการ)
     const handleUpdate = async () => {
-        const response = await fetch("/api/users", {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-            userId: "a001",
-            name: fullName,
-            email: email,
-            address: address,
-            phone: phone,
-            }),
-        });
+        setError("")
+        setSuccess(false)
 
-        const result = await response.json();
-        if (result.success) {
-            alert("Profile updated successfully!");
-            console.log(result.user);
-        } else {
-            alert("Error: " + result.error);
+        try {
+            const res = await fetch("/api/users", {
+                method: "POST", // ใช้ POST ตามรูปแบบที่ขอ
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "updateProfile", // ส่ง action ไปแยกแยะที่ Backend
+                    userId: CURRENT_USER_ID,
+                    name: fullName,
+                    email: email,
+                    address: address,
+                    phone: phone,
+                    bio: bio,
+                }),
+            })
+
+            const data = await res.json()
+
+            if (res.ok) {
+                setSuccess(true)
+                setSuccessMessage("Profile updated successfully!")
+                // หากต้องการกดยืนยันแล้วค้างไว้หน้านี้ต่อ ไม่ต้องใส่ router.push ก็ได้ครับ
+            } else {
+                setError(data.error || "Failed to update profile")
+            }
+        } catch (err) {
+            console.error(err)
+            setError("Something went wrong. Please try again.")
         }
-};
-
-
-
-// 
-    const handleClear = () => {
-        // สามารถรีเซ็ตเป็นค่าเริ่มต้นหรือล้างสถานะได้
-        setFullName("")
-        setEmail("admin@example.com")
-        setPhone("")
-
-        setBio("")
     }
 
+    // 2. ฟังก์ชันลบบัญชี (ปรับตามรูปแบบที่คุณต้องการ)
+    const handleDelete = async (userId: string) => {
+        if (!confirm("Are you sure you want to permanently delete this account?")) return
+
+        setError("")
+        setSuccess(false)
+
+        try {
+            const res = await fetch("/api/users", { // ยิงไปที่ Endpoint เดียวกันแล้วใช้ action แยก
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "deleteAccount", // ส่ง action ลบบัญชี
+                    userId: userId,
+                }),
+            })
+
+            const data = await res.json()
+
+            if (res.ok) {
+                setSuccess(true)
+                setSuccessMessage("Account deleted successfully! Redirecting...")
+                // ลบเสร็จ → เด้งไปหน้า login ใน 1.5 วินาที ตามรูปแบบที่คุณส่งมา
+                setTimeout(() => router.push("/login"), 1500)
+            } else {
+                setError(data.error || "Failed to delete account")
+            }
+        } catch (err) {
+            console.error(err)
+            setError("Error deleting account")
+        }
+    }
+
+    // ฟังก์ชันเคลียร์ค่าในฟอร์ม
+    const handleClear = () => {
+        setFullName("")
+        setEmail("")
+        setPhone("")
+        setAddress("")
+        setBio("")
+        setError("")
+        setSuccess(false)
+    }
+
+    // ฟังก์ชัน Export ข้อมูลออกเป็นไฟล์ JSON
     const handleExport = () => {
-        const data = { fullName, email, phone,  }
+        const data = { fullName, email, phone, address, bio }
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })
         const url = URL.createObjectURL(blob)
         const a = document.createElement("a")
@@ -57,18 +112,24 @@ export default function Settings() {
         URL.revokeObjectURL(url)
     }
 
-    const handleDelete = () => {
-        if (confirm("Are you sure you want to permanently delete this account?")) {
-            // ในโปรเจคจริง: เรียก API ลบ
-            alert("Account deleted (demo)")
-        }
-    }
-
     return (
         <div className="flex-1 overflow-auto relative z-10">
             <main className="max-w-7xl mx-auto py-4 px-4 lg:px-8">
                 <div className="grid gap-5 mb-8">
 
+                    {/* แสดงกล่องข้อความแจ้งเตือน Error / Success ถ้ามีสถานะเกิดขึ้น */}
+                    {error && (
+                        <div className="p-4 bg-red-900/50 border border-red-500 text-red-200 rounded-lg text-sm">
+                            {error}
+                        </div>
+                    )}
+                    {success && (
+                        <div className="p-4 bg-green-900/50 border border-green-500 text-green-200 rounded-lg text-sm">
+                            {successMessage}
+                        </div>
+                    )}
+
+                    {/* Section: Profile */}
                     <div className="bg-[#1e1e1e] p-6 rounded-xl border border-[#2a2a2a]">
                         <h3 className="text-white text-lg font-semibold mb-4">Profile</h3>
                         <p className="text-sm text-gray-400 mb-6">Update your personal information visible across the app.</p>
@@ -77,7 +138,7 @@ export default function Settings() {
                             <div className="flex-shrink-0">
                                 <div className="w-20 h-20 rounded-full bg-green-600 flex items-center justify-center text-white font-semibold">DU</div>
                                 <div className="mt-3 flex gap-3">
-                                    <button className="px-3 py-1 bg-[#2d2d2d] rounded-md text-sm">Upload photo</button>
+                                    <button className="px-3 py-1 bg-[#2d2d2d] rounded-md text-sm text-white">Upload photo</button>
                                     <button className="px-3 py-1 text-sm text-gray-400">Remove</button>
                                 </div>
                             </div>
@@ -107,7 +168,6 @@ export default function Settings() {
                                             className="w-full bg-[#141414] border border-[#3a3a3a] rounded-md px-3 py-2 text-sm text-gray-100"
                                         />
                                     </div>
-
                                 </div>
 
                                 <div className="mt-4">
@@ -116,13 +176,14 @@ export default function Settings() {
                                 </div>
 
                                 <div className="mt-4 flex justify-end gap-3">
-                                    <button onClick={handleClear} className="px-4 py-2 bg-transparent border border-[#3a3a3a] rounded-md text-sm">Clear</button>
+                                    <button onClick={handleClear} className="px-4 py-2 bg-transparent border border-[#3a3a3a] rounded-md text-sm text-white">Clear</button>
                                     <button onClick={handleUpdate} className="px-4 py-2 bg-[#10b981] text-white rounded-md text-sm">Save changes</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    {/* Section: Danger Zone */}
                     <div className="bg-[#1e1e1e] p-6 rounded-xl border border-[#2a2a2a]">
                         <h4 className="text-red-400 font-semibold mb-2">Danger zone</h4>
                         <p className="text-sm text-gray-400 mb-4">Permanent actions that affect your account.</p>
@@ -134,7 +195,7 @@ export default function Settings() {
                                     <div className="text-sm text-gray-400">Download a JSON export of your profile, orders, and settings.</div>
                                 </div>
                                 <div>
-                                    <button onClick={handleExport} className="px-3 py-1 bg-[#2d2d2d] rounded-md text-sm">Request export</button>
+                                    <button onClick={handleExport} className="px-3 py-1 bg-[#2d2d2d] rounded-md text-sm text-white">Request export</button>
                                 </div>
                             </div>
 
@@ -144,7 +205,12 @@ export default function Settings() {
                                     <div className="text-sm text-red-100">Permanently remove your account and all associated data.</div>
                                 </div>
                                 <div>
-                                    <button onClick={handleDelete} className="px-3 py-1 bg-red-500 text-white rounded-md text-sm">Delete</button>
+                                    <button 
+                                        onClick={() => handleDelete(CURRENT_USER_ID)} 
+                                        className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm font-medium transition-colors"
+                                    >
+                                        ลบ
+                                    </button>
                                 </div>
                             </div>
                         </div>

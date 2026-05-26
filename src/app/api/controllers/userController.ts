@@ -54,3 +54,22 @@ export async function signInUser(email: string, password: string) {
 
   return { message: 'Login success', user };
 }
+
+
+// ลบผู้ใช้
+export async function deleteUser(userId: string) {
+  const data = readData();
+  const userIndex = data.customer.findIndex((u: Customer) => u.userId === userId);
+
+  if (userIndex === -1) {
+    return { error: "User not found" };
+  }
+
+  // ลบออกจาก array
+  data.customer.splice(userIndex, 1);
+
+  // เขียนกลับลงไฟล์
+  writeData(data);
+
+  return { success: true, message: "User deleted successfully" };
+}
