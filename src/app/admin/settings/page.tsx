@@ -13,16 +13,16 @@ export default function Settings() {
     )
 
     const handleUpdate = async () => {
-        const response = await fetch("/api/user", {
+        const response = await fetch("/api/users", {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                userId: "a001",
-                name: fullName,
-                email: email,
-                address: address,
-                phone: phone,
-                }),
+            body: JSON.stringify({
+            userId: "a001",
+            name: fullName,
+            email: email,
+            address: address,
+            phone: phone,
+            }),
         });
 
         const result = await response.json();
