@@ -54,6 +54,34 @@ const UserModel = {
             console.error("Error writing to data.json:", error);
             return false;
         }
+    },
+
+    // เพิ่มฟังก์ชันนี้ต่อท้ายฟังก์ชัน create ใน UserModel 
+
+    // ฟังก์ชันสำหรับลบข้อมูลผู้ใช้ตาม userId
+    delete: (userId: string): boolean => {
+        try {
+            // 1. ดึงข้อมูลทั้งหมดที่มีอยู่ปัจจุบัน
+            const customers = UserModel.getAll();
+
+            // 2. ตรวจสอบว่ามีผู้ใช้คนนี้อยู่จริงไหม
+            const userExists = customers.some((u) => u.userId === userId);
+            if (!userExists) {
+                return false;
+            }
+
+            // 3. กรองเอาเฉพาะผู้ใช้ที่ "ไม่ใช่" ไอดีที่สั่งลบเก็บไว้
+            const updatedCustomers = customers.filter((u) => u.userId !== userId);
+
+            // 4. เขียนข้อมูลที่อัปเดตแล้วกลับลงไฟล์ json ตัวเดิม
+            const fileData = { customer: updatedCustomers };
+            fs.writeFileSync(filePath, JSON.stringify(fileData, null, 2), "utf-8");
+
+            return true;
+        } catch (error) {
+            console.error("Error deleting from data.json:", error);
+            return false;
+        }
     }
 };
 

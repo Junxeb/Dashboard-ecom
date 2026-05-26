@@ -29,18 +29,41 @@ function ProductCardLayout({ id, src, alt, name, detail, price, currentUserId }:
         setQuantity(prev => (prev > 1 ? prev - 1 : 1));
     };
 
-    // 🛠️ 2. เช็กสิทธิ์การกดลงตะกร้าด้วย currentUserId
-    const handleAddToCart = () => {
-        // ถ้าระบบไม่มีไอดีผู้ใช้ส่งเข้ามา (เป็น null หรือไม่มีค่า) ให้ดักฟังก์ชันและเตือนทันที
+    // 🛠️ แก้ไขฟังก์ชัน handleAddToCart ให้ยิง fetch ไปหา API หลังบ้าน
+    const handleAddToCart = async () => {
+        // 1. ดักสิทธิ์การเข้าสู่ระบบก่อน
         if (!currentUserId) {
             alert("🔒 กรุณาเข้าสู่ระบบเพื่อใช้งานตะกร้าสินค้าของคุณ");
             return;
         }
 
-        // 🟢 กรณีเข้าสู่ระบบแล้ว: สามารถส่งข้อมูลเซ็ตนี้ไปใช้งานต่อที่ Context หรือยิงหลังบ้านได้เลย
-        alert(`User [ID: ${currentUserId}] added ${quantity} x ${name} (Product ID: ${id ?? "N/A"}) to cart!`);
-    };
+        try {
+            // 2. ยิงเชื่อมต่อ API สั่งลงตะกร้าใน data.json
+            const response = await fetch("/api/carts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    userId: currentUserId,
+                    productId: id || "UNKNOWN_ID", // ดึง id สินค้าที่รับมาจากหน้าหลัก
+                    name: name,
+                    quantity: quantity,            // ดึงจำนวน (State: quantity) ที่ผู้ใช้กดบวกลบไว้
+                    price: price || 0              // ราคาต่อชิ้น
+                })
+            });
 
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                // แจ้งเตือนเมื่อสำเร็จ พร้อมบอก Cart ID ที่ระบบสุ่มสร้างให้
+                alert(`🛒 เพิ่ม ${quantity} x ${name} ลงตะกร้าสำเร็จ!`);
+            } else {
+                alert("เกิดข้อผิดพลาด: " + (result.error || "ไม่สามารถเพิ่มลงตะกร้าได้"));
+            }
+        } catch (error) {
+            console.error("Add to cart failed:", error);
+            alert("ระบบเครือข่ายขัดข้อง กรุณาลองใหม่อีกครั้ง");
+        }
+    };
     return (
         <motion.div className='shadow-lg rounded-xl overflow-hidden bg-[#121212] border border-[#2d2d2d]'
                     whileHover={{ y: -5, boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.5)', borderColor: '#01579b' }}

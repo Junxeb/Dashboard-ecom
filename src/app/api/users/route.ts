@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { signUpUser, signInUser } from "../controllers/userController";
 import fs from "fs";
 import path from "path";
+import UserModel from "../models/User";
 
 interface CustomerItem {
   userId: string;
@@ -96,17 +97,26 @@ export async function PATCH(req: Request) {
 }
 
 
-// ✅ ใช้ DELETE สำหรับลบผู้ใช้
-import { deleteUser } from "../controllers/userController";
-
 export async function DELETE(req: Request) {
-  const { userId } = await req.json();
-  const result = await deleteUser(userId);
+  try {
+    const { userId } = await req.json();
 
-  if (result.error) {
-    return NextResponse.json({ error: result.error }, { status: 404 });
+    if (!userId) {
+      return NextResponse.json({ error: "Missing User ID" }, { status: 400 });
+    }
+
+    // 📡 สั่งลบผ่าน Model ตัวใหม่ที่เราเพิ่งเพิ่มไปในไฟล์ที่ 1
+    const isDeleted = UserModel.delete(userId);
+
+    if (!isDeleted) {
+      return NextResponse.json({ error: "User not found or cannot delete" }, { status: 404 });
+    }
+
+    // 🎉 ตอบกลับหน้าบ้านเมื่อลบสำเร็จ
+    return NextResponse.json({ success: true, message: "Account deleted successfully" });
+    
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
-
-  return NextResponse.json(result);
 }
 

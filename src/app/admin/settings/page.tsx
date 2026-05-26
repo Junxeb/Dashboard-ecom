@@ -1,11 +1,24 @@
 "use client"
 
-import React, { useState } from "react"
-import { useRouter } from "next/navigation" // นำเข้า router สำหรับทำ redirect
+import React, { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 export default function Settings() {
     const router = useRouter()
-    const CURRENT_USER_ID = "a001" // ไอดีผู้ใช้สมมติ
+
+    // 🔑 ใช้ State ตัวนี้เป็นหลักดักจับ ID จริงที่ล็อกอินมาจากระบบ
+    // 🧪 เปลี่ยนจาก useState<string | null>(null) มาใส่เป็น "a001" ตรงๆ เพื่อทดสอบลบ
+    const [currentUserId, setCurrentUserId] = useState<string | null>("a001");
+
+    // ดึงค่า userId จาก localStorage มารอไว้ตั้งแต่ตอนเปิดหน้านี้
+    // 🔍 ลองตรวจเช็ค useEffect ชุดนี้ในไฟล์หน้าจอ Settings ของคุณครับ
+    useEffect(() => {
+    if (typeof window !== "undefined") {
+        // 🚨 ลองดูว่าระบบล็อกอินของคุณเซ็ตชื่อคีย์ไว้ว่าอะไร เช่น "userId", "uid", หรือ "user"?
+        const storedId = localStorage.getItem("userId"); 
+        setCurrentUserId(storedId);
+    }
+    }, []);
 
     // States สำหรับข้อมูลฟอร์ม
     const [fullName, setFullName] = useState("Admin")
@@ -16,23 +29,28 @@ export default function Settings() {
         "Building admin dashboards with React, Tailwind and simple components."
     )
 
-    // States สำหรับจัดการ Error และ Success Message ตามรูปแบบใหม่ของคุณ
+    // States สำหรับจัดการ Error และ Success Message
     const [error, setError] = useState("")
     const [success, setSuccess] = useState(false)
     const [successMessage, setSuccessMessage] = useState("")
 
-    // 1. ฟังก์ชันอัปเดตข้อมูล (ปรับตามรูปแบบที่คุณต้องการ)
+    // 1. ฟังก์ชันอัปเดตข้อมูล (ปรับมาใช้ currentUserId จากระบบจริง)
     const handleUpdate = async () => {
         setError("")
         setSuccess(false)
 
+        if (!currentUserId) {
+            setError("ไม่พบข้อมูลผู้ใช้ หรือเซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่")
+            return;
+        }
+
         try {
             const res = await fetch("/api/users", {
-                method: "POST", // ใช้ POST ตามรูปแบบที่ขอ
+                method: "POST", 
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    action: "updateProfile", // ส่ง action ไปแยกแยะที่ Backend
-                    userId: CURRENT_USER_ID,
+                    action: "updateProfile", 
+                    userId: currentUserId, // ✅ ใช้ ID จริงของผู้ล็อกอิน
                     name: fullName,
                     email: email,
                     address: address,
@@ -46,7 +64,6 @@ export default function Settings() {
             if (res.ok) {
                 setSuccess(true)
                 setSuccessMessage("Profile updated successfully!")
-                // หากต้องการกดยืนยันแล้วค้างไว้หน้านี้ต่อ ไม่ต้องใส่ router.push ก็ได้ครับ
             } else {
                 setError(data.error || "Failed to update profile")
             }
@@ -56,38 +73,39 @@ export default function Settings() {
         }
     }
 
-    // 2. ฟังก์ชันลบบัญชี (ปรับตามรูปแบบที่คุณต้องการ)
-    const handleDelete = async (userId: string) => {
-        if (!confirm("Are you sure you want to permanently delete this account?")) return
-
+    // 2. ฟังก์ชันลบแอกเคาน์
+    const handleDelete = async () => {
         setError("")
         setSuccess(false)
 
-        try {
-            const res = await fetch("/api/users", { // ยิงไปที่ Endpoint เดียวกันแล้วใช้ action แยก
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    action: "deleteAccount", // ส่ง action ลบบัญชี
-                    userId: userId,
-                }),
-            })
-
-            const data = await res.json()
-
-            if (res.ok) {
-                setSuccess(true)
-                setSuccessMessage("Account deleted successfully! Redirecting...")
-                // ลบเสร็จ → เด้งไปหน้า login ใน 1.5 วินาที ตามรูปแบบที่คุณส่งมา
-                setTimeout(() => router.push("/login"), 1500)
-            } else {
-                setError(data.error || "Failed to delete account")
-            }
-        } catch (err) {
-            console.error(err)
-            setError("Error deleting account")
+        if (!currentUserId) {
+            alert("ไม่พบข้อมูลผู้ใช้ หรือเซสชันหมดอายุ");
+            return;
         }
-    }
+
+        if (confirm("Are you sure you want to permanently delete this account? This action cannot be undone.")) {
+            try {
+                const response = await fetch("/api/users", {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userId: currentUserId }),
+                });
+
+                const result = await response.json();
+
+                // ✅ เช็คทั้งสถานะ response และ success จาก API ของคุณ
+                if (response.ok && (result.success || !result.error)) {
+                    alert("Account deleted successfully.");
+                    localStorage.clear(); // 🧹 ล้าง Session ออกจากบราวเซอร์
+                    window.location.href = "/signin"; // 🚪 ดีดกลับหน้า Sign In
+                } else {
+                    alert("Error: " + (result.error || "Failed to delete account"));
+                }
+            } catch (err) {
+                alert("Failed to delete account. Please try again.");
+            }
+        }
+    };
 
     // ฟังก์ชันเคลียร์ค่าในฟอร์ม
     const handleClear = () => {
@@ -117,7 +135,7 @@ export default function Settings() {
             <main className="max-w-7xl mx-auto py-4 px-4 lg:px-8">
                 <div className="grid gap-5 mb-8">
 
-                    {/* แสดงกล่องข้อความแจ้งเตือน Error / Success ถ้ามีสถานะเกิดขึ้น */}
+                    {/* แสดงกล่องข้อความแจ้งเตือน Error / Success */}
                     {error && (
                         <div className="p-4 bg-red-900/50 border border-red-500 text-red-200 rounded-lg text-sm">
                             {error}
@@ -205,8 +223,9 @@ export default function Settings() {
                                     <div className="text-sm text-red-100">Permanently remove your account and all associated data.</div>
                                 </div>
                                 <div>
+                                    {/* 🔴 แก้ไขมาเรียก handleDelete แบบถูกต้องไม่ผ่าน Parameter ค้างคา */}
                                     <button 
-                                        onClick={() => handleDelete(CURRENT_USER_ID)} 
+                                        onClick={handleDelete} 
                                         className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm font-medium transition-colors"
                                     >
                                         ลบ
